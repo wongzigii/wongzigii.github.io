@@ -1,0 +1,68 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+    <link rel="stylesheet" href="/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    
+
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
+
+    
+      <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2"/>
+    
+
+    
+    <title>Runtime(2) - Object &amp; Class &amp; Meta Class</title>
+</head>
+
+<body>
+
+<p>考虑下面的输出：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Sark</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Sark</span></span></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[]) &#123;</span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        <span class="built_in">BOOL</span> res1 = [(<span class="keyword">id</span>)[<span class="built_in">NSObject</span> class] isKindOfClass:[<span class="built_in">NSObject</span> class]];</span><br><span class="line">        <span class="built_in">BOOL</span> res2 = [(<span class="keyword">id</span>)[<span class="built_in">NSObject</span> class] isMemberOfClass:[<span class="built_in">NSObject</span> class]];</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">BOOL</span> res3 = [(<span class="keyword">id</span>)[Sark class] isKindOfClass:[Sark class]];</span><br><span class="line">        <span class="built_in">BOOL</span> res4 = [(<span class="keyword">id</span>)[Sark class] isMemberOfClass:[Sark class]];</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%d %d %d %d"</span>, res1, res2, res3, res4);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Output:</strong> </p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2015</span>-<span class="number">04</span>-<span class="number">14</span> <span class="number">09</span>:<span class="number">54</span>:<span class="number">52.651</span> Runtime[<span class="number">14902</span>:<span class="number">354725</span>] <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><code>isKindOf:</code> 和 <code>isMemberOf:</code> 是两个 NSObject 类的 runtime system 函数，通过 runtime 的源码 <em>Object.mm</em> 我们可以一窥它们的实现方法：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="keyword">id</span>)class</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">BOOL</span>)isKindOf:aClass</span><br><span class="line">&#123;</span><br><span class="line">	Class cls;</span><br><span class="line">	<span class="keyword">for</span> (cls = isa; cls; cls = cls-&gt;superclass) </span><br><span class="line">		<span class="keyword">if</span> (cls == (Class)aClass)</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">BOOL</span>)isMemberOf:aClass</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> isa == (Class)aClass;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上一篇 runtime 介绍了 <code>isa</code> 是指向 <code>Meta Class</code> 的指针。因此：</p>
+<ol>
+<li><p>对于第一个输出，首先，cls 为 NSObject 的 Meta Class，（因为 isa 指向 对象的 Meta Class），这时候 cls 不等于 NSObject class，结束了吗？ 没有。注意判断是在一个循环里面，cls = cls -&gt; superclass，cls 的 superclass 是什么？ NSObject 的 Meta Class 的 superclass 指向 NSObject 本身。这时候 return YES。</p>
+</li>
+<li><p>对于第二个输出， isa 指向 Meta Class， aClass 指向 NSObject class，return NO。</p>
+</li>
+<li><p>对于第三个输出， cls 指向 Sark 的 Meta Class，然后指向 NSObject 的 Meta Class，然后指向 NSObject class，最后指向 nil。return NO。</p>
+</li>
+<li><p>最后一个， isa 指向 Sark 的 Meta Class，return NO。</p>
+</li>
+</ol>
+
+
+<!--<a href="http://wongzigii.com/2014/12/14/Runtime-2-Object-Class-Meta-Class/#disqus_thread" class="article-comment-link">Comments</a>-->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+<div style="display:none">
+<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
+</div>
+
+
+
+
+
+
+
+</body>
+</html>

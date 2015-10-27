@@ -1,0 +1,85 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+    <link rel="stylesheet" href="/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    
+
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
+
+    
+      <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2"/>
+    
+
+    
+    <title>Variable Qualifiers</title>
+</head>
+
+<body>
+
+<blockquote>
+<ul>
+<li>__strong is the default. An object remains “alive” as long as there is a strong pointer to it.</li>
+<li>__weak specifies a reference that does not keep the referenced object alive. A weak reference is set to nil when there are no strong references to the object.</li>
+<li>__unsafe_unretained specifies a reference that does not keep the referenced object alive and is not set to nil when there are no strong references to the object. If the object it references is deallocated, the pointer is left dangling.</li>
+<li>__autoreleasing is used to denote arguments that are passed by reference (id *) and are autoreleased on return.</li>
+</ul>
+</blockquote>
+<p> LLVM 在 3.1 以后引入了四个 <code>Lifetime Qualifiers</code>， 它们分别是 <strong>autoreleasing，</strong>strong， <strong>unsafe_untained 还有 </strong>weak。<br> 其中 __weak 只在 ARC 下才存在，而其他三个仍然可以在 MRC 下看到它们。</p>
+<h3 id="__strong"><code>__strong</code></h3><p> 在 ARC 下，所有的指针都会默认为 <code>__strong</code>. 也就是说当指针指向一个对象时，这个对象的 retain count 就会加 1。当超出作用域或者指针被赋值后，编译器会自动为 <code>__strong</code> 修饰的对象指针添加 release。</p>
+<h3 id="__weak_and___unsafe_unretained"><code>__weak</code> and <code>__unsafe_unretained</code></h3><p> 为了解决这个问题，<code>__unsafe_unretained</code> 和 <code>__weak</code> 诞生了。最常见的是当你声明一个 delegate 的时候，你需要将它的类型声明为 <code>weak</code> 或者 <code>unsafe_unretained</code> (assign 在这里相当于 <code>unsafe_unretained</code>)。在实例变量前面标记为 <code>__weak</code> 或者 <code>__unsafe_unretained</code> 。这样，delegate 的实例变量仍然指向第一个对象，但是不会被 retain，从而避免了 retain cycle。</p>
+<p> 除了 delegate 之外，也可以用来避免其他代码的 retain cycle。而 Leaks Instrument 里面已经可以检查是否有 retain cycle 所导致的 memory leak 了。</p>
+<p>####<code>__unsafe_unretained</code> 和 <code>__weak</code> 的区别</p>
+<p>对于 <code>__weak</code>，当对象销毁后指针会被设为 nil， 这个做法使得指针的使用更安全。而正如它的名字那样，<code>__unsafe_unretained</code> 仍然会指向销毁对象的地址，顾名思义这是 unsafe 的。</p>
+<blockquote>
+<p>__weak is only supported for iOS 5.0 and Lion as deployment targets.</p>
+</blockquote>
+<h3 id="__autoreleasing"><code>__autoreleasing</code></h3><p>将对象指向自动释放池，编译器会自动计算 retain count，并且释放内存。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="keyword">id</span>)array </span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">return</span> [[<span class="built_in">NSMutableArray</span> alloc] init]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我发现这个修饰符一般用在方法里面，因为你需要在消息的作用域里拥有这个对象，但是你又不能在消息执行完之前把它释放掉，因此把它交给 autoreleasepool，在消息执行完后，再由自动释放池释放。</p>
+<p><code>Variable Qualifiers</code> 的格式：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MyClass * __<span class="keyword">weak</span> myWeakReference;</span><br><span class="line">MyClass * __unsafe_unretained myUnsafeReference;</span><br></pre></td></tr></table></figure>
+<p>注意：如果你这像下面那样使用 <code>__weak</code>，</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> * __<span class="keyword">weak</span> string = [[<span class="built_in">NSString</span> alloc] initWithFormat:<span class="string">@"First Name: %@"</span>, [<span class="keyword">self</span> firstName]];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"string: %@"</span>, string);</span><br></pre></td></tr></table></figure>
+<p>编译器会警告你：<code>Assigning retained object to weak variable; object will be released after assignment.</code> 当你 init 完这个对象后，由于前面是 __weak 修饰符，<code>string</code> 会马上被 dealloc，因为这时候没有其他强引用指向这个对象。</p>
+<p>还有一个需要注意的地方，就是将对象传递给消息：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSError</span> *error;</span><br><span class="line"><span class="built_in">BOOL</span> OK = [myObject performOperationWithError:&amp;error];</span><br><span class="line"><span class="keyword">if</span> (!OK) &#123;</span><br><span class="line">    <span class="comment">// Report the error.</span></span><br><span class="line">    <span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+<p>实际上，</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSError</span> * __<span class="keyword">strong</span> e;</span><br></pre></td></tr></table></figure>
+<p>并且（上面说过的作为参数会加一个 <code>__autoreleasing</code> 修饰符）</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="built_in">BOOL</span>)performOperationWithError:(<span class="built_in">NSError</span> * __autoreleasing *)error;</span><br></pre></td></tr></table></figure>
+<p>所以编译器实际上会重写成这样：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSError</span> * __<span class="keyword">strong</span> error;</span><br><span class="line"><span class="built_in">NSError</span> * __autoreleasing tmp = error;</span><br><span class="line"><span class="built_in">BOOL</span> OK = [myObject performOperationWithError:&amp;tmp];</span><br><span class="line">error = tmp;</span><br><span class="line"><span class="keyword">if</span> (!OK) &#123;</span><br><span class="line">    <span class="comment">// Report the error.</span></span><br><span class="line">    <span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+<p>因为局部变量同时声明了 <code>__strong</code> 和 <code>__autoreleasing</code>，编译器实际上会创建一个修饰符为 <code>__autoreleasing</code> 的临时变量，在消息执行完后再传回 <code>__strong</code> 修饰符的变量。</p>
+
+
+<!--<a href="http://wongzigii.com/2015/01/10/Property-declarations/#disqus_thread" class="article-comment-link">Comments</a>-->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+<div style="display:none">
+<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
+</div>
+
+
+
+
+
+
+
+</body>
+</html>

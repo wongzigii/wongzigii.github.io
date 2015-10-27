@@ -1,0 +1,112 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+    <link rel="stylesheet" href="/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    
+
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
+
+    
+      <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2"/>
+    
+
+    
+    <title>MetaClass</title>
+</head>
+
+<body>
+
+<p>本文翻译自 Cocoa with Love 博客的<a href="http://www.cocoawithlove.com/2010/01/what-is-meta-class-in-objective-c.html" target="_blank" rel="external">一篇文章</a></p>
+<p>在这篇文章中，我们会看到一个在 Objective-C 中很陌生的概念 – meta-class。Objective-C 里面每个类都有它自己的 meta-class，但是你很少会注意到你使用了它。我们在开头会学习怎样在 runtime 创建一个类，通过创建的 “class pair”，我会解释什么是 meta-class，然后深入研究它对于 Objective-C 中对象和类的意义。</p>
+<h3 id="在_Runtime_创建一个类">在 Runtime 创建一个类</h3><p>下面的代码会在 runtime 创建一个 <code>NSError</code> 的子类，并在其中增加一个方法：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class newClass =</span><br><span class="line">    objc_allocateClassPair([<span class="built_in">NSError</span> class], <span class="string">"RuntimeErrorSubclass"</span>, <span class="number">0</span>);</span><br><span class="line">class_addMethod(newClass, <span class="keyword">@selector</span>(report), (IMP)ReportFunction, <span class="string">"v@:"</span>);</span><br><span class="line">objc_registerClassPair(newClass);</span><br></pre></td></tr></table></figure>
+<p>这个方法使用一个叫 <code>ReportFunction</code> 的函数作为它的实现，它的定义如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> ReportFunction(<span class="keyword">id</span> <span class="keyword">self</span>, SEL _cmd)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"This object is %p."</span>, <span class="keyword">self</span>);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Class is %@, and super is %@."</span>, [<span class="keyword">self</span> class], [<span class="keyword">self</span> superclass]);</span><br><span class="line"> </span><br><span class="line">    Class currentClass = [<span class="keyword">self</span> class];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">5</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"Following the isa pointer %d times gives %p"</span>, i, currentClass);</span><br><span class="line">        currentClass = object_getClass(currentClass);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"NSObject's class is %p"</span>, [<span class="built_in">NSObject</span> class]);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"NSObject's meta class is %p"</span>, object_getClass([<span class="built_in">NSObject</span> class]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>表面上看这些都很简单。在 runtime 创建一个类只需三个步骤：</p>
+<ol>
+<li>为 <code>class pair</code> 开辟内存，（使用objc_allocateClassPair）。</li>
+<li>添加方法或成员变量到这个类中（通过 class_addMethod 增加一个方法）。</li>
+<li>注册这个类，以便它能使用(使用 objc_registerClassPair)。</li>
+</ol>
+<p>然而，有一个很关键的问题是：<code>class pair</code> 是什么东西？<code>objc_allocateClassPair</code> 函数只返回一个值：the class。那另外一半呢？</p>
+<p>我相信你已经猜到了，另一半就是 meta-class，在解释这个东西是什么和你为什么需要这个东西之前，还需要先了解一下对象和类的背景知识。</p>
+<h3 id="怎么样的数据类型才能成为对象？">怎么样的数据类型才能成为对象？</h3><p>每个对象都有它自己的类。这是面向对象的基本概念，但是在 Objective-C 中，数据结构都有它自己的类。含有一个指针且该指针可以正确指向类的数据结构，都可以称为对象。</p>
+<p>在 Objective-C 中，对象的类是由一个叫 <code>isa</code> 的指针决定的，<code>isa</code> 指针指向对象所属的类（Class）。</p>
+<blockquote>
+<p>译者注：实际上在 Runtime 这篇文章中我们已经一窥 Objective-C 中最基本的定义：</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125; *<span class="keyword">id</span>;</span><br></pre></td></tr></table></figure>
+<p>所有以指针开始并指向 Class 结构体的数据结构都可以看成是 objc_object。</p>
+<p>而对象在 Objective-C 中最重要的特点就是你可以发送消息给它们：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">@"stringValue"</span></span><br><span class="line">    writeToFile:<span class="string">@"/file.txt"</span> atomically:<span class="literal">YES</span> encoding:<span class="built_in">NSUTF8StringEncoding</span> error:<span class="literal">NULL</span>];</span><br></pre></td></tr></table></figure>
+<p>你向对象发送一个消息，runtime 会顺着对象的 isa 指针来获得对象所属的 Class。这个 Class 包含了很多定义的的 Method，还包含一个指向 superclass 的指针，来寻找继承自父类的方法。当你发送消息的时候，首先，runtime 会在所属 Class 的 Method 中查找方法，如果找不到，就会去 superclass 中查找父类的方法。如果找到了，runtime 会根据这个方法调用实现函数（IMP）。</p>
+<h3 id="什么是_meta-class？">什么是 meta-class？</h3><p>现在，正如你所了解那样，一个 Class 在 Objective-C 中也算一个对象。这意味着你可以向 Class 发送消息。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSStringEncoding</span> defaultStringEncoding = [<span class="built_in">NSString</span> defaultStringEncoding];</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>defaultStringEncoding</code> 类方法被发送到 <code>NSString</code> 类。</p>
+<p>由于 Objective-C 里所有 Class 都是一个对象，因此，Class 结构体的第一项必须是一个指向 isa 的指针，从而符合上面 objc_object 结构体的定义，而第二项必须是一个指向 superclass （或者 nil，对于基本的类）的指针。</p>
+<p>一个 Class 的定义会因你所使用的 runtime 的版本而异，但有一点不变的是，它们第一项都是一个 isa 指针，然后紧接着是 superclass 指针。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_class *Class;</span><br><span class="line"><span class="keyword">struct</span> objc_class &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">    Class super_class;</span><br><span class="line">    <span class="comment">/* followed by runtime specific details... */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>为了调用 Class 里的方法（这里指的是类方法），isa 指针必须指向一个 Class 结构体，这个 Class 结构体必须包含那些我们可以调用的方法列表。</p>
+<blockquote>
+<p>注：这就像上面提到过的，对象为了调用 Class 里的实例方法，Class 里必须包含这些自定义的方法，只不过这里不是对象，而是 Class，因为 Class 也是一个对象</p>
+</blockquote>
+<p>这就要引入一个关于 meta-class 的概念：meta-class 是一个 Class 对象的类。</p>
+<p>简单说就是：</p>
+<ul>
+<li>当你向对象发送消息，是在这个对象的类的方法列表中寻找。（实例方法）</li>
+<li>当你向类（Class）发送消息，是在这个 Class 的 meta-class 的方法列表中寻找。（类方法）</li>
+</ul>
+<p>meta-class 是必不可少的，因为它储存了这个类的类方法。由于每个类都有独一无二的类方法，所以每个类都有独一无二的 meta-class。</p>
+<h3 id="meta-class_的类是什么?">meta-class 的类是什么?</h3><p>meta-class，像前面的 Class，也是一个对象。这意味着你也可以向它发送消息。同样，它也必须要有一个类。</p>
+<p>所有的 meta-class 使用 NSObject 的 meta-class 作为它的类，因此 isa 指针都指向 NSObject 的 meta-class。那 NSObject 的 meta-class 的 isa 指针指向哪呢？ 它自己。</p>
+<p>说的更拗口一点就是，根元类把它自己的基类设置成了super_class。</p>
+<p>在这样的继承体系下，所有实例、类以及元类（meta class）都继承自一个基类。</p>
+<p>这意味着对于继承于 NSObject 的所有实例、类和元类，他们可以使用 NSObject 的所有实例方法，类和元类可以使用 NSObject 的所有类方法。</p>
+<p><img src="http://www.sealiesoftware.com/blog/class%20diagram.pdf" alt=""></p>
+<h3 id="实验">实验</h3><p>为了验证，让我们看看我在文章开始写的 ReportFunction 函数的输出。这个函数的目的是跟随 isa 指针并打印出它的路径。</p>
+<p>为了运行 ReportFunction，我们需要创建一个动态实例来创建类调用 report 方法。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">id</span> instanceOfNewClass =</span><br><span class="line">    [[newClass alloc] initWithDomain:<span class="string">@"someDomain"</span> code:<span class="number">0</span> userInfo:<span class="literal">nil</span>];</span><br><span class="line">[instanceOfNewClass performSelector:<span class="keyword">@selector</span>(report)];</span><br><span class="line">[instanceOfNewClass release];</span><br></pre></td></tr></table></figure>
+<p>这里没有声明 report 方法，但我使用 performSelector: 调用它，所以编译器不会给出警告。<br>然后ReportFunction函数会沿着isa进行检索，来告诉我们 class，meta-class 以及meta-class 的 class 是什么样的情况：</p>
+<blockquote>
+<p>如何获取对象的类：在文章的开头部分，ReportFunction 函数通过 object_getClass 方法来跟踪 isa 指针，因为 isa 指针是类的保护成员（你不能直接接收其他对象的 isa 指针）。ReportFunction 不使用类方法，因为在类对象里调用类方法不能返回元类，它会再次返回这个类（因此 [NSString class] 会返回 NSString 类而不是 NSString 的 meta-class）。</p>
+</blockquote>
+<p>输出（省略了NSLog前缀）：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">This object is 0x10010c810.</span><br><span class="line">Class is RuntimeErrorSubclass, and super is NSError.</span><br><span class="line">Following the isa pointer 1 times gives 0x10010c600</span><br><span class="line">Following the isa pointer 2 times gives 0x10010c630</span><br><span class="line">Following the isa pointer 3 times gives 0x7fff71038480</span><br><span class="line">Following the isa pointer 4 times gives 0x7fff71038480</span><br><span class="line">NSObject's class is 0x7fff710384a8</span><br><span class="line">NSObject's meta class is 0x7fff71038480</span><br></pre></td></tr></table></figure>
+<p>观察 isa 经过的地址的值：</p>
+<p>对象的地址是 0x10010c810.<br>类的地址是 0x10010c600.<br>元类的地址是 0x10010c630.<br>根元类（ NSObject 的元类）的地址是 0x7fff71038480.<br>NSObject 元类的类是它本身.<br>这些地址的值并不重要，重要的是它们说明了文中讨论的从类到 meta-class 到 NSObject 的 meta-class 的整个流程。</p>
+<h3 id="尾声">尾声</h3><p>元类是 Class 对象的类。每个类（Class）都有自己独一无二的 meta-class（每个类都有自己第一无二的方法列表）。这意味着所有的类对象都不同。</p>
+<p>元类总是会确保类对象和基类的所有实例和类方法。对于从 NSObject 继承下来的类，这意味着所有的 NSObject 实例和 protocol 方法在所有的类（和 meta-class ）中都可以使用。</p>
+<p>所有的 meta-class 使用基类的 meta-class 作为自己的基类，对于顶层基类的 meta-class 也是一样，只是它指向自己而已。</p>
+
+
+<!--<a href="http://wongzigii.com/2015/04/17/What-is-a-meta-class-in-Objective-C/#disqus_thread" class="article-comment-link">Comments</a>-->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+<div style="display:none">
+<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
+</div>
+
+
+
+
+
+
+
+</body>
+</html>
