@@ -28,12 +28,13 @@
 <li>__autoreleasing is used to denote arguments that are passed by reference (id *) and are autoreleased on return.</li>
 </ul>
 </blockquote>
-<p> LLVM 在 3.1 以后引入了四个 <code>Lifetime Qualifiers</code>， 它们分别是 <strong>autoreleasing，</strong>strong， <strong>unsafe_untained 还有 </strong>weak。<br> 其中 __weak 只在 ARC 下才存在，而其他三个仍然可以在 MRC 下看到它们。</p>
+<p> LLVM 在 3.1 以后引入了四个 <code>Lifetime Qualifiers</code>， 它们分别是 _autoreleasing，<strong>strong， </strong>unsafe_untained 还有 <strong>weak。<br> 其中 </strong>weak 只在 ARC 下才存在，而其他三个仍然可以在 MRC 下看到它们。</p>
 <h3 id="__strong"><code>__strong</code></h3><p> 在 ARC 下，所有的指针都会默认为 <code>__strong</code>. 也就是说当指针指向一个对象时，这个对象的 retain count 就会加 1。当超出作用域或者指针被赋值后，编译器会自动为 <code>__strong</code> 修饰的对象指针添加 release。</p>
 <h3 id="__weak_and___unsafe_unretained"><code>__weak</code> and <code>__unsafe_unretained</code></h3><p> 为了解决这个问题，<code>__unsafe_unretained</code> 和 <code>__weak</code> 诞生了。最常见的是当你声明一个 delegate 的时候，你需要将它的类型声明为 <code>weak</code> 或者 <code>unsafe_unretained</code> (assign 在这里相当于 <code>unsafe_unretained</code>)。在实例变量前面标记为 <code>__weak</code> 或者 <code>__unsafe_unretained</code> 。这样，delegate 的实例变量仍然指向第一个对象，但是不会被 retain，从而避免了 retain cycle。</p>
 <p> 除了 delegate 之外，也可以用来避免其他代码的 retain cycle。而 Leaks Instrument 里面已经可以检查是否有 retain cycle 所导致的 memory leak 了。</p>
 <p>####<code>__unsafe_unretained</code> 和 <code>__weak</code> 的区别</p>
 <p>对于 <code>__weak</code>，当对象销毁后指针会被设为 nil， 这个做法使得指针的使用更安全。而正如它的名字那样，<code>__unsafe_unretained</code> 仍然会指向销毁对象的地址，顾名思义这是 unsafe 的。</p>
+<p>值得注意的是：</p>
 <blockquote>
 <p>__weak is only supported for iOS 5.0 and Lion as deployment targets.</p>
 </blockquote>

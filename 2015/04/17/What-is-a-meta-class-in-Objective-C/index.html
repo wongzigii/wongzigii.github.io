@@ -20,7 +20,7 @@
 
 <body>
 
-<p>本文翻译自 Cocoa with Love 博客的<a href="http://www.cocoawithlove.com/2010/01/what-is-meta-class-in-objective-c.html" target="_blank" rel="external">一篇文章</a></p>
+<p><a href="http://www.cocoawithlove.com/2010/01/what-is-meta-class-in-objective-c.html" target="_blank" rel="external">本文翻译自 Cocoa with Love 博客的一篇文章</a></p>
 <p>在这篇文章中，我们会看到一个在 Objective-C 中很陌生的概念 – meta-class。Objective-C 里面每个类都有它自己的 meta-class，但是你很少会注意到你使用了它。我们在开头会学习怎样在 runtime 创建一个类，通过创建的 “class pair”，我会解释什么是 meta-class，然后深入研究它对于 Objective-C 中对象和类的意义。</p>
 <h3 id="在_Runtime_创建一个类">在 Runtime 创建一个类</h3><p>下面的代码会在 runtime 创建一个 <code>NSError</code> 的子类，并在其中增加一个方法：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class newClass =</span><br><span class="line">    objc_allocateClassPair([<span class="built_in">NSError</span> class], <span class="string">"RuntimeErrorSubclass"</span>, <span class="number">0</span>);</span><br><span class="line">class_addMethod(newClass, <span class="keyword">@selector</span>(report), (IMP)ReportFunction, <span class="string">"v@:"</span>);</span><br><span class="line">objc_registerClassPair(newClass);</span><br></pre></td></tr></table></figure>

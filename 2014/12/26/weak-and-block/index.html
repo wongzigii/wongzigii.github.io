@@ -23,28 +23,28 @@
 <h2 id="__block">__block</h2><blockquote>
 <p>__block variables live in storage that is shared between the lexical scope of the variable and all blocks and block copies declared or created within the variable’s lexical scope. Thus, the storage will survive the destruction of the stack frame if any copies of the blocks declared within the frame survive beyond the end of the frame (for example, by being enqueued somewhere for later execution). Multiple blocks in a given lexical scope can simultaneously use a shared variable.</p>
 </blockquote>
-<p><code>__block</code> 是一个存储的修饰词，它定义了在 Block 里的变量应该直接被捕获，而不是 copy。换句话说，<code>__block</code> 能让你在 Block 中修改变量：</p>
+<p><code>__block</code> 是一个存储的修饰词，它定义了在 Block 里的变量应该直接被捕获，而不是 copy。换句话说，<code>__block</code> 让你在 Block 中修改变量：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__block <span class="built_in">NSString</span> *aString = <span class="string">@"Hey!"</span>; </span><br><span class="line"><span class="keyword">void</span>(^aBlock)() = ^&#123; aString = <span class="string">@"Hello!"</span> &#125;; <span class="comment">// without __block you couldn't modify aString</span></span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, aString); <span class="comment">// Hey!</span></span><br><span class="line">aBlock();</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, aString); <span class="comment">// Hello!</span></span><br></pre></td></tr></table></figure>
 <p>在 ARC 中，因为这个变量在 Block 中需要被引用，所以会被自动地 retain。在上面这个例子中，当在 Block 中捕获时 <code>aString</code> 会被发送一个 retain 的消息。</p>
-<p>值得注意的是，如果是在 MRC 中，这就会出问题了。因为你在引用之前没有 retain 。</p>
+<p>值得注意的是，如果是在 MRC 中，这会出问题。因为你在引用之前没有 retain 。</p>
 <h2 id="__weak">__weak</h2><blockquote>
 <p>__weak specifies a reference that does not keep the referenced object alive. A weak reference is set to nil when there are no strong references to the object.</p>
 </blockquote>
 <p>而如果你将它标记为 <code>__weak</code> 的话，这个变量就不会被 retain 。想象一下，如果 block 的生命周期比 block 里面所引用的变量长，会发生什么情况？</p>
-<p><a href="http://clang.llvm.org/docs/BlockLanguageSpec.html#objective-c-extensions" target="_blank" rel="external">clang doc</a> 里有这么一段话：</p>
+<p><a href="http://clang.llvm.org/docs/BlockLanguageSpec.html#objective-c-extensions" target="_blank" rel="external">clang doc</a> ：</p>
 <blockquote>
 <p>In the Objective-C and Objective-C++ languages, we allow the <code>__weak</code> specifier for <code>__block</code> variables of object type. If garbage collection is not enabled, this qualifier causes these variables to be kept without retain messages being sent. This knowingly leads to <strong>dangling pointers</strong> if the Block (or a copy) outlives the lifetime of this object.</p>
 <p>In garbage collected environments, the <code>__weak</code> variable is set to nil when the object it references is collected, as long as the <code>__block</code> variable resides in the heap (either by default or via Block_copy()). The initial Apple implementation does in fact start <code>__block</code> variables on the stack and migrate them to the heap only as a result of a Block_copy() operation.</p>
 <p>It is a runtime error to attempt to assign a reference to a stack-based Block into any storage marked <code>__weak</code>, including <code>__weak __block</code> variables.</p>
 </blockquote>
 <p>如果 Block 比这个对象还要晚才销毁的话，这对象的指针就会变成悬挂指针（dangling pointers）。</p>
-<p>最后，有必要澄清一下，<code>__block</code> 可以用来避免 retain cycle （在 ARC 下）这个说法是错误的。原因上面已经说得很清楚了，在 ARC 环境下， <code>__block</code> 会将变量声明为为强引用，这种说法是不是有点 <em>贼喊捉贼</em> ？</p>
-<p>综上，为了避免 retain cycle 应该分这两种情况：</p>
+<p>因此，<code>__block</code> 可以用来避免 retain cycle （under ARC）这个说法是错误的。</p>
+<p>To sum it up,</p>
 <p>MRC：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__block <span class="keyword">typeof</span>(<span class="keyword">self</span>) blockSelf = <span class="keyword">self</span>; <span class="comment">//this would retain self in ARC!</span></span><br><span class="line">[<span class="keyword">self</span> methodThatTakesABlock:^ &#123;</span><br><span class="line">    [blockSelf doSomething];</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
 <p>ARC:</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line">[<span class="keyword">self</span> methodThatTakesABlock:^ &#123;</span><br><span class="line">    [weakSelf doSomething];</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<p>它们都能避免 retain cycle 。</p>
+<p>For getting rid of the retain cycle. :]</p>
 
 
 <!--<a href="http://wongzigii.com/2014/12/26/weak-and-block/#disqus_thread" class="article-comment-link">Comments</a>-->
