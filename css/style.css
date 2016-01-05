@@ -34,6 +34,7 @@
 }
  .highlight table {
   margin: 0;
+  font-size: 13px;
   /*width: auto;*/
 }
  .highlight td {
