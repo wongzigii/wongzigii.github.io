@@ -12,10 +12,10 @@
  .highlight .gutter pre,
  .gist .gist-file .gist-data .line-numbers {
   color: #666;
-  font-size: 0.85em;
+  font-size: 16px;
 }
  pre, code {
-  font-family: "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
+  font-family: Menlo, Consolas, "Source Code Pro", Monaco, Menlo, Consolas, monospace;
 }
  code {
   background: #eee;
@@ -62,7 +62,7 @@
   padding-right: 20px;
 }
  .highlight .line {
-  height: 22.400000000000002px;
+  height: 14.400000000000002px;
 }
  .gist {
   margin: 0 -20px;
