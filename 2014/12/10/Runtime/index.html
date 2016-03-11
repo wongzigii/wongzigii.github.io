@@ -1,26 +1,86 @@
+<!DOCTYPE HTML>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    
-    <link rel="stylesheet" href="/css/main.css" type="text/css">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-    
-
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
-
-    
-      <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2"/>
-    
-
-    
-    <title>Runtime</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>Runtime | Silver Bullet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+    <meta name="author" content="Zigii Wong">
+  
+  
+    <meta name="description" content="What is Runtime一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。
+Why not function calling but message当你向 receiver 发送一个消息 [receiver message]， 编译器会将其编译为 ob">
+  
+  <meta name="description" content="What is Runtime一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。
+Why not function calling but message当你向 receiver 发送一个消息 [receiver message]， 编译器会将其编译为 ob">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Runtime">
+<meta property="og:url" content="http://wongzigii.com/2014/12/10/Runtime/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="What is Runtime一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。
+Why not function calling but message当你向 receiver 发送一个消息 [receiver message]， 编译器会将其编译为 ob">
+<meta property="og:image" content="http://wongzigii.com/../img/Class&MetaClass.jpg">
+<meta property="og:image" content="http://wongzigii.com/../img/forwarding.png">
+<meta property="og:updated_time" content="2015-11-10T13:01:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Runtime">
+<meta name="twitter:description" content="What is Runtime一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。
+Why not function calling but message当你向 receiver 发送一个消息 [receiver message]， 编译器会将其编译为 ob">
+  
+    <link rel="alternate" href="/atom.xml" title="Silver Bullet" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
 </head>
 
 <body>
+  <div class="wrapper">
+    <header id="header">
+  <div class="title">
+    <h1><a href="/">Silver Bullet</a></h1>
+    <p><a href="/"></a></p>
+  </div>
+  <nav class="nav">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+      
+        <li><a href="/atom.xml">RSS</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <a href="/2014/12/10/Runtime/">
+  <time datetime="2014-12-11T01:48:15.000Z">
+    2014-12-10
+  </time>
+</a>
+    
+    
+  
+    <h1 class="title">Runtime</h1>
+  
 
-<h2 id="What_is_Runtime">What is Runtime</h2><p>一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。</p>
+  </header>
+  
+  <div class="entry">
+    
+      <h2 id="What_is_Runtime">What is Runtime</h2><p>一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。</p>
 <h2 id="Why_not_function_calling_but_message">Why not function calling but message</h2><p>当你向 receiver 发送一个消息 <code>[receiver message]</code>， 编译器会将其编译为 <code>objc_msgSend(receiver, selector)</code>, 如果消息带有参数，如 <code>[receiver message:arg1]</code>， 则会编译为 <code>objc_msgSend(receiver, selector, arg1)</code>。如果 <code>receiver</code> 找到对应的 <code>selector</code>，那么相当于执行了 <code>receiver</code> 的<code>message</code> 方法，否则，消息或是被转发，或是临时添加对应的实现内容，或者 crash。</p>
 <p>看 <code>message.h</code> 是怎么定义的：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span><br><span class="line"> * Sends a message with a simple return value to an instance of a class.</span><br><span class="line"> * </span><br><span class="line"> * @param self A pointer to the instance of the class that is to receive the message.</span><br><span class="line"> * @param op The selector of the method that handles the message.</span><br><span class="line"> * @param ... </span><br><span class="line"> *   A variable argument list containing the arguments to the method.</span><br><span class="line"> * </span><br><span class="line"> * @return The return value of the method.</span><br><span class="line"> * </span><br><span class="line"> * @note When it encounters a method call, the compiler generates a call to one of the</span><br><span class="line"> *  functions \c objc_msgSend, \c objc_msgSend_stret, \c objc_msgSendSuper, or \c objc_msgSendSuper_stret.</span><br><span class="line"> *  Messages sent to an object’s superclass (using the \c super keyword) are sent using \c objc_msgSendSuper; </span><br><span class="line"> *  other messages are sent using \c objc_msgSend. Methods that have data structures as return values</span><br><span class="line"> *  are sent using \c objc_msgSendSuper_stret and \c objc_msgSend_stret.</span><br><span class="line"> */</span></span><br><span class="line">OBJC_EXPORT <span class="keyword">id</span> objc_msgSend(<span class="keyword">id</span> <span class="keyword">self</span>, SEL op, ...)</span><br><span class="line">    __OSX_<span class="built_in">AVAILABLE_STARTING</span>(__MAC_10_0, __IPHONE_2_0);</span><br></pre></td></tr></table></figure>
@@ -92,31 +152,45 @@
 </blockquote>
 <p>最后，慎用黑魔法。</p>
 
+    
+  </div>
+  <footer>
+    
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
 
-<!--<a href="http://wongzigii.com/2014/12/11/Runtime/#disqus_thread" class="article-comment-link">Comments</a>-->
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
 </div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2016 <a href="/">Zigii Wong</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
 
 
 
 
-
-
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
 
 </body>
 </html>

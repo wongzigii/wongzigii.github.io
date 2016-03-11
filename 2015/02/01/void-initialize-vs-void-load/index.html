@@ -1,26 +1,92 @@
+<!DOCTYPE HTML>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    
-    <link rel="stylesheet" href="/css/main.css" type="text/css">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-    
-
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
-
-    
-      <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2"/>
-    
-
-    
-    <title>Initialize VS Load</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>Initialize VS Load | Silver Bullet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+    <meta name="author" content="Zigii Wong">
+  
+  
+    <meta name="description" content="NSObject Class Reference
+在一个类被使用之前，我们可以利用这两个方法对类做一些预处理的工作。例如将这个类自动把自己的类名保存到一个数组中。
++ (void) initialize
+The runtime sends initialize to each class in a program exactly one time just before the class, or">
+  
+  <meta name="description" content="NSObject Class Reference
+在一个类被使用之前，我们可以利用这两个方法对类做一些预处理的工作。例如将这个类自动把自己的类名保存到一个数组中。
++ (void) initialize
+The runtime sends initialize to each class in a program exactly one time just before the class, or">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Initialize VS Load">
+<meta property="og:url" content="http://wongzigii.com/2015/02/01/void-initialize-vs-void-load/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="NSObject Class Reference
+在一个类被使用之前，我们可以利用这两个方法对类做一些预处理的工作。例如将这个类自动把自己的类名保存到一个数组中。
++ (void) initialize
+The runtime sends initialize to each class in a program exactly one time just before the class, or">
+<meta property="og:updated_time" content="2015-11-10T12:48:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Initialize VS Load">
+<meta name="twitter:description" content="NSObject Class Reference
+在一个类被使用之前，我们可以利用这两个方法对类做一些预处理的工作。例如将这个类自动把自己的类名保存到一个数组中。
++ (void) initialize
+The runtime sends initialize to each class in a program exactly one time just before the class, or">
+  
+    <link rel="alternate" href="/atom.xml" title="Silver Bullet" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
 </head>
 
 <body>
+  <div class="wrapper">
+    <header id="header">
+  <div class="title">
+    <h1><a href="/">Silver Bullet</a></h1>
+    <p><a href="/"></a></p>
+  </div>
+  <nav class="nav">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+      
+        <li><a href="/atom.xml">RSS</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <a href="/2015/02/01/void-initialize-vs-void-load/">
+  <time datetime="2015-02-01T09:29:08.000Z">
+    2015-02-01
+  </time>
+</a>
+    
+    
+  
+    <h1 class="title">Initialize VS Load</h1>
+  
 
-<p><a href="http://developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/Reference/Reference.html" target="_blank" rel="external">NSObject Class Reference</a></p>
+  </header>
+  
+  <div class="entry">
+    
+      <p><a href="http://developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/Reference/Reference.html" target="_blank" rel="external">NSObject Class Reference</a></p>
 <p>在一个类被使用之前，我们可以利用这两个方法对类做一些预处理的工作。例如将这个类自动把自己的类名保存到一个数组中。</p>
 <h2 id="+_(void)_initialize">+ (void) initialize</h2><blockquote>
 <p>The runtime sends initialize to each class in a program exactly one time just before the class, or any class that inherits from it, is sent its first message from within the program. (Thus the method may never be invoked if the class is not used.) The runtime sends the initialize message to classes in a thread-safe manner. Superclasses receive this message before their subclasses.</p>
@@ -36,31 +102,45 @@
 <p>In a custom implementation of load you can therefore safely message other unrelated classes from the same image, but any load methods implemented by those classes may not have run yet.</p>
 </blockquote>
 
+    
+  </div>
+  <footer>
+    
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
 
-<!--<a href="http://wongzigii.com/2015/02/01/void-initialize-vs-void-load/#disqus_thread" class="article-comment-link">Comments</a>-->
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
 </div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2016 <a href="/">Zigii Wong</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
 
 
 
 
-
-
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
 
 </body>
 </html>

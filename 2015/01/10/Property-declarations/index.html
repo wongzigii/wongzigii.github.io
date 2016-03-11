@@ -1,26 +1,92 @@
+<!DOCTYPE HTML>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>Variable Qualifiers | Silver Bullet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+    <meta name="author" content="Zigii Wong">
+  
+  
+    <meta name="description" content="LLVM 在 3.1 以后引入了四个 Lifetime Qualifiers， 它们分别是 _autoreleasing，strong， unsafe_untained 还有 weak。 其中 weak 只在 ARC 下才存在，而其他三个仍然可以在 MRC 下看到它们。
 
-    
-    <link rel="stylesheet" href="/css/main.css" type="text/css">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-    
 
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
+__strong is the default. An object remains “alive” as long as">
+  
+  <meta name="description" content="LLVM 在 3.1 以后引入了四个 Lifetime Qualifiers， 它们分别是 _autoreleasing，strong， unsafe_untained 还有 weak。 其中 weak 只在 ARC 下才存在，而其他三个仍然可以在 MRC 下看到它们。
 
-    
-      <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2"/>
-    
 
-    
-    <title>Variable Qualifiers</title>
+__strong is the default. An object remains “alive” as long as">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Variable Qualifiers">
+<meta property="og:url" content="http://wongzigii.com/2015/01/10/Property-declarations/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="LLVM 在 3.1 以后引入了四个 Lifetime Qualifiers， 它们分别是 _autoreleasing，strong， unsafe_untained 还有 weak。 其中 weak 只在 ARC 下才存在，而其他三个仍然可以在 MRC 下看到它们。
+
+
+__strong is the default. An object remains “alive” as long as">
+<meta property="og:updated_time" content="2016-01-05T12:15:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Variable Qualifiers">
+<meta name="twitter:description" content="LLVM 在 3.1 以后引入了四个 Lifetime Qualifiers， 它们分别是 _autoreleasing，strong， unsafe_untained 还有 weak。 其中 weak 只在 ARC 下才存在，而其他三个仍然可以在 MRC 下看到它们。
+
+
+__strong is the default. An object remains “alive” as long as">
+  
+    <link rel="alternate" href="/atom.xml" title="Silver Bullet" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
 </head>
 
 <body>
+  <div class="wrapper">
+    <header id="header">
+  <div class="title">
+    <h1><a href="/">Silver Bullet</a></h1>
+    <p><a href="/"></a></p>
+  </div>
+  <nav class="nav">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+      
+        <li><a href="/atom.xml">RSS</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <a href="/2015/01/10/Property-declarations/">
+  <time datetime="2015-01-10T14:55:06.000Z">
+    2015-01-10
+  </time>
+</a>
+    
+    
+  
+    <h1 class="title">Variable Qualifiers</h1>
+  
 
-<p>LLVM 在 3.1 以后引入了四个 <code>Lifetime Qualifiers</code>， 它们分别是 _autoreleasing，<strong>strong， </strong>unsafe_untained 还有 <strong>weak。<br> 其中 </strong>weak 只在 ARC 下才存在，而其他三个仍然可以在 MRC 下看到它们。</p>
+  </header>
+  
+  <div class="entry">
+    
+      <p>LLVM 在 3.1 以后引入了四个 <code>Lifetime Qualifiers</code>， 它们分别是 _autoreleasing，<strong>strong， </strong>unsafe_untained 还有 <strong>weak。<br> 其中 </strong>weak 只在 ARC 下才存在，而其他三个仍然可以在 MRC 下看到它们。</p>
 <blockquote>
 <ul>
 <li>__strong is the default. An object remains “alive” as long as there is a strong pointer to it.</li>
@@ -56,31 +122,45 @@
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSError</span> * __<span class="keyword">strong</span> error;</span><br><span class="line"><span class="built_in">NSError</span> * __autoreleasing tmp = error;</span><br><span class="line"><span class="built_in">BOOL</span> OK = [myObject performOperationWithError:&amp;tmp];</span><br><span class="line">error = tmp;</span><br><span class="line"><span class="keyword">if</span> (!OK) &#123;</span><br><span class="line">    <span class="comment">// Report the error.</span></span><br><span class="line">    <span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
 <p>因为局部变量同时声明了 <code>__strong</code> 和 <code>__autoreleasing</code>，编译器实际上会创建一个修饰符为 <code>__autoreleasing</code> 的临时变量，在消息执行完后再传回 <code>__strong</code> 修饰符的变量。</p>
 
+    
+  </div>
+  <footer>
+    
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
 
-<!--<a href="http://wongzigii.com/2015/01/10/Property-declarations/#disqus_thread" class="article-comment-link">Comments</a>-->
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
 </div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2016 <a href="/">Zigii Wong</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
 
 
 
 
-
-
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
 
 </body>
 </html>
