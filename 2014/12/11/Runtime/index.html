@@ -21,9 +21,8 @@ Why not function calling but message当你向 receiver 发送一个消息 [recei
 <meta property="og:site_name" content="Silver Bullet">
 <meta property="og:description" content="What is Runtime一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。
 Why not function calling but message当你向 receiver 发送一个消息 [receiver message]， 编译器会将其编译为 ob">
-<meta property="og:image" content="http://wongzigii.github.io/../img/Class&MetaClass.jpg">
-<meta property="og:image" content="http://wongzigii.github.io/../img/forwarding.png">
-<meta property="og:updated_time" content="2015-11-10T13:01:39.000Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8c7526ebgw1f1w5q2dxuyg20ag06pdfq.gif">
+<meta property="og:updated_time" content="2016-03-14T01:58:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Runtime">
 <meta name="twitter:description" content="What is Runtime一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。
@@ -94,8 +93,6 @@ Why not function calling but message当你向 receiver 发送一个消息 [recei
 <p>而在开源的 <em>objc-runtime-new.h</em> 中我们发现在 objc_class 结构体的实现中，objc_class 继承自 objc_object，而且结构体第一项为</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class superclass</span><br></pre></td></tr></table></figure>
 <p>我们称之为 <code>Meta Class</code>，又由于 <code>isa</code> 指向所属的 Class，换句话说，<code>isa</code> 指向 <code>Meta Class</code>。</p>
-<p>它们的关系如图：</p>
-<p><img src="../img/Class&amp;MetaClass.jpg" alt=""></p>
 <h2 id="SEL">SEL</h2><p><code>objc.h</code> 中定义了这种数据类型：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// An opaque type that represents a method selector.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_selector *SEL;</span><br></pre></td></tr></table></figure>
 <p>在 <code>runtime.h</code> 中， <code>/* Working with Selectors */</code>下面有这样四个方法：</p>
@@ -132,7 +129,7 @@ Why not function calling but message当你向 receiver 发送一个消息 [recei
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)forwardInvocation:(<span class="built_in">NSInvocation</span> *)anInvocation</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ([someOtherObject respondsToSelector:</span><br><span class="line">            [anInvocation selector]])</span><br><span class="line">        [anInvocation invokeWithTarget:someOtherObject];</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        [<span class="keyword">super</span> forwardInvocation:anInvocation];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>消息返回的值会被传递到最原始的发送者，包括 <code>ids</code>， <code>structures</code> 还有 <code>double-precision floating-point numbers</code>。 </p>
 <p>这个 <code>forwardInvocation</code> 方法可以被看成是 unrecognized messages 的转发中心，或者是一个转移枢纽，将所有消息都传递到同一个地方。它可以将消息传递到另一个接受者，也可以把那些没有响应者的<strong>消化</strong>掉，来避免 no response。这这机制让互相关联的对象在设计上提供了无限的可能。</p>
-<h2 id="Forwarding_and_Multiple_Inheritance">Forwarding and Multiple Inheritance</h2><p><img src="../img/forwarding.png" alt=""></p>
+<h2 id="Forwarding_and_Multiple_Inheritance">Forwarding and Multiple Inheritance</h2><p><img src="http://ww1.sinaimg.cn/large/8c7526ebgw1f1w5q2dxuyg20ag06pdfq.gif" alt=""></p>
 <p>首先，<code>Warrior</code> 和 <code>Diplomat</code> 没有继承关系，如果你向 <code>Warrior</code> 发送一个 <code>negotiate</code> 消息， <code>Warrior</code> 不能响应这个方法，并把它转发给 <code>Diplomat</code> 类，这看起来就像 <code>Warrior</code> 能响应 <code>negotiate</code> 消息一样。（尽管实际上是 Diplomat 响应的）</p>
 <p>这个例子就像 <code>Warrior</code> 类是继承自 <code>Diplomat</code> 的一样。</p>
 <p>消息转发给我们提供了像多重继承一样的特性。但是，它们之间仍然有相当大的区别：多重继承将不同的东西组合到一个臃肿的对象中，而消息转发，则将不同的东西细分到各自所负责的对象中，这使得对象之间的关系由于消息转发机制而透明清晰。</p>

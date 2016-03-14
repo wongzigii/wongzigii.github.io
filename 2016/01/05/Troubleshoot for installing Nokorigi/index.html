@@ -295,7 +295,7 @@ Results logged to /Users/Wongzigii/.rvm/gems/ruby-2.3.0<span class="comment">@ra
 <p>For some reason Apple’s Yosemite version of OSX does not have a system accessible installation of libxml2.  Nokogiri requires this in order to compile and luckily Xcode has a version of libxml2 bundled with it — we just need to specify it when installing the gem.  It’s important to get Nokogiri installed correctly because as of right now Rails 4.2.1.rc4 automatically attempts to install it and you will feel pain.</p>
 </blockquote>
 <p><strong>Solved:</strong></p>
-<pre><code>gem install nokogiri -- --use-system-libraries=<span class="keyword">true</span> --with-xml2-<span class="keyword">include</span>=<span class="regexp">/Applications/</span>Xcode.app<span class="regexp">/Contents/</span>Developer<span class="regexp">/Platforms/</span>MacOSX.platform<span class="regexp">/Developer/</span>SDKs<span class="regexp">/MacOSX10.11.sdk/u</span>sr<span class="regexp">/include/</span>libxml2<span class="regexp">/</span>
+<pre><code>gem install nokogiri -- --use-system-libraries=<span class="keyword">true</span> --with-xml2-<span class="keyword">include</span>=<span class="regexp">/Applications/</span>Xcode.app<span class="regexp">/Contents/</span>Developer<span class="regexp">/Platforms/M</span>acOSX.platform<span class="regexp">/Developer/</span>SDKs<span class="regexp">/MacOSX10.11.sdk/u</span>sr<span class="regexp">/include/</span>libxml2<span class="regexp">/</span>
 </code></pre><p>Cheers!</p>
 
     
