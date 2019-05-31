@@ -66,7 +66,7 @@ pagination_dir: page
 theme: hexo-theme-cactus
 theme_config: 
   colorscheme: light
-  page_width: 50
+  page_width: 55
   posts_overview:
     post_count: 20
   social_links:

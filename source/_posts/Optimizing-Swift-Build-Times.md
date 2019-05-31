@@ -1,5 +1,5 @@
 ---
-title: <译> Optimizing Swift build times
+title: <译> Optimizing Swift Build Times
 date: 2017-10-24 17:40:22
 tags:
 ---
@@ -23,9 +23,9 @@ tags:
 
 ## 函数和表达式的类型检查
 
-Swift 的构建时间如此之长主要的原因是因为需要做复杂的类型检查。Xcode 默认不会告诉你哪些代码需要很长时间来编译。你可以通过在 build settings 中的 `Other Swift Flags` 添加以下参数来查看：
+Swift 的构建时间如此之长主要是因为需要做复杂的类型检查。Xcode 默认不会告诉你哪些代码需要很长时间来编译。你可以通过在 Build Settings 中的 `Other Swift Flags` 添加以下参数来查看：
 
-- `-Xfrontend -warn-long-function-bodies=100` （100 指 100ms，你也可以根据需要调整这个值）
+- `-Xfrontend -warn-long-function-bodies=100` （100 指 100 ms，你也可以根据需要调整这个值）
 - `-Xfrontend -warn-long-expression-type-checking=100`
 
 ![](https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/times@2x.png)
@@ -118,7 +118,7 @@ Xcode 默认会帮你设置好这个编译器参数，但是你应该检查一�
 - [Developear - Speeding Up Compile Times of Swift Projects](http://developear.com/blog/2016/12/30/Speed-Swift-Compilation.html)
 - [Slava Pestov on Twitter: “@iamkevb It runs one compiler job with all source files in a module instead of one job per source file”](https://twitter.com/slava_pestov/status/911747257103302656)
 
-### 对使用 CocoaPods 的编译器优化
+### 针对 CocoaPods 的编译器优化
 
 如果你的项目使用 CocoaPods，你也该考虑把 Pod 项目的编译器优化打开。你可以通过在 `Podfile`  文件中添加一个 `post_install` 的 hook 来实现：
 
@@ -222,7 +222,7 @@ Xcode 9.2 版本加入了一个对 Swift 项目的 `concurrent build tasks` 实�
 如果要启用这个特性，退出 Xcode，然后在 Terminal 窗口输入：
 
 ````bash
-$defaults write com.apple.dt.Xcode BuildSystemScheduleInherentlyParallelCommandsExclusively -bool YES
+$ defaults write com.apple.dt.Xcode BuildSystemScheduleInherentlyParallelCommandsExclusively -bool YES
 ````
 
 现在，测试一下项目的编译时间是否减少了。如果你要禁用这个特性，只需要把上面的 `YES` 改成 `NO` 再执行一次即可。
@@ -239,7 +239,7 @@ $ defaults write com.apple.dt.Xcode ShowBuildOperationDuration -bool YES
 
 ![](https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/time@2x.png)
 
-建议比较一下相同条件下的编译时间，如：
+建议比较一下相同条件下的编译时间：
 
 1. 退出 Xcode
 2. 清理 Derived Data (`$ rm -rf ~/Library/Developer/Xcode/DerivedData`).

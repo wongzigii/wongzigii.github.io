@@ -7,7 +7,7 @@ tags: swift3
 [原文地址](https://realm.io/news/swiftcasts-daniel-steinberg-whats-new-in-swift-3-part-2/)
 
 ## [SE-0002](https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md): Removing [currying](https://en.wikipedia.org/wiki/Currying) function declaration syntax
-{% codeblock lang:swift %}//Before:
+{% codeblock lang:swift%} //Before:
 func curried(x: Int)(y: String) -> Float {
     return Float(x) + Float(y)!
 }

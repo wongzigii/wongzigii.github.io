@@ -1,4 +1,4 @@
-title: Understanding How Quick works
+title: Understanding How Quick Works
 date: 2016-09-06 23:54:14
 tags: XCTest
 ---
