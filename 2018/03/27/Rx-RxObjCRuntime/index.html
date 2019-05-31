@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="0x00在使用 RxSwift 或者 RxCocoa 的过程，总是有疑惑，这个框架是怎么将 sentMessage 的方法传递出来给 Observer 监听的呢？其实不外乎通过 Method Swizzling 或者其他 KVO 之类的方法，在消息转发 hook 一层自己的逻辑。 怀着疑问，我今天想探究一下 RxCocoa 里面的 Runtime 机制，RxSwift 的方法监听 feature">
+<meta name="keywords" content="rxswift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxObjCRuntime In RxSwift">
+<meta property="og:url" content="http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="0x00在使用 RxSwift 或者 RxCocoa 的过程，总是有疑惑，这个框架是怎么将 sentMessage 的方法传递出来给 Observer 监听的呢？其实不外乎通过 Method Swizzling 或者其他 KVO 之类的方法，在消息转发 hook 一层自己的逻辑。 怀着疑问，我今天想探究一下 RxCocoa 里面的 Runtime 机制，RxSwift 的方法监听 feature">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-30T10:00:01.601Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxObjCRuntime In RxSwift">
+<meta name="twitter:description" content="0x00在使用 RxSwift 或者 RxCocoa 的过程，总是有疑惑，这个框架是怎么将 sentMessage 的方法传递出来给 Observer 监听的呢？其实不外乎通过 Method Swizzling 或者其他 KVO 之类的方法，在消息转发 hook 一层自己的逻辑。 怀着疑问，我今天想探究一下 RxCocoa 里面的 Runtime 机制，RxSwift 的方法监听 feature">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>RxObjCRuntime In RxSwift</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/04/09/Mach-O-Files/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/02/22/Understanding-buffer-overflows-attack/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&text=RxObjCRuntime In RxSwift"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&title=RxObjCRuntime In RxSwift"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&is_video=false&description=RxObjCRuntime In RxSwift"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RxObjCRuntime In RxSwift&body=Check out this article: http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&title=RxObjCRuntime In RxSwift"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&title=RxObjCRuntime In RxSwift"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&title=RxObjCRuntime In RxSwift"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&title=RxObjCRuntime In RxSwift"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&name=RxObjCRuntime In RxSwift&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00"><span class="toc-number">1.</span> <span class="toc-text">0x00</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01"><span class="toc-number">2.</span> <span class="toc-text">0x01</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02"><span class="toc-number">3.</span> <span class="toc-text">0x02</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03"><span class="toc-number">4.</span> <span class="toc-text">0x03</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        RxObjCRuntime In RxSwift
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Silver Bullet</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-03-27T04:20:15.000Z" itemprop="datePublished">2018-03-27</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/rxswift/">rxswift</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="0x00"><a href="#0x00" class="headerlink" title="0x00"></a>0x00</h2><p>在使用 RxSwift 或者 RxCocoa 的过程，总是有疑惑，这个框架是怎么将 sentMessage 的方法传递出来给 Observer 监听的呢？其实不外乎通过 Method Swizzling 或者其他 KVO 之类的方法，在消息转发 hook 一层自己的逻辑。</p>
+<p>怀着疑问，我今天想探究一下 RxCocoa 里面的 Runtime 机制，RxSwift 的方法监听 feature 源自这个 2015 年的 issue - <a href="https://github.com/ReactiveX/RxSwift/issues/181" target="_blank" rel="noopener">Is there any way to observe method calls? · Issue #181 · ReactiveX/RxSwift · GitHub</a>。</p>
+<p>我们直接到 RxCocoa/Runtime/_RXObjCRuntime 这个文件看代码：</p>
+<p>首先第一行代码是一个宏开关：</p>
+<p><code>#if define !DISABLE_SWIZZLING</code></p>
+<p>让你可以从全局控制是否开启 method swizzling.</p>
+<p>接下来是另一个宏</p>
+<p><code>#define HIDDEN_ARGUMENT_COUNT 2</code> </p>
+<p>在 Objective-C 的消息里面，会自带两个隐藏的参数：</p>
+<ul>
+<li>id 类型的 self (这个很好理解吧，任意对象都可以发消息，id 泛指任意对象) </li>
+<li>SEL 类型的 _cmd (其实就是方法名的选择器，你可以通过 NSStringFromSelector(_cmd) 取到方法名)。</li>
+</ul>
+<p>所以，其实 Objective-C 的方法就是最少自带两个参数的 C 函数。</p>
+<h2 id="0x01"><a href="#0x01" class="headerlink" title="0x01"></a>0x01</h2><p>代码比较多，我主要选几个重要方法作为入口开始看：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is the main entry point for observing messages sent to arbitrary objects.</span></span><br><span class="line">-(IMP __<span class="keyword">nullable</span>)ensurePrepared:(<span class="keyword">id</span> __<span class="keyword">nonnull</span>)target forObserving:(SEL __<span class="keyword">nonnull</span>)selector error:(<span class="built_in">NSErrorParam</span>)error</span><br></pre></td></tr></table></figure>
+<p>ensurePrepared 这个方法从方法名字看是为了真正的 swizzling 做准备工作。</p>
+<p>首先它通过 <code>class_getInstanceMethod</code> 拿到某个具体的方法，如果这个方法 Method 为空，则抛出一个 SelectorNotImplemented 的异常。<br>除此之外，还对一些敏感的方法名做了过滤，如：<code>class</code>，<code>forwardingTargetForSelector</code>，<code>methodSignatureForSelector</code> 及 <code>respondsToSelector</code> 等方法，如果你针对这些方法做 swizzling，就会抛一个 ObservingPerformanceSensitiveMessages 的异常。</p>
+<p>接着往下走，如果这个 selector 是 dealloc 方法，原始的方法将会被 swizzled 掉。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// For `dealloc` message, original implementation will be swizzled.</span><br><span class="line">// This is a special case because observing `dealloc` message is performed when `observeWeakly` is used.</span><br><span class="line">//</span><br><span class="line">// Some toll free bridged classes don&apos;t handle `object_setClass` well and cause crashes.</span><br><span class="line">//</span><br><span class="line">// To make `deallocating` as robust as possible, original implementation will be replaced.</span><br><span class="line">if (selector == deallocSelector) &#123; </span><br><span class="line">   ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>关于 toll-free-bridged 我想多说几句：</p>
+<ol>
+<li>在 Objective-C 中，Foundation 和 CoreFoundation 之间类型是可以互相 toll-free-bridged 的。比如 NSString 和 CFStringRef，NSArray 和 CFArrayRef 等，他们之间其实是可以互相转换的。</li>
+<li>在 Swift 中，由于 Swift 支持跨平台可以运行在 Linux 系统上，因此  Swift 上的类型 bridging 要比 Objective-C 更复杂。</li>
+</ol>
+<p>举个简单的例子，在 iOS/macOS 平台，将 Array 转换成 NSArray 非常简单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let myArray: NSArray = [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</span><br></pre></td></tr></table></figure>
+<p>而在 Linux 平台，你需要另外用 CoreFoundation 的 <a href="https://github.com/apple/swift-corelibs-foundation/blob/master/Foundation/Array.swift#L13" target="_blank" rel="noopener"><code>_bridgeToObjectiveC</code> 方法</a> 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let myArray: NSArray = [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]._bridgeToObjectiveC()</span><br></pre></td></tr></table></figure>
+<p>更多关于类型的 bridging 可以查看 <code>swift-corelibs-foundation/bridging.swift</code></p>
+</blockquote>
+<p>除了以上这几种方法之外，就是我们正常调用的方法了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class __nullable swizzlingImplementorClass = [self prepareTargetClassForObserving:target error:error];</span><br><span class="line">if (swizzlingImplementorClass == nil) &#123;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先确保这个类不为空，</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *methodEncoding = RX_method_encoding(instanceMethod);</span><br></pre></td></tr></table></figure>
+<p>然后获取这个实例方法的 encode 类型，</p>
+<p>这里定义了一个 <code>RXInterceptWithOptimizedObserver</code> 的变量，我们再细看，其实它是一个返回 Bool 类型的 Block，接受的参数就是我们上面判断的变量值，结合来看的话，就是能拿到这个方法的 method encoding 的话，就返回 true，反之为 false。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef BOOL (^RXInterceptWithOptimizedObserver)(RXObjCRuntime * __nonnull self, Class __nonnull class, SEL __nonnull selector, NSErrorParam error);</span><br></pre></td></tr></table></figure>
+<p>接着通过 <code>RX_method_has_supported_return_type</code> 检查这个方法的返回类型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (!RX_method_has_supported_return_type(instanceMethod)) &#123;</span><br><span class="line">    RX_THROW_ERROR([NSError errorWithDomain:RXObjCRuntimeErrorDomain</span><br><span class="line">                                       code:RXObjCRuntimeErrorObservingMessagesWithUnsupportedReturnType</span><br><span class="line">                                   userInfo:nil], nil);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">static supported_type_t supported_types[] = &#123;</span><br><span class="line">    &#123; .encoding = @encode(void)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(id)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(Class)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(void (^)(void))&#125;,</span><br><span class="line">    &#123; .encoding = @encode(char)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(short)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(int)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(long)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(long long)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(unsigned char)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(unsigned short)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(unsigned int)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(unsigned long)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(unsigned long long)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(float)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(double)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(BOOL)&#125;,</span><br><span class="line">    &#123; .encoding = @encode(const char*)&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>如果方法返回的类型不包含在 supported_types 数组里的话就直接抛异常。</p>
+<p>最后，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IMP interceptorIMPForSelector = [self interceptorImplementationForSelector:selector forClass:swizzlingImplementorClass];</span><br></pre></td></tr></table></figure>
+<p><code>interceptorImplementationForSelector</code> 这个方法会接受上面经过层层检查的 <code>selector</code> 变量 和 <code>swizzlingImplementorClass</code> 变量，并返回一个对 selector 进行 swizzling 的 IMP。</p>
+<h2 id="0x02"><a href="#0x02" class="headerlink" title="0x02"></a>0x02</h2><p>好了，ensurePrepared 方法看完了，接下来用 <kbd>CTRL</kbd>+<kbd>F</kbd> 搜索调用这个方法的地方，有且仅有一处 – <code>RX_ensure_observing(id __nonnull target, SEL __nonnull selector, NSErrorParam error)</code></p>
+<p>一个叫 <code>RX_ensure_observing</code> 的方法，看来这个才是真正的入口。</p>
+<p>这个方法很有意思，执行上面的 <code>interceptorImplementationForSelector</code> 方法前会进行加锁操作以确保原子性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@synchronized([target class]) &#123; ... &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// The only other resource that all other swizzling libraries have in common without introducing external</span><br><span class="line">// dependencies is class object.</span><br><span class="line">//</span><br><span class="line">// It is polite to try to synchronize it in hope other unknown entities will also attempt to do so.</span><br><span class="line">// It&apos;s like trying to figure out how to communicate with aliens without actually communicating,</span><br><span class="line">// save for the fact that aliens are people, programmers, authors of swizzling libraries.</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>有时候，我们不知道是什么东西在对代码做了修改，就像你想找到与外星人沟通的方法一样，你不知道外星人到底是普通的正常人，一个程序员，还是那些写 swizzling library 的作者。</p>
+</blockquote>
+<p>所以应该是担心其他框架也对目标实现 swizzling 造成难以 debug 所以才这样做吧。</p>
+<p>接着全文搜索找到只有 <code>NSObject+Rx</code> 这个文件里 <code>registerMessageInterceptor</code> 调用这个 <code>RX_ensure_observing</code> 方法，那就不难看出这个是用来拓展 RxSwift runtime 的特性。</p>
+<p>我们熟悉的 <code>sentMessage</code>, <code>methodInvoked</code> 和 <code>deallocating</code> 均调用了 <code>registerMessageInterceptor</code>。</p>
+<h2 id="0x03"><a href="#0x03" class="headerlink" title="0x03"></a>0x03</h2><p>总结一下，我们上面顺藤摸瓜地从 _RXObjCRuntime 这个文件通过注释找到一个貌似是入口的方法，其实这个文件里还有很多黑科技。</p>
+<p>比如用 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BOOL isThisTollFreeFoundationClass = CFGetTypeID((CFTypeRef)target) != defaultTypeID;</span><br></pre></td></tr></table></figure>
+<p>来判断我上面提过的 toll-free-bridge，</p>
+<p>还有它是怎么统计 <code>number_of_dynamic_subclasses</code>, <code>number_of_forwarding_enabled_classes</code>, <code>number_of_intercepting_classes</code>, <code>RX_number_of_forwarded_methods</code> 和 <code>RX_number_of_swizzled_methods</code> 等等。</p>
+<p>总之，你会惊讶地发现 runtime 原来还可以这么玩。</p>
+<p>最后，have fun with Rx!</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00"><span class="toc-number">1.</span> <span class="toc-text">0x00</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01"><span class="toc-number">2.</span> <span class="toc-text">0x01</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02"><span class="toc-number">3.</span> <span class="toc-text">0x02</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03"><span class="toc-number">4.</span> <span class="toc-text">0x03</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&text=RxObjCRuntime In RxSwift"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&title=RxObjCRuntime In RxSwift"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&is_video=false&description=RxObjCRuntime In RxSwift"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RxObjCRuntime In RxSwift&body=Check out this article: http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&title=RxObjCRuntime In RxSwift"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&title=RxObjCRuntime In RxSwift"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&title=RxObjCRuntime In RxSwift"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&title=RxObjCRuntime In RxSwift"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/&name=RxObjCRuntime In RxSwift&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Zigii Wong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

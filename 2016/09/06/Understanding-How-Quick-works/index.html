@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="前言Quick 是一个基于 XCTest 框架的测试框架。 目录 Concept 关于 XCTestCase, XCTestSuite 以及 XCTest 的关系，请参考 StackOverflow 上面的一个回答。 Example ExampleGroup ExampleMetadata  World主要用于自定义测试的 Configuration。World 是一个单例，它主要功能是用来维护">
+<meta name="keywords" content="XCTest">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Understanding How Quick works">
+<meta property="og:url" content="http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="前言Quick 是一个基于 XCTest 框架的测试框架。 目录 Concept 关于 XCTestCase, XCTestSuite 以及 XCTest 的关系，请参考 StackOverflow 上面的一个回答。 Example ExampleGroup ExampleMetadata  World主要用于自定义测试的 Configuration。World 是一个单例，它主要功能是用来维护">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://wongzigii.github.io/2016/09/06/img/files.png">
+<meta property="og:updated_time" content="2019-05-30T04:07:13.521Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Understanding How Quick works">
+<meta name="twitter:description" content="前言Quick 是一个基于 XCTest 框架的测试框架。 目录 Concept 关于 XCTestCase, XCTestSuite 以及 XCTest 的关系，请参考 StackOverflow 上面的一个回答。 Example ExampleGroup ExampleMetadata  World主要用于自定义测试的 Configuration。World 是一个单例，它主要功能是用来维护">
+<meta name="twitter:image" content="http://wongzigii.github.io/2016/09/06/img/files.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Understanding How Quick works</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/09/14/What-s-new-in-Swift-3/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/08/08/Dancing-With-Docker/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&text=Understanding How Quick works"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&title=Understanding How Quick works"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&is_video=false&description=Understanding How Quick works"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Understanding How Quick works&body=Check out this article: http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&title=Understanding How Quick works"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&title=Understanding How Quick works"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&title=Understanding How Quick works"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&title=Understanding How Quick works"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&name=Understanding How Quick works&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">2.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Concept"><span class="toc-number">3.</span> <span class="toc-text">Concept</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#World"><span class="toc-number">4.</span> <span class="toc-text">World</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QuickSpec-的实现"><span class="toc-number">5.</span> <span class="toc-text">QuickSpec 的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#重写-initialize"><span class="toc-number">5.1.</span> <span class="toc-text">重写 initialize</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义-spec"><span class="toc-number">5.2.</span> <span class="toc-text">自定义 spec</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重写-testInvocation-方法"><span class="toc-number">5.3.</span> <span class="toc-text">重写 testInvocation 方法</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Understanding How Quick works
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Silver Bullet</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-09-06T15:54:14.000Z" itemprop="datePublished">2016-09-06</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/XCTest/">XCTest</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="https://github.com/Quick/Quick" target="_blank" rel="noopener">Quick</a> 是一个基于 XCTest 框架的测试框架。</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p><img src="../img/files.png" alt></p>
+<h2 id="Concept"><a href="#Concept" class="headerlink" title="Concept"></a>Concept</h2><ul>
+<li>关于 <strong>XCTestCase</strong>, <strong>XCTestSuite</strong> 以及 <strong>XCTest</strong> 的关系，请参考 <a href="http://stackoverflow.com/a/39288791/4234171" target="_blank" rel="noopener">StackOverflow 上面的一个回答</a>。</li>
+<li>Example</li>
+<li>ExampleGroup</li>
+<li>ExampleMetadata</li>
+</ul>
+<h2 id="World"><a href="#World" class="headerlink" title="World"></a>World</h2><p>主要用于自定义测试的 Configuration。<br>World 是一个单例，它主要功能是用来维护 <code>QuickSpec</code> 对应的根 example group 以及 example。</p>
+<h2 id="QuickSpec-的实现"><a href="#QuickSpec-的实现" class="headerlink" title="QuickSpec 的实现"></a>QuickSpec 的实现</h2><p>你写测试时所有的 TestCase 都要继承于这个 QuickSepc 类，我们前面说过，Quick 是一个基于 XCTest 的测试框架，并且实现了自己的语法。你可能会有疑问，XCTest 是如何识别 Quick 的语法的？其实这个类就是关键所在，因此只有这样你的测试代码才能够被 XCTest 框架识别出来。 <code>QuickSepc</code> 继承自 <code>XCTestCase</code>，并依赖 Objective-C 的 runtime 特性来实现。</p>
+<h3 id="重写-initialize"><a href="#重写-initialize" class="headerlink" title="重写 initialize"></a>重写 initialize</h3><p>当每个 spec 初始化时，<code>[NSObject initialize]</code> 方法会被调用。QuickSpec 通过重写 <code>initialize</code> 类方法的方式调用 <code>[QuickSpec spec]</code> 来初始化一个 spec 实例。<em>其中会创建维护 example group 的堆栈，并使用 Quick.World 单例注册 example。</em></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="keyword">void</span>)initialize &#123;</span><br><span class="line">    [QuickConfiguration initialize];</span><br><span class="line">    World *world = [World sharedWorld];</span><br><span class="line">    [world performWithCurrentExampleGroup:[world rootExampleGroupForSpecClass:<span class="keyword">self</span>] closure:^&#123;</span><br><span class="line">        QuickSpec *spec = [<span class="keyword">self</span> new];</span><br><span class="line">        <span class="keyword">@try</span> &#123;</span><br><span class="line">            [spec spec];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">@catch</span> (<span class="built_in">NSException</span> *exception) &#123;</span><br><span class="line">            [<span class="built_in">NSException</span> raise:<span class="built_in">NSInternalInconsistencyException</span></span><br><span class="line">                        format:<span class="string">@"An exception occurred when building Quick's example groups.\n"</span></span><br><span class="line">             <span class="string">@"Some possible reasons this might happen include:\n\n"</span></span><br><span class="line">             <span class="string">@"- An 'expect(...).to' expectation was evaluated outside of "</span></span><br><span class="line">             <span class="string">@"an 'it', 'context', or 'describe' block\n"</span></span><br><span class="line">             <span class="string">@"- 'sharedExamples' was called twice with the same name\n"</span></span><br><span class="line">             <span class="string">@"- 'itBehavesLike' was called with a name that is not registered as a shared example\n\n"</span></span><br><span class="line">             <span class="string">@"Here's the original exception: '%@', reason: '%@', userInfo: '%@'"</span>,</span><br><span class="line">             exception.name, exception.reason, exception.userInfo];</span><br><span class="line">        &#125;</span><br><span class="line">        [<span class="keyword">self</span> testInvocations];</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="自定义-spec"><a href="#自定义-spec" class="headerlink" title="自定义 spec"></a>自定义 spec</h3><p>写测试的时候，你需要重写 spec 方法来自定义一组 example group 或者 example。看代码我们知道，World 单例从根 example group 开始，顺着结构树往下遍历，并对每一个 example 执行 clourse。其中，clourse 包括几个部分：</p>
+<ol>
+<li>新建一个 QuickSpec 对象</li>
+<li>try catch 获取我们的测试用例时可能抛出的异常</li>
+<li>向这个对象发送 <code>testInvocations</code> 消息</li>
+</ol>
+<h3 id="重写-testInvocation-方法"><a href="#重写-testInvocation-方法" class="headerlink" title="重写 testInvocation 方法"></a>重写 testInvocation 方法</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="built_in">NSArray</span> *)testInvocations &#123;</span><br><span class="line">    <span class="built_in">NSArray</span> *examples = [[World sharedWorld] examplesForSpecClass:[<span class="keyword">self</span> <span class="keyword">class</span>]];</span><br><span class="line">    <span class="built_in">NSMutableArray</span> *invocations = [<span class="built_in">NSMutableArray</span> arrayWithCapacity:[examples count]];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSMutableSet</span>&lt;<span class="built_in">NSString</span>*&gt; *selectorNames = [<span class="built_in">NSMutableSet</span> set];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (Example *example <span class="keyword">in</span> examples) &#123;</span><br><span class="line">        SEL selector = [<span class="keyword">self</span> addInstanceMethodForExample:example classSelectorNames:selectorNames];</span><br><span class="line">        <span class="built_in">NSInvocation</span> *invocation = [<span class="keyword">self</span> invocationForInstanceMethodWithSelector:selector</span><br><span class="line">                                                                         example:example];</span><br><span class="line">        [invocations addObject:invocation];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> invocations;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setInvocation:(<span class="built_in">NSInvocation</span> *)invocation &#123;</span><br><span class="line">    <span class="keyword">self</span>.example = objc_getAssociatedObject(invocation, QCKExampleKey);</span><br><span class="line">    [<span class="keyword">super</span> setInvocation:invocation];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码做了以下两件事：</p>
+<ol>
+<li>通过 World 单例保存的映射获取我们已经定义的 examples，包括 configuration 里面设置的过滤规则</li>
+<li>遍历 examples，为每个对应的 example：通过<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSMethodSignature_Class/" target="_blank" rel="noopener">方法签名</a> 生成 <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSInvocation_Class/" target="_blank" rel="noopener">NSInvocation</a> 实现 XCTestCase 的消息转发（即执行测试方法），然后 hook 进 Invocation 的 setter 方法，这样就能对 current example 保持引用。<em>从而测试失败时可以获取 current example 的相关信息如名字，行数等等</em></li>
+</ol>
+<blockquote>
+<p>未完待续</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">2.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Concept"><span class="toc-number">3.</span> <span class="toc-text">Concept</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#World"><span class="toc-number">4.</span> <span class="toc-text">World</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QuickSpec-的实现"><span class="toc-number">5.</span> <span class="toc-text">QuickSpec 的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#重写-initialize"><span class="toc-number">5.1.</span> <span class="toc-text">重写 initialize</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义-spec"><span class="toc-number">5.2.</span> <span class="toc-text">自定义 spec</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重写-testInvocation-方法"><span class="toc-number">5.3.</span> <span class="toc-text">重写 testInvocation 方法</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&text=Understanding How Quick works"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&title=Understanding How Quick works"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&is_video=false&description=Understanding How Quick works"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Understanding How Quick works&body=Check out this article: http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&title=Understanding How Quick works"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&title=Understanding How Quick works"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&title=Understanding How Quick works"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&title=Understanding How Quick works"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/&name=Understanding How Quick works&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Zigii Wong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

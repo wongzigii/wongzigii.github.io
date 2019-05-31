@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Troubleshoot installing Nokorigi for the dependency of rails. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
+<meta name="keywords" content="ruby">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Troubleshoot Installing Nokorigi">
+<meta property="og:url" content="http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="Troubleshoot installing Nokorigi for the dependency of rails. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-30T04:56:27.228Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Troubleshoot Installing Nokorigi">
+<meta name="twitter:description" content="Troubleshoot installing Nokorigi for the dependency of rails. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Troubleshoot Installing Nokorigi</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/01/29/Without-Thought-by-Naoto-Fukasawa/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2015/10/25/SegmentFault-Hackathon-2015/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&text=Troubleshoot Installing Nokorigi"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&title=Troubleshoot Installing Nokorigi"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&is_video=false&description=Troubleshoot Installing Nokorigi"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Troubleshoot Installing Nokorigi&body=Check out this article: http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&title=Troubleshoot Installing Nokorigi"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&title=Troubleshoot Installing Nokorigi"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&title=Troubleshoot Installing Nokorigi"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&title=Troubleshoot Installing Nokorigi"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&name=Troubleshoot Installing Nokorigi&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Troubleshoot Installing Nokorigi
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Silver Bullet</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-01-05T10:37:14.000Z" itemprop="datePublished">2016-01-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/ruby/">ruby</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Troubleshoot installing Nokorigi for the dependency of rails.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br></pre></td><td class="code"><pre><span class="line">  ERROR: Error installing rails:</span><br><span class="line">  ERROR: Failed to build gem native extension.</span><br><span class="line">  current directory: /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/ext/nokogiri</span><br><span class="line">  /Users/Wongzigii/.rvm/rubies/ruby-2.3.0/bin/ruby -r ./siteconf20160105-5281-1xpczbo.rb extconf.rb</span><br><span class="line">  checking <span class="keyword">if</span> the C compiler accepts ... yes</span><br><span class="line">  checking <span class="keyword">if</span> the C compiler accepts -Wno-error=unused-command-line-argument-hard-error-in-future... no</span><br><span class="line">  Building nokogiri using packaged libraries.</span><br><span class="line">  Using mini_portile version 2.0.0</span><br><span class="line">  checking <span class="keyword">for</span> iconv.h... yes</span><br><span class="line">  checking <span class="keyword">for</span> gzdopen() <span class="keyword">in</span> -lz... yes</span><br><span class="line">  checking <span class="keyword">for</span> iconv using --with-opt-* flags... yes</span><br><span class="line">  ************************************************************************</span><br><span class="line">  IMPORTANT NOTICE:</span><br><span class="line">Building Nokogiri with a packaged version of libxml2-2.9.2</span><br><span class="line">with the following patches applied:</span><br><span class="line">- 0001-Revert-Missing-initialization-for-the-catalog-module.patch</span><br><span class="line">- 0002-Fix-missing-entities-after-CVE-2014-3660-fix.patch</span><br><span class="line">- 0003-Stop-parsing-on-entities-boundaries-errors.patch</span><br><span class="line">- 0004-Cleanup-conditional-section-error-handling.patch</span><br><span class="line">- 0005-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch</span><br><span class="line">- 0006-Another-variation-of-overflow-in-Conditional-section.patch</span><br><span class="line">- 0007-Fix-an-error-in-previous-Conditional-section-patch.patch</span><br><span class="line">- 0008-CVE-2015-8035-Fix-XZ-compression-support-loop.patch</span><br><span class="line">- 0009-Updated-config.guess.patch</span><br><span class="line">- 0010-Fix-parsering-short-unclosed-comment-uninitialized-access.patch</span><br><span class="line">- 0011-Avoid-extra-processing-of-MarkupDecl-when-EOF.patch</span><br><span class="line">- 0012-Avoid-processing-entities-after-encoding-conversion-.patch</span><br><span class="line">- 0013-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch</span><br><span class="line">- 0014-CVE-2015-5312-Another-entity-expansion-issue.patch</span><br><span class="line">- 0015-Add-xmlHaltParser-to-stop-the-parser.patch</span><br><span class="line">- 0016-Detect-incoherency-on-GROW.patch</span><br><span class="line">- 0017-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch</span><br><span class="line">- 0018-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch</span><br><span class="line"></span><br><span class="line">Team Nokogiri will keep on doing their best to provide security</span><br><span class="line">updates <span class="keyword">in</span> a timely manner, but <span class="keyword">if</span> this is a concern <span class="keyword">for</span> you and want</span><br><span class="line">to use the system library instead; abort this installation process and</span><br><span class="line">reinstall nokogiri as follows:</span><br><span class="line"></span><br><span class="line">   gem install nokogiri -- --use-system-libraries</span><br><span class="line">       [--with-xml2-config=/path/to/xml2-config]</span><br><span class="line">       [--with-xslt-config=/path/to/xslt-config]</span><br><span class="line"></span><br><span class="line">If you are using Bundler, tell it to use the option:</span><br><span class="line"></span><br><span class="line">   bundle config build.nokogiri --use-system-libraries</span><br><span class="line">   bundle install</span><br><span class="line"></span><br><span class="line">Note, however, that nokogiri is not fully compatible with arbitrary</span><br><span class="line">versions of libxml2 provided by OS/package vendors.</span><br><span class="line">************************************************************************</span><br><span class="line">Extracting libxml2-2.9.2.tar.gz into tmp/x86_64-apple-darwin15.2.0/ports/libxml2/2.9.2... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0001-Revert-Missing-initialization-for-the-catalog-module.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0002-Fix-missing-entities-after-CVE-2014-3660-fix.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0003-Stop-parsing-on-entities-boundaries-errors.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0004-Cleanup-conditional-section-error-handling.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0005-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0006-Another-variation-of-overflow-in-Conditional-section.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0007-Fix-an-error-in-previous-Conditional-section-patch.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0008-CVE-2015-8035-Fix-XZ-compression-support-loop.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0009-Updated-config.guess.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0010-Fix-parsering-short-unclosed-comment-uninitialized-access.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0011-Avoid-extra-processing-of-MarkupDecl-when-EOF.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0012-Avoid-processing-entities-after-encoding-conversion-.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0013-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0014-CVE-2015-5312-Another-entity-expansion-issue.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0015-Add-xmlHaltParser-to-stop-the-parser.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0016-Detect-incoherency-on-GROW.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0017-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0018-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch... OK</span><br><span class="line">Running <span class="string">'configure'</span> <span class="keyword">for</span> libxml2 2.9.2... OK</span><br><span class="line">Running <span class="string">'compile'</span> <span class="keyword">for</span> libxml2 2.9.2... OK</span><br><span class="line">Running <span class="string">'install'</span> <span class="keyword">for</span> libxml2 2.9.2... OK</span><br><span class="line">Activating libxml2 2.9.2 (from /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/ports/x86_64-apple-darwin15.2.0/libxml2/2.9.2)...</span><br><span class="line">************************************************************************</span><br><span class="line">IMPORTANT NOTICE:</span><br><span class="line"></span><br><span class="line">Building Nokogiri with a packaged version of libxslt-1.1.28</span><br><span class="line">with the following patches applied:</span><br><span class="line">- 0001-Adding-doc-update-related-to-1.1.28.patch</span><br><span class="line">- 0002-Fix<span class="_">-a</span>-couple-of-places-where<span class="_">-f</span>-printf-parameters-wer.patch</span><br><span class="line">- 0003-Initialize-pseudo-random-number-generator-with-curre.patch</span><br><span class="line">- 0004-EXSLT-function-str-replace-is-broken-as-is.patch</span><br><span class="line">- 0006-Fix-str-padding-to-work-with-UTF-8-strings.patch</span><br><span class="line">- 0007-Separate-function-for-predicate-matching-in-patterns.patch</span><br><span class="line">- 0008-Fix-direct-pattern-matching.patch</span><br><span class="line">- 0009-Fix-certain-patterns-with-predicates.patch</span><br><span class="line">- 0010-Fix-handling-of-UTF-8-strings-in-EXSLT-crypto-module.patch</span><br><span class="line">- 0013-Memory-leak-in-xsltCompileIdKeyPattern-error-path.patch</span><br><span class="line">- 0014-Fix-for-bug-436589.patch</span><br><span class="line">- 0015-Fix-mkdir-for-mingw.patch</span><br><span class="line">- 0016-Fix-for-type-confusion-in-preprocessing-attributes.patch</span><br><span class="line">- 0017-Updated-config.guess.patch</span><br><span class="line"></span><br><span class="line">Team Nokogiri will keep on doing their best to provide security</span><br><span class="line">updates <span class="keyword">in</span> a timely manner, but <span class="keyword">if</span> this is a concern <span class="keyword">for</span> you and want</span><br><span class="line">to use the system library instead; abort this installation process and</span><br><span class="line">reinstall nokogiri as follows:</span><br><span class="line"></span><br><span class="line">   gem install nokogiri -- --use-system-libraries</span><br><span class="line">       [--with-xml2-config=/path/to/xml2-config]</span><br><span class="line">       [--with-xslt-config=/path/to/xslt-config]</span><br><span class="line"></span><br><span class="line">If you are using Bundler, tell it to use the option:</span><br><span class="line"></span><br><span class="line">   bundle config build.nokogiri --use-system-libraries</span><br><span class="line">   bundle install</span><br><span class="line">************************************************************************</span><br><span class="line">Extracting libxslt-1.1.28.tar.gz into tmp/x86_64-apple-darwin15.2.0/ports/libxslt/1.1.28... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0001-Adding-doc-update-related-to-1.1.28.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0002-Fix<span class="_">-a</span>-couple-of-places-where<span class="_">-f</span>-printf-parameters-wer.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0003-Initialize-pseudo-random-number-generator-with-curre.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0004-EXSLT-function-str-replace-is-broken-as-is.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0006-Fix-str-padding-to-work-with-UTF-8-strings.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0007-Separate-function-for-predicate-matching-in-patterns.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0008-Fix-direct-pattern-matching.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0009-Fix-certain-patterns-with-predicates.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0010-Fix-handling-of-UTF-8-strings-in-EXSLT-crypto-module.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0013-Memory-leak-in-xsltCompileIdKeyPattern-error-path.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0014-Fix-for-bug-436589.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0015-Fix-mkdir-for-mingw.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0016-Fix-for-type-confusion-in-preprocessing-attributes.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0017-Updated-config.guess.patch... OK</span><br><span class="line">Running <span class="string">'configure'</span> <span class="keyword">for</span> libxslt 1.1.28... ERROR, review <span class="string">'/Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/ext/nokogiri/tmp/x86_64-apple-darwin15.2.0/ports/libxslt/1.1.28/configure.log'</span> to see what happened. Last lines are:</span><br><span class="line">========================================================================</span><br><span class="line"> Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST 2015; root:xnu-3248.20.55~2/RELEASE_X86_64</span><br><span class="line">Kernel configured <span class="keyword">for</span> up to 8 processors.</span><br><span class="line">4 processors are physically available.</span><br><span class="line">8 processors are logically available.</span><br><span class="line">Processor <span class="built_in">type</span>: x86_64h (Intel x86-64h Haswell)</span><br><span class="line">Processors active: 0 1 2 3 4 5 6 7</span><br><span class="line">Primary memory available: 16.00 gigabytes</span><br><span class="line">Default processor <span class="built_in">set</span>: 376 tasks, 1947 threads, 8 processors</span><br><span class="line">Load average: 1.84, Mach factor: 6.14</span><br><span class="line">/bin/universe          =</span><br><span class="line">/usr/bin/arch -k       =</span><br><span class="line">/bin/arch              =</span><br><span class="line">/usr/bin/oslevel       =</span><br><span class="line">/usr/convex/getsysinfo =</span><br><span class="line"></span><br><span class="line">UNAME_MACHINE = x86_64</span><br><span class="line">UNAME_RELEASE = 15.2.0</span><br><span class="line">UNAME_SYSTEM  = Darwin</span><br><span class="line">UNAME_VERSION = Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST 2015; root:xnu-3248.20.55~2/RELEASE_X86_64</span><br><span class="line">configure: error: cannot guess build <span class="built_in">type</span>; you must specify one</span><br><span class="line">========================================================================</span><br><span class="line">*** extconf.rb failed ***</span><br><span class="line">Could not create Makefile due to some reason, probably lack of necessary</span><br><span class="line">libraries and/or headers.  Check the mkmf.log file <span class="keyword">for</span> more details.  You may</span><br><span class="line">need configuration options.</span><br><span class="line"></span><br><span class="line">Provided configuration options:</span><br><span class="line">--with-opt-dir</span><br><span class="line">--with-opt-include</span><br><span class="line">--without-opt-include=<span class="variable">$&#123;opt-dir&#125;</span>/include</span><br><span class="line">--with-opt-lib</span><br><span class="line">--without-opt-lib=<span class="variable">$&#123;opt-dir&#125;</span>/lib</span><br><span class="line">--with-make-prog</span><br><span class="line">--without-make-prog</span><br><span class="line">--srcdir=.</span><br><span class="line">--curdir</span><br><span class="line">--ruby=/Users/Wongzigii/.rvm/rubies/ruby-2.3.0/bin/$(RUBY_BASE_NAME)</span><br><span class="line">--<span class="built_in">help</span></span><br><span class="line">--clean</span><br><span class="line">--use-system-libraries</span><br><span class="line">--<span class="built_in">enable</span>-static</span><br><span class="line">--<span class="built_in">disable</span>-static</span><br><span class="line">--with-zlib-dir</span><br><span class="line">--without-zlib-dir</span><br><span class="line">--with-zlib-include</span><br><span class="line">--without-zlib-include=<span class="variable">$&#123;zlib-dir&#125;</span>/include</span><br><span class="line">--with-zlib-lib</span><br><span class="line">--without-zlib-lib=<span class="variable">$&#123;zlib-dir&#125;</span>/lib</span><br><span class="line">--<span class="built_in">enable</span>-cross-build</span><br><span class="line">--<span class="built_in">disable</span>-cross-build</span><br><span class="line">/Users/Wongzigii/.rvm/rubies/ruby-2.3.0/lib/ruby/gems/2.3.0/gems/mini_portile2-2.0.0/lib/mini_portile2/mini_portile.rb:366:<span class="keyword">in</span> `block <span class="keyword">in</span> execute<span class="string">': Failed to complete configure task (RuntimeError)</span></span><br><span class="line"><span class="string">from /Users/Wongzigii/.rvm/rubies/ruby-2.3.0/lib/ruby/gems/2.3.0/gems/mini_portile2-2.0.0/lib/mini_portile2/mini_portile.rb:337:in `chdir'</span></span><br><span class="line">from /Users/Wongzigii/.rvm/rubies/ruby-2.3.0/lib/ruby/gems/2.3.0/gems/mini_portile2-2.0.0/lib/mini_portile2/mini_portile.rb:337:<span class="keyword">in</span> `execute<span class="string">'</span></span><br><span class="line"><span class="string">from /Users/Wongzigii/.rvm/rubies/ruby-2.3.0/lib/ruby/gems/2.3.0/gems/mini_portile2-2.0.0/lib/mini_portile2/mini_portile.rb:106:in `configure'</span></span><br><span class="line">from /Users/Wongzigii/.rvm/rubies/ruby-2.3.0/lib/ruby/gems/2.3.0/gems/mini_portile2-2.0.0/lib/mini_portile2/mini_portile.rb:149:<span class="keyword">in</span> `cook<span class="string">'</span></span><br><span class="line"><span class="string">from extconf.rb:289:in `block (2 levels) in process_recipe'</span></span><br><span class="line">from extconf.rb:182:<span class="keyword">in</span> `block <span class="keyword">in</span> chdir_for_build<span class="string">'</span></span><br><span class="line"><span class="string">from extconf.rb:181:in `chdir'</span></span><br><span class="line">from extconf.rb:181:<span class="keyword">in</span> `chdir_for_build<span class="string">'</span></span><br><span class="line"><span class="string">from extconf.rb:288:in `block in process_recipe'</span></span><br><span class="line">from extconf.rb:187:<span class="keyword">in</span> `tap<span class="string">'</span></span><br><span class="line"><span class="string">from extconf.rb:187:in `process_recipe'</span></span><br><span class="line">from extconf.rb:490:<span class="keyword">in</span> `&lt;main&gt;<span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">To see why this extension failed to compile, please check the mkmf.log which can be found here:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> 	/Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/extensions/x86_64-darwin-15/2.3.0/nokogiri-1.6.7.1/mkmf.log</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">extconf failed, exit code 1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Gem files will remain installed in /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1 for inspection.</span></span><br><span class="line"><span class="string">Results logged to /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/extensions/x86_64-darwin-15/2.3.0/nokogiri-1.6.7.1/gem_make.out</span></span><br></pre></td></tr></table></figure>
+<p><strong>The Problem:</strong></p>
+<blockquote>
+<p>For some reason Apple’s Yosemite version of OSX does not have a system accessible installation of libxml2.  Nokogiri requires this in order to compile and luckily Xcode has a version of libxml2 bundled with it — we just need to specify it when installing the gem.  It’s important to get Nokogiri installed correctly because as of right now Rails 4.2.1.rc4 automatically attempts to install it and you will feel pain.</p>
+</blockquote>
+<p><strong>Solved:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install nokogiri -- --use-system-libraries=<span class="literal">true</span> --with-xml2-include=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/libxml2/</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&text=Troubleshoot Installing Nokorigi"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&title=Troubleshoot Installing Nokorigi"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&is_video=false&description=Troubleshoot Installing Nokorigi"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Troubleshoot Installing Nokorigi&body=Check out this article: http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&title=Troubleshoot Installing Nokorigi"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&title=Troubleshoot Installing Nokorigi"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&title=Troubleshoot Installing Nokorigi"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&title=Troubleshoot Installing Nokorigi"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/&name=Troubleshoot Installing Nokorigi&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Zigii Wong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

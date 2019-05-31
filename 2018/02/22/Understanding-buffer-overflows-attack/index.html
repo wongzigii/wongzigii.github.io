@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="原文地址 内存的分布结构图 上图是 x86 架构的处理器的内存结构图，其中我们应用程序的代码，蓝色部分，被写在内存地址的最低位，而红色部分，栈地址则位于最高位，紫色部分，堆地址，位于内存中间位置。 寄存器每个不同型号的处理器架构是不一样的。我们用的 x86 处理器和摩托罗拉，苹果手机的处理器架构也不一样。即使同样是 x86 处理器，不同处理器之间也区分 16bits，32bits 和 64bits">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&lt;译&gt; Understanding Buffer Overflows Attack">
+<meta property="og:url" content="http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="原文地址 内存的分布结构图 上图是 x86 架构的处理器的内存结构图，其中我们应用程序的代码，蓝色部分，被写在内存地址的最低位，而红色部分，栈地址则位于最高位，紫色部分，堆地址，位于内存中间位置。 寄存器每个不同型号的处理器架构是不一样的。我们用的 x86 处理器和摩托罗拉，苹果手机的处理器架构也不一样。即使同样是 x86 处理器，不同处理器之间也区分 16bits，32bits 和 64bits">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb.png?w=415&h=480&zoom=2">
+<meta property="og:image" content="https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb1.png?w=555&h=480&zoom=2">
+<meta property="og:image" content="https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb2.png?w=617&h=480&zoom=2">
+<meta property="og:image" content="https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb3.png?w=617&h=480&zoom=2">
+<meta property="og:updated_time" content="2019-05-30T09:52:31.061Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="&lt;译&gt; Understanding Buffer Overflows Attack">
+<meta name="twitter:description" content="原文地址 内存的分布结构图 上图是 x86 架构的处理器的内存结构图，其中我们应用程序的代码，蓝色部分，被写在内存地址的最低位，而红色部分，栈地址则位于最高位，紫色部分，堆地址，位于内存中间位置。 寄存器每个不同型号的处理器架构是不一样的。我们用的 x86 处理器和摩托罗拉，苹果手机的处理器架构也不一样。即使同样是 x86 处理器，不同处理器之间也区分 16bits，32bits 和 64bits">
+<meta name="twitter:image" content="https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb.png?w=415&h=480&zoom=2">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>&lt;译&gt; Understanding Buffer Overflows Attack</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/03/27/Rx-RxObjCRuntime/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/11/24/Some-mistakes-in-RxSwift-you-want-to-avoid/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&text=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&title=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&is_video=false&description=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&lt;译&gt; Understanding Buffer Overflows Attack&body=Check out this article: http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&title=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&title=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&title=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&title=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&name=&lt;译&gt; Understanding Buffer Overflows Attack&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存的分布结构图"><span class="toc-number">1.</span> <span class="toc-text">内存的分布结构图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄存器"><span class="toc-number">2.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#栈"><span class="toc-number">3.</span> <span class="toc-text">栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓冲区溢出"><span class="toc-number">4.</span> <span class="toc-text">缓冲区溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用缓冲区溢出"><span class="toc-number">5.</span> <span class="toc-text">利用缓冲区溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">6.</span> <span class="toc-text">最后</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        &lt;译&gt; Understanding Buffer Overflows Attack
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Silver Bullet</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-02-22T13:01:35.000Z" itemprop="datePublished">2018-02-22</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><a href="https://itandsecuritystuffs.wordpress.com/2014/03/18/understanding-buffer-overflows-attacks-part-1/" target="_blank" rel="noopener">原文地址</a></p>
+<h2 id="内存的分布结构图"><a href="#内存的分布结构图" class="headerlink" title="内存的分布结构图"></a>内存的分布结构图</h2><p><img src="https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb.png?w=415&amp;h=480&amp;zoom=2" alt></p>
+<p>上图是 x86 架构的处理器的内存结构图，其中我们应用程序的代码，蓝色部分，被写在内存地址的最低位，而红色部分，栈地址则位于最高位，紫色部分，堆地址，位于内存中间位置。</p>
+<h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><p>每个不同型号的处理器架构是不一样的。我们用的 x86 处理器和摩托罗拉，苹果手机的处理器架构也不一样。即使同样是 x86 处理器，不同处理器之间也区分 16bits，32bits 和 64bits 的寄存器。</p>
+<p>在 x86-32bits 架构中，有以下 8 个通用的寄存器用来指向内存中的其他位置：</p>
+<ul>
+<li>EAX</li>
+<li>EBX</li>
+<li>ECX</li>
+<li>EDX</li>
+<li>ESI</li>
+<li>EDI</li>
+<li>ESP: Extended Stack Pointer - 栈指针，总是指向栈顶</li>
+<li>EBP: Extended Base Stack Pointer - 也是栈指针，但是是指向栈的基地址</li>
+</ul>
+<p>我们集中讨论 ESP EBP 这几个比较重要的寄存器。（其实还有 EIP – Extended Instruction Pointer, 它是一个只读的寄存器，指向 CPU 下次要执行的地址。）</p>
+<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p>栈是一个先进后出的数据结构。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fun</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello world"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    fun()</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"End"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>考虑上面的代码，系统会帮我们将 EBP 入栈 (push EBP)，当函数调用结束后再将 EBP 出栈 (pop EBP)。其中会用到三种寄存器:</p>
+<ul>
+<li>EIP</li>
+<li>ESP</li>
+<li>EBP</li>
+</ul>
+<p>调用 fun 函数前：</p>
+<ol>
+<li>EIP 寄存器保存 CPU 下次要执行的指令的地址，就是执行完 fun 函数后要执行 printf 语句的地址</li>
+<li>fun 函数调用前，EBP 寄存器保存着栈的栈底指针，这是由 ESP 传递给 EBP 的，此时 ESP 既是栈顶指针，也是栈底指针 （mov EBP, ESP）</li>
+<li>调用过程中，ESP 寄存器始终指向栈顶</li>
+</ol>
+<p>调用 fun 函数后：</p>
+<ol>
+<li>EBP 寄存器保存着栈底指针，而这个地址是调用开始前 （mov EBP, ESP） 由 ESP 传递给 EBP 的，调用完之后，应该要把 EBP 地址回传给 ESP，因此 ESP 又一次指向栈顶的地址。</li>
+<li>将之前入栈的 EBP 地址出栈 （pop EBP）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push EAX</span><br><span class="line">push byte[EBP+20]</span><br><span class="line">push 3     // 保存上下文环境</span><br><span class="line">call calc  // 正式调用 bar（）</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">calc: </span><br><span class="line">push EBP     // 将 EBP 地址入栈</span><br><span class="line">mov EBP, ESP // 将 ESP 地址赋给 EBP</span><br><span class="line">sub ESP, local size // 为 foo 分配内存地址</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">mov ESP, EBP // 将 EBP 地址赋给 ESP，free 本地的变量</span><br><span class="line">pop EBP      // 将 EBP 地址出栈</span><br><span class="line">ret param size // free 参数的内存并返回</span><br></pre></td></tr></table></figure>
+<p><img src="https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb1.png?w=555&amp;h=480&amp;zoom=2" alt></p>
+<h2 id="缓冲区溢出"><a href="#缓冲区溢出" class="headerlink" title="缓冲区溢出"></a>缓冲区溢出</h2><p>说了那么多废话，究竟什么是缓存区溢出。</p>
+<p>我们回顾一下函数调用的整个过程，</p>
+<ol>
+<li>创建函数调用的堆栈，EBP 作为栈基址</li>
+<li>函数的参数通过 EBP+8，EBP+12 等等传入内存</li>
+<li>函数被调用，函数结果被保存到 RET 指针指向的地址，即 EBP + 4</li>
+</ol>
+<p>假设我们在第二步的时候传了一个 12 个 <code>A</code> 的字符串参数进去这个函数，<br>现在我们的内存如下图，</p>
+<p><img src="https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb2.png?w=617&amp;h=480&amp;zoom=2" alt></p>
+<p>现在，PARAM1 指向我们保存参数的地址，而我们传进去的 12 字节的参数，由于每块内存最多只能保存 4 字节，因此实际上这 12 字节在从低往高的内存地址中被拷贝进去。</p>
+<p>那如果我们传进去一个非常非常大的，大到超出内存长度的参数呢？</p>
+<p><img src="https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb3.png?w=617&amp;h=480&amp;zoom=2" alt></p>
+<p>这时候 EIP 寄存器原来的内容就会被覆盖掉，而函数调用后需要用到的 EIP 寄存器所保存的地址，用来执行下一步语句。系统无法知道下一步该怎么做，就会抛出异常。</p>
+<blockquote>
+<p>题外话：栈溢出 Stack Overflow 其实是缓冲区溢出 Buffer Overflow 的特殊情形，原因是缓冲区里面包含了堆地址，栈地址和其他内存地址。假设你递归调用一个使用栈地址的函数且没有返回的话，最后会导致栈溢出，而我们上面缓冲区溢出的例子，AAAA 字符串不仅把栈的地址用光了，还把堆和其他内存地址都用光了。</p>
+</blockquote>
+<h2 id="利用缓冲区溢出"><a href="#利用缓冲区溢出" class="headerlink" title="利用缓冲区溢出"></a>利用缓冲区溢出</h2><p>如果 EIP 被没用的脏数据覆盖掉，程序会崩溃并退出。如果 EIP 被 <em>别有用心</em> 的内容覆盖掉，那函数调用完之后会继续执行 <em>别有用心</em> 的代码块，通过这样，你就能利用缓冲区溢出来干一点有趣的事情。</p>
+<p>但是，要想利用缓冲区溢出，还有几点需要注意：</p>
+<ol>
+<li>你不知道 EIP 的确切地址在哪里，从而导致你无法改写 EIP 地址的内容</li>
+<li>你改写的地址需要是 ESP 指向<em>过</em>的地址，而 ESP 的地址总是在不停地改变，因此当缓冲区溢出的时候，你需要知道 ESP 的地址才行</li>
+<li>每个内存地址都有一些没用的十六进制值，像回车字符 0x0a, 换行字符 0x0d 等等，如果 ESP 地址保存着这些没用的地址，那么程序会直接崩溃掉了</li>
+</ol>
+<p>如何解决这几个问题，我们逐个问题看：</p>
+<ol>
+<li>你需要找到一个可以复现缓冲区溢出的特殊字符串如 （ABCD），当你将整串完整的字符串（PPPPABCDMMMM）传进去后，EIP 的内容会被这个特殊字符串覆盖，这时候你可以通过 ABCD 在PPPPABCDMMMM 字符串的偏移量，找到实际能被利用的 EIP 地址。</li>
+<li>有两种办法，第一种是借助一些反编译工具 (Ollydbg, IDAPro, Immunity,等等)，在执行的时候定位 ESP 的值，另一种办法是用程序分析软件 Immunity Debugger 或者 pydbg 来分析程序抛出的异常。</li>
+<li>我们可以往里面传一个包含从 0x00 到 0xFF 的测试字符串，并用我们第二个办法，借助一些程序分析工具，判断导致崩溃的字符串是哪一个，并一直重复下去，直到整个测试字符串能通过测试，并不再引起崩溃。</li>
+</ol>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>我们可以通过一些脚本或者应用 <a href="https://github.com/shellphish/fuzzer" target="_blank" rel="noopener">fuzzers</a> 为我们开发的应用<em>输入</em>很多没有用的字符串，以测试是否会崩溃。这里的输入泛指很多东西：包括但不限于，文本输入框的内容，配置文件，上传文件的接口或者应用的进程等等。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存的分布结构图"><span class="toc-number">1.</span> <span class="toc-text">内存的分布结构图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄存器"><span class="toc-number">2.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#栈"><span class="toc-number">3.</span> <span class="toc-text">栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓冲区溢出"><span class="toc-number">4.</span> <span class="toc-text">缓冲区溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用缓冲区溢出"><span class="toc-number">5.</span> <span class="toc-text">利用缓冲区溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">6.</span> <span class="toc-text">最后</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&text=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&title=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&is_video=false&description=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&lt;译&gt; Understanding Buffer Overflows Attack&body=Check out this article: http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&title=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&title=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&title=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&title=&lt;译&gt; Understanding Buffer Overflows Attack"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/&name=&lt;译&gt; Understanding Buffer Overflows Attack&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Zigii Wong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

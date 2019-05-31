@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="What is Runtime一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。 Why not function calling but message当你向 receiver 发送一个消息 [receiver message]， 编译器会将其编译为 ob">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Runtime">
+<meta property="og:url" content="http://wongzigii.github.io/2014/12/11/Runtime/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="What is Runtime一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。 Why not function calling but message当你向 receiver 发送一个消息 [receiver message]， 编译器会将其编译为 ob">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8c7526ebgw1f1w5q2dxuyg20ag06pdfq.gif">
+<meta property="og:updated_time" content="2019-05-30T04:07:13.518Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Runtime">
+<meta name="twitter:description" content="What is Runtime一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。 Why not function calling but message当你向 receiver 发送一个消息 [receiver message]， 编译器会将其编译为 ob">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/8c7526ebgw1f1w5q2dxuyg20ag06pdfq.gif">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Runtime</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2014/12/14/Runtime-2-Object-Class-Meta-Class/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2014/12/11/Runtime/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2014/12/11/Runtime/&text=Runtime"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2014/12/11/Runtime/&title=Runtime"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2014/12/11/Runtime/&is_video=false&description=Runtime"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Runtime&body=Check out this article: http://wongzigii.github.io/2014/12/11/Runtime/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2014/12/11/Runtime/&title=Runtime"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2014/12/11/Runtime/&title=Runtime"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2014/12/11/Runtime/&title=Runtime"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2014/12/11/Runtime/&title=Runtime"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2014/12/11/Runtime/&name=Runtime&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-Runtime"><span class="toc-number">1.</span> <span class="toc-text">What is Runtime</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-not-function-calling-but-message"><span class="toc-number">2.</span> <span class="toc-text">Why not function calling but message</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#id"><span class="toc-number">3.</span> <span class="toc-text">id</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#objc-object"><span class="toc-number">3.1.</span> <span class="toc-text">objc_object</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#objc-class"><span class="toc-number">3.2.</span> <span class="toc-text">objc_class</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SEL"><span class="toc-number">4.</span> <span class="toc-text">SEL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Message-Forwarding"><span class="toc-number">5.</span> <span class="toc-text">Message Forwarding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forwarding-and-Multiple-Inheritance"><span class="toc-number">6.</span> <span class="toc-text">Forwarding and Multiple Inheritance</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Surrogate-Objects"><span class="toc-number">7.</span> <span class="toc-text">Surrogate Objects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forwarding-and-Inheritance"><span class="toc-number">8.</span> <span class="toc-text">Forwarding and Inheritance</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Runtime
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Silver Bullet</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2014-12-11T01:48:15.000Z" itemprop="datePublished">2014-12-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="What-is-Runtime"><a href="#What-is-Runtime" class="headerlink" title="What is Runtime"></a>What is Runtime</h2><p>一门动态语言，有一些决定工作从编译连接推迟到运行时才被执行。只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Runtime 存在的意义。</p>
+<h2 id="Why-not-function-calling-but-message"><a href="#Why-not-function-calling-but-message" class="headerlink" title="Why not function calling but message"></a>Why not function calling but message</h2><p>当你向 receiver 发送一个消息 <code>[receiver message]</code>， 编译器会将其编译为 <code>objc_msgSend(receiver, selector)</code>, 如果消息带有参数，如 <code>[receiver message:arg1]</code>， 则会编译为 <code>objc_msgSend(receiver, selector, arg1)</code>。如果 <code>receiver</code> 找到对应的 <code>selector</code>，那么相当于执行了 <code>receiver</code> 的<code>message</code> 方法，否则，消息或是被转发，或是临时添加对应的实现内容，或者 crash。</p>
+<p>看 <code>message.h</code> 是怎么定义的：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * Sends a message with a simple return value to an instance of a class.</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param self A pointer to the instance of the class that is to receive the message.</span></span><br><span class="line"><span class="comment"> * @param op The selector of the method that handles the message.</span></span><br><span class="line"><span class="comment"> * @param ... </span></span><br><span class="line"><span class="comment"> *   A variable argument list containing the arguments to the method.</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @return The return value of the method.</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @note When it encounters a method call, the compiler generates a call to one of the</span></span><br><span class="line"><span class="comment"> *  functions \c objc_msgSend, \c objc_msgSend_stret, \c objc_msgSendSuper, or \c objc_msgSendSuper_stret.</span></span><br><span class="line"><span class="comment"> *  Messages sent to an object’s superclass (using the \c super keyword) are sent using \c objc_msgSendSuper; </span></span><br><span class="line"><span class="comment"> *  other messages are sent using \c objc_msgSend. Methods that have data structures as return values</span></span><br><span class="line"><span class="comment"> *  are sent using \c objc_msgSendSuper_stret and \c objc_msgSend_stret.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">OBJC_EXPORT <span class="keyword">id</span> objc_msgSend(<span class="keyword">id</span> <span class="keyword">self</span>, SEL op, ...)</span><br><span class="line">    __OSX_AVAILABLE_STARTING(__MAC_10_0, __IPHONE_2_0);</span><br></pre></td></tr></table></figure>
+<p>其中第一个参数类型为 <code>id</code>， 第二个参数类型为 <code>SEL</code>。</p>
+<h2 id="id"><a href="#id" class="headerlink" title="id"></a>id</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// A pointer to an instance of a class.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_object *<span class="keyword">id</span>;</span><br></pre></td></tr></table></figure>
+<p>可以知道，<code>id</code> 是一个指向类实例的指针</p>
+<h3 id="objc-object"><a href="#objc-object" class="headerlink" title="objc_object"></a>objc_object</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// An opaque type that represents an Objective-C class.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_class *Class;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Represents an instance of a class.</span></span><br><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>而 <code>objc_object</code> 又是一个结构体，包含一个指向 Class 类型的 指针 <code>isa</code></p>
+<h3 id="objc-class"><a href="#objc-class" class="headerlink" title="objc_class"></a>objc_class</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> objc_class &#123;</span><br><span class="line">    Class isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line"></span><br><span class="line"><span class="meta">#if !__OBJC2__</span></span><br><span class="line">    Class super_class                                        OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name                                         OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> version                                             OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> instance_size                                       OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_ivar_list *ivars                             OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_method_list **methodLists                    OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_cache *cache                                 OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_protocol_list *protocols                     OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="comment">/* Use `Class` instead of `struct objc_class *` */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#endif</span></span><br></pre></td></tr></table></figure>
+<p>其中 <code>isa</code> 指向所属的 Class， <code>super_class</code> 指向父类。</p>
+<p>而在开源的 <em>objc-runtime-new.h</em> 中我们发现在 objc_class 结构体的实现中，objc_class 继承自 objc_object，而且结构体第一项为</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class superclass</span><br></pre></td></tr></table></figure>
+<p>我们称之为 <code>Meta Class</code>，又由于 <code>isa</code> 指向所属的 Class，换句话说，<code>isa</code> 指向 <code>Meta Class</code>。</p>
+<h2 id="SEL"><a href="#SEL" class="headerlink" title="SEL"></a>SEL</h2><p><code>objc.h</code> 中定义了这种数据类型：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// An opaque type that represents a method selector.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_selector *SEL;</span><br></pre></td></tr></table></figure>
+<p>在 <code>runtime.h</code> 中， <code>/* Working with Selectors */</code>下面有这样四个方法：</p>
+<ul>
+<li>OBJC_EXPORT const char *sel_getName(SEL sel)<br>  <strong>__OSX_AVAILABLE_STARTING(</strong>MAC_10_0, __IPHONE_2_0);</li>
+</ul>
+<p>返回一个 char 类型，即 Selector 的名字</p>
+<ul>
+<li>OBJC_EXPORT SEL sel_getUid(const char *str)<br>  <strong>__OSX_AVAILABLE_STARTING(</strong>MAC_10_0, __IPHONE_2_0);</li>
+</ul>
+<p>通过传入一个 UID，返回一个特定的 SEL</p>
+<ul>
+<li>OBJC_EXPORT SEL sel_registerName(const char *str)<br>  <strong>__OSX_AVAILABLE_STARTING(</strong>MAC_10_0, __IPHONE_2_0);</li>
+</ul>
+<p>通过一个 char 类型注册一个 SEL</p>
+<ul>
+<li>OBJC_EXPORT BOOL sel_isEqual(SEL lhs, SEL rhs)<br>   <strong>__OSX_AVAILABLE_STARTING(</strong>MAC_10_5, __IPHONE_2_0);</li>
+</ul>
+<p>传入两个 SEL 判断他们是否相等</p>
+<p>可以看到，他们都是与 Selector 相关的 Runtime 函数。</p>
+<h2 id="Message-Forwarding"><a href="#Message-Forwarding" class="headerlink" title="Message Forwarding"></a>Message Forwarding</h2><p><code>forwardInvocation:</code> 方法通常用来将消息转发给另一个对象。<br>通过实现 <code>forwardInvocation:</code> 方法赋予消息一个默认的响应者，并且可以避免一些错误的产生。</p>
+<p>To see the scope and intent of forwarding, imagine the following scenarios: Suppose, first, that you’re designing an object that can respond to a message called negotiate, and you want its response to include the response of another kind of object. You could accomplish this easily by passing a negotiate message to the other object somewhere in the body of the negotiate method you implement.</p>
+<p>Take this a step further, and suppose that you want your object’s response to a negotiate message to be exactly the response implemented in another class. One way to accomplish this would be to make your class inherit the method from the other class. However, it might not be possible to arrange things this way. There may be good reasons why your class and the class that implements negotiate are in different branches of the inheritance hierarchy.</p>
+<p>Even if your class can’t inherit the negotiate method, you can still “borrow” it by implementing a version of the method that simply passes the message on to an instance of the other class:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">id</span>)negotiate</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ( [someOtherObject respondsTo:<span class="keyword">@selector</span>(negotiate)] )</span><br><span class="line">        <span class="keyword">return</span> [someOtherObject negotiate];</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>换句话说，如果这个对象不能响应 <code>negotiate</code> 这个消息，你可以把它<strong>扔</strong>给其他类然后让它决定是否响应。</p>
+<p>When an object can’t respond to a message because it doesn’t have a method matching the selector in the message, the runtime system informs the object by sending it a forwardInvocation: message. Every object inherits a forwardInvocation: method from the NSObject class. However, NSObject’s version of the method simply invokes doesNotRecognizeSelector:. By overriding NSObject’s version and implementing your own, you can take advantage of the opportunity that the forwardInvocation: message provides to forward messages to other objects.</p>
+<p>当对象由于没有与选择器相匹配的方法时，runtime system 会向其发送一个 <code>forwardInvocation:</code> 消息。每一个对象由于都继承自 NSObject 类从而继承了 NSObject 的 <code>forwardInvocation:</code> 方法。但是，NSObject 只是简单地调用了 <code>doesNotRecognizeSelector:</code> 这个方法。你还需要重载这个方法然后实现自己的 <code>forwardInvocation:</code> 方法从而把消息转发给其他对象。</p>
+<p>这个 <code>forwardInvocation:</code> 方法需要做两样的事情：</p>
+<ul>
+<li>决定消息应该被转发到哪</li>
+<li>把原始的参数一并转发出去</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)forwardInvocation:(<span class="built_in">NSInvocation</span> *)anInvocation</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ([someOtherObject respondsToSelector:</span><br><span class="line">            [anInvocation selector]])</span><br><span class="line">        [anInvocation invokeWithTarget:someOtherObject];</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        [<span class="keyword">super</span> forwardInvocation:anInvocation];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>消息返回的值会被传递到最原始的发送者，包括 <code>ids</code>， <code>structures</code> 还有 <code>double-precision floating-point numbers</code>。 </p>
+<p>这个 <code>forwardInvocation</code> 方法可以被看成是 unrecognized messages 的转发中心，或者是一个转移枢纽，将所有消息都传递到同一个地方。它可以将消息传递到另一个接受者，也可以把那些没有响应者的<strong>消化</strong>掉，来避免 no response。这这机制让互相关联的对象在设计上提供了无限的可能。</p>
+<h2 id="Forwarding-and-Multiple-Inheritance"><a href="#Forwarding-and-Multiple-Inheritance" class="headerlink" title="Forwarding and Multiple Inheritance"></a>Forwarding and Multiple Inheritance</h2><p><img src="http://ww1.sinaimg.cn/large/8c7526ebgw1f1w5q2dxuyg20ag06pdfq.gif" alt></p>
+<p>首先，<code>Warrior</code> 和 <code>Diplomat</code> 没有继承关系，如果你向 <code>Warrior</code> 发送一个 <code>negotiate</code> 消息， <code>Warrior</code> 不能响应这个方法，并把它转发给 <code>Diplomat</code> 类，这看起来就像 <code>Warrior</code> 能响应 <code>negotiate</code> 消息一样。（尽管实际上是 Diplomat 响应的）</p>
+<p>这个例子就像 <code>Warrior</code> 类是继承自 <code>Diplomat</code> 的一样。</p>
+<p>消息转发给我们提供了像多重继承一样的特性。但是，它们之间仍然有相当大的区别：多重继承将不同的东西组合到一个臃肿的对象中，而消息转发，则将不同的东西细分到各自所负责的对象中，这使得对象之间的关系由于消息转发机制而透明清晰。</p>
+<h2 id="Surrogate-Objects"><a href="#Surrogate-Objects" class="headerlink" title="Surrogate Objects"></a>Surrogate Objects</h2><p>Forwarding not only mimics multiple inheritance, it also makes it possible to develop lightweight objects that represent or “cover” more substantial objects. The surrogate stands in for the other object and funnels messages to it.</p>
+<p>The proxy discussed in “Remote Messaging” in The Objective-C Programming Language is such a surrogate. A proxy takes care of the administrative details of forwarding messages to a remote receiver, making sure argument values are copied and retrieved across the connection, and so on. But it doesn’t attempt to do much else; it doesn’t duplicate the functionality of the remote object but simply gives the remote object a local address, a place where it can receive messages in another application.</p>
+<p>Other kinds of surrogate objects are also possible. Suppose, for example, that you have an object that manipulates a lot of data—perhaps it creates a complicated image or reads the contents of a file on disk. Setting this object up could be time-consuming, so you prefer to do it lazily—when it’s really needed or when system resources are temporarily idle. At the same time, you need at least a placeholder for this object in order for the other objects in the application to function properly.</p>
+<p>In this circumstance, you could initially create, not the full-fledged object, but a lightweight surrogate for it. This object could do some things on its own, such as answer questions about the data, but mostly it would just hold a place for the larger object and, when the time came, forward messages to it. When the surrogate’s forwardInvocation: method first receives a message destined for the other object, it would ensure that the object existed and would create it if it didn’t. All messages for the larger object go through the surrogate, so, as far as the rest of the program is concerned, the surrogate and the larger object would be the same.</p>
+<h2 id="Forwarding-and-Inheritance"><a href="#Forwarding-and-Inheritance" class="headerlink" title="Forwarding and Inheritance"></a>Forwarding and Inheritance</h2><p>尽管消息转发很像继承，但是 <code>NSObject</code> 还是不会将它们混淆的。看这个例子：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( [aWarrior respondsToSelector:<span class="keyword">@selector</span>(negotiate)] )</span><br><span class="line">	...</span><br><span class="line"><span class="comment">///return YES  (if Warrior inherit from Diplomat)</span></span><br><span class="line"><span class="comment">///return NO   (if Warrior just forward message to Diplomat as above)</span></span><br></pre></td></tr></table></figure>
+<p>如果你确实想瞒天过海的话，你需要重新实现 <code>respondsToSelector:</code> 和 <code>isKindOfClass:</code> 方法像下面那样：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)respondsToSelector:(SEL)aSelector</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ( [<span class="keyword">super</span> respondsToSelector:aSelector] )</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">/* Here, test whether the aSelector message can     *</span></span><br><span class="line"><span class="comment">         * be forwarded to another object and whether that  *</span></span><br><span class="line"><span class="comment">         * object can respond to it. Return YES if it can.  */</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除此之外，<code>instancesRespondToSelector:</code> 方法也应该实现转发算法。如果遵从协议，那么 <code>conformsToProtocol:</code> 方法也应该做同样的事情。同样的，如果一个对象转发它接受的任何远程消息，它得给出一个 <code>methodSignatureForSelector:</code> 来返回准确的方法描述，这个方法会最终响应被转发的消息。比如一个对象能给它的替代者对象转发消息，它需要像下面这样实现 <code>methodSignatureForSelector:</code>：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSMethodSignature</span>*)methodSignatureForSelector:(SEL)selector</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSMethodSignature</span>* signature = [<span class="keyword">super</span> methodSignatureForSelector:selector];</span><br><span class="line">    <span class="keyword">if</span> (!signature) &#123;</span><br><span class="line">       signature = [surrogate methodSignatureForSelector:selector];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> signature;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>考虑将这些转发消息的代码单独封装起来，当你需要使用它们的时候，直接调用它们就可以了。</p>
+<blockquote>
+<p>Note:  This is an advanced technique, suitable only for situations where no other solution is possible. It is not intended as a replacement for inheritance. If you must make use of this technique, make sure you fully understand the behavior of the class doing the forwarding and the class you’re forwarding to.</p>
+</blockquote>
+<p>最后，慎用黑魔法。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-Runtime"><span class="toc-number">1.</span> <span class="toc-text">What is Runtime</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-not-function-calling-but-message"><span class="toc-number">2.</span> <span class="toc-text">Why not function calling but message</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#id"><span class="toc-number">3.</span> <span class="toc-text">id</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#objc-object"><span class="toc-number">3.1.</span> <span class="toc-text">objc_object</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#objc-class"><span class="toc-number">3.2.</span> <span class="toc-text">objc_class</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SEL"><span class="toc-number">4.</span> <span class="toc-text">SEL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Message-Forwarding"><span class="toc-number">5.</span> <span class="toc-text">Message Forwarding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forwarding-and-Multiple-Inheritance"><span class="toc-number">6.</span> <span class="toc-text">Forwarding and Multiple Inheritance</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Surrogate-Objects"><span class="toc-number">7.</span> <span class="toc-text">Surrogate Objects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forwarding-and-Inheritance"><span class="toc-number">8.</span> <span class="toc-text">Forwarding and Inheritance</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2014/12/11/Runtime/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2014/12/11/Runtime/&text=Runtime"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2014/12/11/Runtime/&title=Runtime"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2014/12/11/Runtime/&is_video=false&description=Runtime"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Runtime&body=Check out this article: http://wongzigii.github.io/2014/12/11/Runtime/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2014/12/11/Runtime/&title=Runtime"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2014/12/11/Runtime/&title=Runtime"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2014/12/11/Runtime/&title=Runtime"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2014/12/11/Runtime/&title=Runtime"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2014/12/11/Runtime/&name=Runtime&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Zigii Wong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

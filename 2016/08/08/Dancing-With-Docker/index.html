@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Create a machine1docker-machine create --driver virtualbox default 这里 default 是这个 docker machine 的名字。 List available machines1docker-machine ls    NAME ACTIVE DRIVER STATE URL SWARM DOCKER ERRORS">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dancing With Docker">
+<meta property="og:url" content="http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="Create a machine1docker-machine create --driver virtualbox default 这里 default 是这个 docker machine 的名字。 List available machines1docker-machine ls    NAME ACTIVE DRIVER STATE URL SWARM DOCKER ERRORS">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-30T04:30:01.024Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dancing With Docker">
+<meta name="twitter:description" content="Create a machine1docker-machine create --driver virtualbox default 这里 default 是这个 docker machine 的名字。 List available machines1docker-machine ls    NAME ACTIVE DRIVER STATE URL SWARM DOCKER ERRORS">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Dancing With Docker</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/09/06/Understanding-How-Quick-works/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/04/23/Pod-install-vs-Pod-update/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&text=Dancing With Docker"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&title=Dancing With Docker"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&is_video=false&description=Dancing With Docker"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Dancing With Docker&body=Check out this article: http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&title=Dancing With Docker"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&title=Dancing With Docker"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&title=Dancing With Docker"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&title=Dancing With Docker"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&name=Dancing With Docker&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-machine"><span class="toc-number">1.</span> <span class="toc-text">Create a machine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-available-machines"><span class="toc-number">2.</span> <span class="toc-text">List available machines</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Connect-your-shell-to-the-new-machine"><span class="toc-number">3.</span> <span class="toc-text">Connect your shell to the new machine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-the-host-IP-address"><span class="toc-number">4.</span> <span class="toc-text">Get the host IP address</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH-connection"><span class="toc-number">5.</span> <span class="toc-text">SSH connection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Download-and-run-MySQL"><span class="toc-number">6.</span> <span class="toc-text">Download and run MySQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Remove-a-docker"><span class="toc-number">7.</span> <span class="toc-text">Remove a docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Start-an-existed-docker"><span class="toc-number">8.</span> <span class="toc-text">Start an existed docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stop-a-docker"><span class="toc-number">9.</span> <span class="toc-text">Stop a docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-runing-dockers"><span class="toc-number">10.</span> <span class="toc-text">List runing dockers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-help"><span class="toc-number">11.</span> <span class="toc-text">Docker help</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Links"><span class="toc-number">12.</span> <span class="toc-text">Links</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Dancing With Docker
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Silver Bullet</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-08-08T14:22:48.000Z" itemprop="datePublished">2016-08-08</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/docker/">docker</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Create-a-machine"><a href="#Create-a-machine" class="headerlink" title="Create a machine"></a>Create a machine</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create --driver virtualbox default</span><br></pre></td></tr></table></figure>
+<p>这里 default 是这个 docker machine 的名字。</p>
+<h3 id="List-available-machines"><a href="#List-available-machines" class="headerlink" title="List available machines"></a>List available machines</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine ls</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>ACTIVE</th>
+<th>DRIVER</th>
+<th>STATE</th>
+<th>URL</th>
+<th>SWARM</th>
+<th>DOCKER</th>
+<th>ERRORS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>default</td>
+<td>-</td>
+<td>virtualbox</td>
+<td>Running</td>
+<td>tcp://192.168.99.100:2376</td>
+<td></td>
+<td>v1.12.0</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>toolbox</td>
+<td>-</td>
+<td>virtualbox</td>
+<td>Running</td>
+<td>tcp://192.168.99.101:2376</td>
+<td></td>
+<td>Unknown</td>
+<td>Unable to query docker version: Get <a href="https://192.168.99.101:2376/v1.15/version" target="_blank" rel="noopener">https://192.168.99.101:2376/v1.15/version</a>: x509: certificate is valid for 192.168.99.100, not 192.168.99.101</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>发现第二次报错：</p>
+<blockquote>
+<p>Unable to query docker version: Get <a href="https://192.168.99.101:2376/v1.15/version" target="_blank" rel="noopener">https://192.168.99.101:2376/v1.15/version</a>: x509: certificate is valid for 192.168.99.100, not 192.168.99.101</p>
+</blockquote>
+<p><a href="https://github.com/docker/machine/issues/531#issuecomment-168356493" target="_blank" rel="noopener">解决办法</a>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine regenerate-certs default</span><br></pre></td></tr></table></figure>
+<h3 id="Connect-your-shell-to-the-new-machine"><a href="#Connect-your-shell-to-the-new-machine" class="headerlink" title="Connect your shell to the new machine"></a>Connect your shell to the new machine</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(docker-machine env default)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>如果不执行这个命令，会提示 <code>docker-machine</code> not found。  </p>
+<h3 id="Get-the-host-IP-address"><a href="#Get-the-host-IP-address" class="headerlink" title="Get the host IP address"></a>Get the host IP address</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine ip default</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>192.168.99.100</p>
+</blockquote>
+<h3 id="SSH-connection"><a href="#SSH-connection" class="headerlink" title="SSH connection"></a>SSH connection</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine ssh default</span><br></pre></td></tr></table></figure>
+<h3 id="Download-and-run-MySQL"><a href="#Download-and-run-MySQL" class="headerlink" title="Download and run MySQL"></a>Download and run MySQL</h3><p>如果本地没有合适的镜像，则会从 Docker-Hub 的仓库拉取，-p 参数指定映射的端口。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -e MYSQL_ROOT_PASSWORD=qweasd --name mysql -d -p=3306:3306 mysql</span><br></pre></td></tr></table></figure>
+<p>如果镜像已经在运行的状态下再 <code>docker run foo</code> 会报错：</p>
+<blockquote>
+<p>Error response from daemon: Conflict. The name “foo” is already in use by container f9e5798a82e0. You have to delete (or rename) that container to be able to reuse that name.</p>
+</blockquote>
+<p>请注意：</p>
+<p><code>docker run</code> 会新创建一个镜像</p>
+<p>而</p>
+<p><code>docker start</code> 只会将（已存在）停止的镜像重新启动。</p>
+<h3 id="Remove-a-docker"><a href="#Remove-a-docker" class="headerlink" title="Remove a docker"></a>Remove a docker</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm mysql</span><br></pre></td></tr></table></figure>
+<h3 id="Start-an-existed-docker"><a href="#Start-an-existed-docker" class="headerlink" title="Start an existed docker"></a>Start an existed docker</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start mysql</span><br></pre></td></tr></table></figure>
+<h3 id="Stop-a-docker"><a href="#Stop-a-docker" class="headerlink" title="Stop a docker"></a>Stop a docker</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop mysql</span><br></pre></td></tr></table></figure>
+<h3 id="List-runing-dockers"><a href="#List-runing-dockers" class="headerlink" title="List runing dockers"></a>List runing dockers</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>CONTAINER ID</th>
+<th>IMAGE</th>
+<th>COMMAND</th>
+<th>CREATED</th>
+<th>STATUS</th>
+<th>PORTS</th>
+<th>NAMES</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>83bcb5091ba1</td>
+<td>mysql</td>
+<td>“docker-entrypoint.sh”</td>
+<td>55 minutes ago</td>
+<td>Up 28 minutes</td>
+<td>0.0.0.0:3306-&gt;3306/tcp</td>
+<td>mysql</td>
+<td></td>
+</tr>
+<tr>
+<td>cd232a5729da</td>
+<td>daocloud.io/daocloud/daomonit</td>
+<td>“/usr/local/bin/daomo”</td>
+<td>About an hour ago</td>
+<td>Up 46 minutes</td>
+<td></td>
+<td>daomonit</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p><code>docker ps -a</code> 可以显示全部的镜像。</p>
+<h3 id="Docker-help"><a href="#Docker-help" class="headerlink" title="Docker help"></a>Docker help</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --<span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+<h3 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h3><p><a href="https://github.com/docker-library/mysql/issues/95" target="_blank" rel="noopener">https://github.com/docker-library/mysql/issues/95</a></p>
+<p><a href="https://hub.docker.com/r/mysql/mysql-server/" target="_blank" rel="noopener">https://hub.docker.com/r/mysql/mysql-server/</a></p>
+<p><a href="https://docs.docker.com/machine/get-started/" target="_blank" rel="noopener">https://docs.docker.com/machine/get-started/</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-machine"><span class="toc-number">1.</span> <span class="toc-text">Create a machine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-available-machines"><span class="toc-number">2.</span> <span class="toc-text">List available machines</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Connect-your-shell-to-the-new-machine"><span class="toc-number">3.</span> <span class="toc-text">Connect your shell to the new machine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-the-host-IP-address"><span class="toc-number">4.</span> <span class="toc-text">Get the host IP address</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH-connection"><span class="toc-number">5.</span> <span class="toc-text">SSH connection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Download-and-run-MySQL"><span class="toc-number">6.</span> <span class="toc-text">Download and run MySQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Remove-a-docker"><span class="toc-number">7.</span> <span class="toc-text">Remove a docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Start-an-existed-docker"><span class="toc-number">8.</span> <span class="toc-text">Start an existed docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stop-a-docker"><span class="toc-number">9.</span> <span class="toc-text">Stop a docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-runing-dockers"><span class="toc-number">10.</span> <span class="toc-text">List runing dockers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-help"><span class="toc-number">11.</span> <span class="toc-text">Docker help</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Links"><span class="toc-number">12.</span> <span class="toc-text">Links</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&text=Dancing With Docker"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&title=Dancing With Docker"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&is_video=false&description=Dancing With Docker"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Dancing With Docker&body=Check out this article: http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&title=Dancing With Docker"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&title=Dancing With Docker"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&title=Dancing With Docker"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&title=Dancing With Docker"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/&name=Dancing With Docker&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Zigii Wong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

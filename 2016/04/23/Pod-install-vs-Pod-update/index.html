@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Introduction对于很多经常使用 CocoaPods 开发者，有一个比较困惑的问题是：什么时候用 pod install 以及 pod update ? TL;DR:   使用 pod install 安装 新 的 pod，即使你之前已经通过 pod install 安装（或移除过）项目中的 pod 当且仅当你需要将 pods 升级到一个更新的版本的时候，使用 pod update [PO">
+<meta name="keywords" content="CocoaPods">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pod install vs. Pod update">
+<meta property="og:url" content="http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="Introduction对于很多经常使用 CocoaPods 开发者，有一个比较困惑的问题是：什么时候用 pod install 以及 pod update ? TL;DR:   使用 pod install 安装 新 的 pod，即使你之前已经通过 pod install 安装（或移除过）项目中的 pod 当且仅当你需要将 pods 升级到一个更新的版本的时候，使用 pod update [PO">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-30T04:07:13.518Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pod install vs. Pod update">
+<meta name="twitter:description" content="Introduction对于很多经常使用 CocoaPods 开发者，有一个比较困惑的问题是：什么时候用 pod install 以及 pod update ? TL;DR:   使用 pod install 安装 新 的 pod，即使你之前已经通过 pod install 安装（或移除过）项目中的 pod 当且仅当你需要将 pods 升级到一个更新的版本的时候，使用 pod update [PO">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Pod install vs. Pod update</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/08/08/Dancing-With-Docker/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&text=Pod install vs. Pod update"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&title=Pod install vs. Pod update"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&is_video=false&description=Pod install vs. Pod update"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pod install vs. Pod update&body=Check out this article: http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&title=Pod install vs. Pod update"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&title=Pod install vs. Pod update"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&title=Pod install vs. Pod update"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&title=Pod install vs. Pod update"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&name=Pod install vs. Pod update&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pod-install"><span class="toc-number">1.1.</span> <span class="toc-text">pod install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pod-outdated"><span class="toc-number">1.2.</span> <span class="toc-text">pod outdated</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pod-update"><span class="toc-number">1.3.</span> <span class="toc-text">pod update</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intended-usage"><span class="toc-number">2.</span> <span class="toc-text">Intended usage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commit-your-Podfile-lock"><span class="toc-number">3.</span> <span class="toc-text">Commit your Podfile.lock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scenario-Example"><span class="toc-number">4.</span> <span class="toc-text">Scenario Example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-exact-versions-in-the-Podfile-is-not-enough"><span class="toc-number">5.</span> <span class="toc-text">Using exact versions in the Podfile is not enough</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Pod install vs. Pod update
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Silver Bullet</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-04-23T07:19:53.000Z" itemprop="datePublished">2016-04-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/CocoaPods/">CocoaPods</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>对于很多经常使用 CocoaPods 开发者，有一个比较困惑的问题是：什么时候用 <code>pod install</code> 以及 <code>pod update</code> ?</p>
+<p><strong>TL;DR</strong>: </p>
+<ul>
+<li>使用 <code>pod install</code> 安装 <em>新</em> 的 pod，即使你之前已经通过 <code>pod install</code> 安装（或移除过）项目中的 pod</li>
+<li>当且仅当你需要将 pods 升级到一个更新的版本的时候，使用 <code>pod update [PODNAME]</code> </li>
+</ul>
+<h3 id="pod-install"><a href="#pod-install" class="headerlink" title="pod install"></a>pod install</h3><p>这个命令经常用于为新项目安装 pods，以及通过修改 Podfile 来增加，升级或移除 pod 的操作。</p>
+<ul>
+<li><p>每次当你运行 <code>pod install</code> 这个命令的时候，CocoaPods 会下载并安装你在 Podfile 中指定的 pods，并将这次安装的 pod 以及 pod 对应的版本写入 <code>Podfile.lock</code> 这个文件，这个文件的作用用于跟踪并锁定已安装 pod 的版本。</p>
+</li>
+<li><p>当你运行 <code>pod install</code> 时，CocoaPods 仅会对 <code>Podfile.lock</code> 文件里没有的 pod 安装。</p>
+<ul>
+<li>对于那些已经在 Podfile.lock 里的 pod，CocoaPods 会下载文件中指定的版本号，而不会尝试检查是否有新的版本</li>
+<li>对于那些还不在 Podfile.lock 里的 pod，CocoaPods 会尝试搜索你在 Podfile.lock 中指定的 版本 (<code>pod &#39;MyPod&#39;, &#39;~&gt; 1.2&#39;</code>)</li>
+</ul>
+</li>
+</ul>
+<h3 id="pod-outdated"><a href="#pod-outdated" class="headerlink" title="pod outdated"></a>pod outdated</h3><p>当你运行 <code>pod outdated</code>，CocoaPods 会将所有比 Podfile.lock 中指定的存在更新的版本的 pods 罗列出来。<br>这意味着如果你对 <em>这些 pod</em> 运行 <code>pod update PODNAME</code>，他们会被升级到更新的版本。<br>（注：仅会升级到仍满足 <code>Podfile.lock</code> 中版本的最新版本，举个例子，你在 Podfile.lock 中指定 <code>pod &#39;MyPod&#39;, &#39;~&gt;1.2&#39;</code>，那仅会升级到 <code>1.2</code> 的最新版本， 不会升级到 <code>1.3</code> 或 <code>1.4</code> ）</p>
+<h3 id="pod-update"><a href="#pod-update" class="headerlink" title="pod update"></a>pod update</h3><p>当你 <em>直接</em> 运行 <code>pod update</code>，CocoaPods 会尝试将 <code>PODNAME</code> 更新到<strong>最新</strong>版本。如上面所说的，仍会满足 Podfile.lock 的限制。</p>
+<h2 id="Intended-usage"><a href="#Intended-usage" class="headerlink" title="Intended usage"></a>Intended usage</h2><ul>
+<li><p><code>pod update PODNAME</code> 只会更新一个特定的 pod，相反，<code>pod install</code> 不会尝试去对已经安装过的 pod 更新。</p>
+</li>
+<li><p>当你在 Podfile 中增加了一个新的 pod 的时候，你应该用 <code>pod install</code>，而不是 <code>pod update</code>。</p>
+</li>
+<li><p>使用 <code>pod update</code> 当且仅当你需要更新 pod 的版本的时候。</p>
+</li>
+</ul>
+<h2 id="Commit-your-Podfile-lock"><a href="#Commit-your-Podfile-lock" class="headerlink" title="Commit your Podfile.lock"></a>Commit your Podfile.lock</h2><p><em>尽可能将 Podfile.lcok 文件提交到项目的目录中，否则，由于 Podfile.lock 锁定的 pod 的版本问题，可能会使项目构建失败。</em></p>
+<h2 id="Scenario-Example"><a href="#Scenario-Example" class="headerlink" title="Scenario Example"></a>Scenario Example</h2><p>例子略过，详情请看<a href="https://guides.cocoapods.org/using/pod-install-vs-update.html#scenario-example" target="_blank" rel="noopener">这里</a></p>
+<h2 id="Using-exact-versions-in-the-Podfile-is-not-enough"><a href="#Using-exact-versions-in-the-Podfile-is-not-enough" class="headerlink" title="Using exact versions in the Podfile is not enough"></a>Using exact versions in the Podfile is not enough</h2><p>你可能会想：如果我在 Podfile 中特定指定一个具体的版本，像 <code>pod &#39;A&#39;, &#39;1.0.0&#39;</code>这样，这样就保证了每个人都会用到相同版本的 pod 了。</p>
+<p>即使接着使用 <code>pod update</code> 来增加新的 pod，那也不会导致其他的 pod 升级。（因为你已经明确指定一个版本号了）</p>
+<p>事实真的是这样吗？不是的。</p>
+<p>一个典型的例子：</p>
+<p>如果 pod <code>A</code> 有一个依赖叫 pod <code>A2</code> – 在 <code>A.podspec</code> 声明为 <code>dependency &#39;A2&#39;, &#39;~&gt; 3.0&#39;</code>，在这个情况下，你在 Podfile 中指定 A 的版本如：<code>pod &#39;A&#39;, &#39;1.0.0&#39;</code>，User1 和 User2 确实使用的是同一个版本的 pod <code>A</code>。 但是：</p>
+<ul>
+<li>User1 可能会将 <code>A2</code> 升级到 <code>3.4</code>，因为它可能是那时候 <code>A2</code> 的最新版本。</li>
+<li>当新加入项目的 User2 运行 <code>pod install</code>，它也可能会安装 <code>A2</code> 的 <code>3.5</code> 版本，因为 <code>A2</code> 的维护者可能也发布了新的版本。</li>
+</ul>
+<p>这也就是 <code>Podfile.lock</code> 以及合理使用 <code>pod install</code> vs. <code>pod update</code> 的作用，来确保项目组里的每个人在各自的电脑上都使用相同的 pod 版本。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pod-install"><span class="toc-number">1.1.</span> <span class="toc-text">pod install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pod-outdated"><span class="toc-number">1.2.</span> <span class="toc-text">pod outdated</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pod-update"><span class="toc-number">1.3.</span> <span class="toc-text">pod update</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intended-usage"><span class="toc-number">2.</span> <span class="toc-text">Intended usage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commit-your-Podfile-lock"><span class="toc-number">3.</span> <span class="toc-text">Commit your Podfile.lock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scenario-Example"><span class="toc-number">4.</span> <span class="toc-text">Scenario Example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-exact-versions-in-the-Podfile-is-not-enough"><span class="toc-number">5.</span> <span class="toc-text">Using exact versions in the Podfile is not enough</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&text=Pod install vs. Pod update"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&title=Pod install vs. Pod update"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&is_video=false&description=Pod install vs. Pod update"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pod install vs. Pod update&body=Check out this article: http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&title=Pod install vs. Pod update"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&title=Pod install vs. Pod update"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&title=Pod install vs. Pod update"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&title=Pod install vs. Pod update"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/&name=Pod install vs. Pod update&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Zigii Wong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

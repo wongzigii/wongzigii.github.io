@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Package 一个 Packge 里面通常会包含源文件目录 Sources 以及一个单独的清单文件  Manifest file。  swift 自带 package 命令，因此可以用 swift package init 来快速初始化一个 Package。 初始化目录如下： 1234Souces    sourceA.swift    sourceB.swiftPackage.swift 其中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Commonly Confused Words in Swift">
+<meta property="og:url" content="http://wongzigii.github.io/2018/05/28/Swift-Frameworks/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="Package 一个 Packge 里面通常会包含源文件目录 Sources 以及一个单独的清单文件  Manifest file。  swift 自带 package 命令，因此可以用 swift package init 来快速初始化一个 Package。 初始化目录如下： 1234Souces    sourceA.swift    sourceB.swiftPackage.swift 其中">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8c7526ebgy1fsautl5jmfj20x60mc0tm.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8c7526ebgy1fsautl4sykj20x60kf0tu.jpg">
+<meta property="og:updated_time" content="2019-05-31T03:35:18.329Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Commonly Confused Words in Swift">
+<meta name="twitter:description" content="Package 一个 Packge 里面通常会包含源文件目录 Sources 以及一个单独的清单文件  Manifest file。  swift 自带 package 命令，因此可以用 swift package init 来快速初始化一个 Package。 初始化目录如下： 1234Souces    sourceA.swift    sourceB.swiftPackage.swift 其中">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/8c7526ebgy1fsautl5jmfj20x60mc0tm.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Commonly Confused Words in Swift</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/04/09/Mach-O-Files/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&text=Commonly Confused Words in Swift"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&title=Commonly Confused Words in Swift"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&is_video=false&description=Commonly Confused Words in Swift"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Commonly Confused Words in Swift&body=Check out this article: http://wongzigii.github.io/2018/05/28/Swift-Frameworks/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&title=Commonly Confused Words in Swift"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&title=Commonly Confused Words in Swift"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&title=Commonly Confused Words in Swift"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&title=Commonly Confused Words in Swift"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&name=Commonly Confused Words in Swift&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Package"><span class="toc-number">1.</span> <span class="toc-text">Package</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Library"><span class="toc-number">2.</span> <span class="toc-text">Library</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linking-Library"><span class="toc-number">2.1.</span> <span class="toc-text">Linking Library</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Framework"><span class="toc-number">3.</span> <span class="toc-text">Framework</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Module"><span class="toc-number">4.</span> <span class="toc-text">Module</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Commonly Confused Words in Swift
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Silver Bullet</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-05-28T13:56:42.000Z" itemprop="datePublished">2018-05-28</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Package"><a href="#Package" class="headerlink" title="Package"></a>Package</h2><blockquote>
+<p>一个 Packge 里面通常会包含源文件目录 Sources 以及一个单独的<a href="https://zh.wikipedia.org/wiki/%E6%B8%85%E5%8D%95%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">清单文件</a>  Manifest file。</p>
+</blockquote>
+<p>swift 自带 package 命令，因此可以用 <code>swift package init</code> 来快速初始化一个 Package。</p>
+<p>初始化目录如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Souces</span></span><br><span class="line">    sourceA.swift</span><br><span class="line">    sourceB.swift</span><br><span class="line"><span class="type">Package</span>.swift</span><br></pre></td></tr></table></figure>
+<p>其中 <code>Package.swift</code> 是我们上面提过的清单文件。清单文件主要用来定义或拓展一些规范。</p>
+<p><a href="https://github.com/apple/swift-package-manager/blob/master/Documentation/PackageDescriptionV4.md#package-manifest-file-format-reference" target="_blank" rel="noopener">里面</a> 包含有很多属性，例如：</p>
+<ul>
+<li>name: The name of the package.</li>
+<li>pkgConfig: Name of the pkg-config (.pc) file to get the additional flags for system modules.</li>
+<li>providers: Defines hints to display for installing system modules.</li>
+<li>products: The products vended by the package.</li>
+<li>dependencies: The external package dependencies.</li>
+<li>targets: The list of targets in the package.</li>
+<li>swiftLanguageVersions: Specifies the set of supported Swift language versions.</li>
+</ul>
+<h2 id="Library"><a href="#Library" class="headerlink" title="Library"></a>Library</h2><h3 id="Linking-Library"><a href="#Linking-Library" class="headerlink" title="Linking Library"></a>Linking Library</h3><p>我们知道从源代码到可执行文件的过程需要通过几个步骤：</p>
+<blockquote>
+<p>源码 - 编译预处理 - 编译程序(*.s) - 优化程序 - 汇编程序(*.o) - 链接程序 - 可执行文件（*.out）</p>
+</blockquote>
+<p>其中链接部分实质是将很多需要的 <em>.o 文件链接起来，最后生成 </em>.out 可执行文件。</p>
+<ul>
+<li>Static linking 静态链接</li>
+</ul>
+<p><img src="http://ww1.sinaimg.cn/large/8c7526ebgy1fsautl5jmfj20x60mc0tm.jpg" alt></p>
+<p>首先，静态意味着源代码被编译后，会被<strong>全部</strong>塞进最终的二进制文件中，最后包体积会相对比较大，由于 library 包含的内容多，因此加载起来会比较慢。还有个问题就是，如果尝试链接两个相同的 library 会导致 symbol duplicate。你一定遇到过这种情况，就是有的时候在项目中创建了两个相同的文件，编译时就会报错。</p>
+<ul>
+<li>Dynamic linking 动态链接</li>
+</ul>
+<p>跟静态链接库相对的，是动态链接库。</p>
+<p><img src="http://ww1.sinaimg.cn/large/8c7526ebgy1fsautl4sykj20x60kf0tu.jpg" alt></p>
+<p>动态链接库只会在运行时加载，因此并不会因为合并到二进制文件中而导致包体积增加。</p>
+<h2 id="Framework"><a href="#Framework" class="headerlink" title="Framework"></a>Framework</h2><blockquote>
+<p>Framework 其实是一个包含很多东西的 <em>文件夹</em>，里面可以包括有：动态链接库，nib 文件，图片资源文件，本地化文件，头文件以及相关文档。</p>
+</blockquote>
+<p>如果你使用过 <a href="https://github.com/Carthage/Carthage" target="_blank" rel="noopener">Carthage</a> ，那你一定见过 <code>/Carthage/Build/</code> 目录下的 xxx.Framework 文件。</p>
+<p>Framework 按我个人的理解来说，其实更像是开发者开发好的框架，开发者已经（根据 Library）开发好接口，你去调用就好了。</p>
+<p>我们经常使用的 UIKit，Foundation 等等都是 Framework，Framework 其中里面包含有图片素材等其他资源文件。</p>
+<h2 id="Module"><a href="#Module" class="headerlink" title="Module"></a>Module</h2><blockquote>
+<p>Swift organizes code into modules. Each module specifies a namespace and enforces access controls on which parts of that code can be used outside of the module.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Alamofire</span><br><span class="line"><span class="keyword">import</span> UIKit</span><br></pre></td></tr></table></figure>
+<p>我们首先要知道命名空间这个概念，在没有 Module 之前 （Objective-C），我们需要手动地用 #import 来 import framework，还要手动在 Xcode 里 链接 framework’s binary。编译时，有时候会由于两个 framework 里使用了相同的宏定义而导致冲突，因此你需要在宏前面加上你独特的前缀，如 <code>NS_MY_MACRONAME</code>。</p>
+<p>而 Swift 里的命名空间是隐式的，所以当你调用 <code>NSLog</code> 函数的时候，实际上是 <code>Foundation.NSLog</code>。</p>
+<p>举个例子，假设两个 modules，moduleA 和 moduleB 都有两个相同的函数，都叫 foo，这时候可以在函数前面添加 module 的命名空间来区分开来。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> moduleA</span><br><span class="line"><span class="keyword">import</span> moduleB</span><br><span class="line"></span><br><span class="line">moduleA.foo()</span><br><span class="line">moduleB.foo()</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Package"><span class="toc-number">1.</span> <span class="toc-text">Package</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Library"><span class="toc-number">2.</span> <span class="toc-text">Library</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linking-Library"><span class="toc-number">2.1.</span> <span class="toc-text">Linking Library</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Framework"><span class="toc-number">3.</span> <span class="toc-text">Framework</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Module"><span class="toc-number">4.</span> <span class="toc-text">Module</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&text=Commonly Confused Words in Swift"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&title=Commonly Confused Words in Swift"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&is_video=false&description=Commonly Confused Words in Swift"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Commonly Confused Words in Swift&body=Check out this article: http://wongzigii.github.io/2018/05/28/Swift-Frameworks/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&title=Commonly Confused Words in Swift"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&title=Commonly Confused Words in Swift"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&title=Commonly Confused Words in Swift"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&title=Commonly Confused Words in Swift"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2018/05/28/Swift-Frameworks/&name=Commonly Confused Words in Swift&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Zigii Wong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

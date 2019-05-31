@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Makefile is a simple way to organize code compilation. This tutorial does not even scratch the surface of what is possible using make, but is intended as a starters guide so that you can quickly and e">
+<meta name="keywords" content="makefile">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A Simple Makefile Tutorial">
+<meta property="og:url" content="http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="Makefile is a simple way to organize code compilation. This tutorial does not even scratch the surface of what is possible using make, but is intended as a starters guide so that you can quickly and e">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-30T04:55:23.357Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A Simple Makefile Tutorial">
+<meta name="twitter:description" content="Makefile is a simple way to organize code compilation. This tutorial does not even scratch the surface of what is possible using make, but is intended as a starters guide so that you can quickly and e">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>A Simple Makefile Tutorial</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2015/10/25/SegmentFault-Hackathon-2015/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2015/04/17/What-is-a-meta-class-in-Objective-C/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&text=A Simple Makefile Tutorial"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&title=A Simple Makefile Tutorial"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&is_video=false&description=A Simple Makefile Tutorial"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=A Simple Makefile Tutorial&body=Check out this article: http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&title=A Simple Makefile Tutorial"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&title=A Simple Makefile Tutorial"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&title=A Simple Makefile Tutorial"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&title=A Simple Makefile Tutorial"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&name=A Simple Makefile Tutorial&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hellomake-c"><span class="toc-number">1.</span> <span class="toc-text">hellomake.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hellofunc-c"><span class="toc-number">2.</span> <span class="toc-text">hellofunc.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hellomake-h"><span class="toc-number">3.</span> <span class="toc-text">hellomake.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile-1"><span class="toc-number">4.</span> <span class="toc-text">Makefile 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile-2"><span class="toc-number">5.</span> <span class="toc-text">Makefile 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile-3"><span class="toc-number">6.</span> <span class="toc-text">Makefile 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile-4"><span class="toc-number">7.</span> <span class="toc-text">Makefile 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile-5"><span class="toc-number">8.</span> <span class="toc-text">Makefile 5</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        A Simple Makefile Tutorial
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Silver Bullet</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2015-05-29T14:57:19.000Z" itemprop="datePublished">2015-05-29</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/makefile/">makefile</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Makefile is a simple way to organize code compilation. This tutorial does not even scratch the surface of what is possible using make, but is intended as a starters guide so that you can quickly and easily create your own makefiles for small to medium-sized projects.</p>
+<p>Let’s start with the following three files, <code>hellomake.c</code>, <code>hellofunc.c</code>, and <code>hellomake.h</code>, which would represent a typical main program, some functional code in a separate file, and an include file, respectively.</p>
+<h2 id="hellomake-c"><a href="#hellomake-c" class="headerlink" title="hellomake.c"></a>hellomake.c</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;hellomake.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// call a function in another file</span></span><br><span class="line">  myPrintHelloMake();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="hellofunc-c"><a href="#hellofunc-c" class="headerlink" title="hellofunc.c"></a>hellofunc.c</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;hellomake.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myPrintHelloMake</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Hello makefiles!\n"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="hellomake-h"><a href="#hellomake-h" class="headerlink" title="hellomake.h"></a>hellomake.h</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">example include file</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myPrintHelloMake</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>Normally, you would compile this collection of code by executing the following command:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -o hellomake hellomake.c hellofunc.c -I</span><br></pre></td></tr></table></figure>
+<p>This compiles the two <code>.c</code> files and names the executable hellomake. The -I. is included so that gcc will look in the current directory (.) for the include file <code>hellomake.h</code>. Without a makefile, the typical approach to the test/modify/debug cycle is to use the up arrow in a terminal to go back to your last compile command so you don’t have to type it each time, especially once you’ve added a few more <code>.c</code> files to the mix.</p>
+<p>Unfortunately, this approach to compilation has two downfalls. First, if you lose the compile command or switch computers you have to retype it from scratch, which is inefficient at best. Second, if you are only making changes to one <code>.c</code> file, recompiling all of them every time is also time-consuming and inefficient. So, it’s time to see what we can do with a makefile.</p>
+<p>The simplest makefile you could create would look something like:</p>
+<h2 id="Makefile-1"><a href="#Makefile-1" class="headerlink" title="Makefile 1"></a>Makefile 1</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hellomake: hellomake.c hellofunc.c</span><br><span class="line">     gcc -o hellomake hellomake.c hellofunc.c -I.</span><br></pre></td></tr></table></figure>
+<p>If you put this rule into a file called Makefile or makefile and then type make on the command line it will execute the compile command as you have written it in the makefile. Note that make with no arguments executes the first rule in the file. Furthermore, by putting the list of files on which the command depends on the first line after the <code>:</code>, make knows that the rule hellomake needs to be executed if any of those files change. Immediately, you have solved problem #1 and can avoid using the up arrow repeatedly, looking for your last compile command. However, the system is still not being efficient in terms of compiling only the latest changes.</p>
+<p>One very important thing to note is that there is a tab before the gcc command in the makefile. There must be a tab at the beginning of any command, and make will not be happy if it’s not there.</p>
+<p>In order to be a bit more efficient, let’s try the following:</p>
+<h2 id="Makefile-2"><a href="#Makefile-2" class="headerlink" title="Makefile 2"></a>Makefile 2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CC=gcc</span><br><span class="line">CFLAGS=-I.</span><br><span class="line"></span><br><span class="line">hellomake: hellomake.o hellofunc.o</span><br><span class="line">     $(CC) -o hellomake hellomake.o hellofunc.o -I.</span><br></pre></td></tr></table></figure>
+<p>So now we’ve defined some constants <code>CC</code> and <code>CFLAGS</code>. It turns out these are special constants that communicate to make how we want to compile the files <code>hellomake.c</code> and <code>hellofunc.c</code>. In particular, the macro <code>CC</code> is the C compiler to use, and <code>CFLAGS</code> is the list of flags to pass to the compilation command. By putting the object <code>files--hellomake.o</code> and <code>hellofunc.o</code> in the dependency list and in the rule, make knows it must first compile the <code>.c</code> versions individually, and then build the executable <code>hellomake</code>.</p>
+<p>Using this form of makefile is sufficient for most small scale projects. However, there is one thing missing: dependency on the include files. If you were to make a change to <code>hellomake.h</code>, for example, make would not recompile the <code>.c</code> files, even though they needed to be. In order to fix this, we need to tell make that all <code>.c</code> files depend on certain <code>.h</code> files. We can do this by writing a simple rule and adding it to the makefile.</p>
+<h2 id="Makefile-3"><a href="#Makefile-3" class="headerlink" title="Makefile 3"></a>Makefile 3</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CC=gcc</span><br><span class="line">CFLAGS=-I.</span><br><span class="line">DEPS = hellomake.h</span><br><span class="line"></span><br><span class="line">%.o: %.c $(DEPS)</span><br><span class="line">	$(CC) -c -o $@ $&lt; $(CFLAGS)</span><br><span class="line"></span><br><span class="line">hellomake: hellomake.o hellofunc.o </span><br><span class="line">	gcc -o hellomake hellomake.o hellofunc.o -I.</span><br></pre></td></tr></table></figure>
+<p>This addition first creates the macro <code>DEPS</code>, which is the set of <code>.h</code> files on which the <code>.c</code> files depend. Then we define a rule that applies to all files ending in the <code>.o</code> suffix. The rule says that the <code>.o</code> file depends upon the <code>.c</code> version of the file and the <code>.h</code> files included in the <code>DEPS</code> macro. The rule then says that to generate the <code>.o</code> file, make needs to compile the <code>.c</code> file using the compiler defined in the <code>CC</code> macro. The <code>-c</code> flag says to generate the object file, the <code>-o $@</code> says to put the output of the compilation in the file named on the left side of the <code>:</code>, the <code>$&lt;</code> is the first item in the dependencies list, and the <code>CFLAGS</code> macro is defined as above.</p>
+<p>As a final simplification, let’s use the special macros <code>$@</code> and <code>$^</code>, which are the left and right sides of the <code>:</code>, respectively, to make the overall compilation rule more general. In the example below, all of the include files should be listed as part of the macro <code>DEPS</code>, and all of the object files should be listed as part of the macro <code>OBJ</code>.</p>
+<h2 id="Makefile-4"><a href="#Makefile-4" class="headerlink" title="Makefile 4"></a>Makefile 4</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CC=gcc</span><br><span class="line">CFLAGS=-I.</span><br><span class="line">DEPS = hellomake.h</span><br><span class="line">OBJ = hellomake.o hellofunc.o </span><br><span class="line"></span><br><span class="line">%.o: %.c $(DEPS)</span><br><span class="line">	$(CC) -c -o $@ $&lt; $(CFLAGS)</span><br><span class="line"></span><br><span class="line">hellomake: $(OBJ)</span><br><span class="line">	gcc -o $@ $^ $(CFLAGS)</span><br></pre></td></tr></table></figure>
+<p>So what if we want to start putting our <code>.h</code> files in an include directory, our source code in a src directory, and some local libraries in a lib directory? Also, can we somehow hide those annoying <code>.o</code> files that hang around all over the place? The answer, of course, is yes. The following makefile defines paths to the include and lib directories, and places the object files in an obj subdirectory within the src directory. It also has a macro defined for any libraries you want to include, such as the math library -lm. This makefile should be located in the <code>src</code> directory. Note that it also includes a rule for cleaning up your source and object directories if you type <code>make clean</code>. The <code>.PHONY</code> rule keeps make from doing something with a file named clean.</p>
+<h2 id="Makefile-5"><a href="#Makefile-5" class="headerlink" title="Makefile 5"></a>Makefile 5</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">IDIR =../include</span><br><span class="line">CC=gcc</span><br><span class="line">CFLAGS=-I$(IDIR)</span><br><span class="line"></span><br><span class="line">ODIR=obj</span><br><span class="line">LDIR =../lib</span><br><span class="line"></span><br><span class="line">LIBS=-lm</span><br><span class="line"></span><br><span class="line">_DEPS = hellomake.h</span><br><span class="line">DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))</span><br><span class="line"></span><br><span class="line">_OBJ = hellomake.o hellofunc.o </span><br><span class="line">OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$(ODIR)/%.o: %.c $(DEPS)</span><br><span class="line">	$(CC) -c -o $@ $&lt; $(CFLAGS)</span><br><span class="line"></span><br><span class="line">hellomake: $(OBJ)</span><br><span class="line">	gcc -o $@ $^ $(CFLAGS) $(LIBS)</span><br><span class="line"></span><br><span class="line">.PHONY: clean</span><br><span class="line"></span><br><span class="line">clean:</span><br><span class="line">	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~</span><br></pre></td></tr></table></figure>
+<p>So now you have a perfectly good makefile that you can modify to manage small and medium-sized software projects. You can add multiple rules to a makefile; you can even create rules that call other rules. For more information on makefiles and the <code>make</code> function, check out the <a href="http://www.gnu.org/software/make/manual/make.html" target="_blank" rel="noopener">GNU Make Manual</a>, which will tell you more than you ever wanted to know (really).</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hellomake-c"><span class="toc-number">1.</span> <span class="toc-text">hellomake.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hellofunc-c"><span class="toc-number">2.</span> <span class="toc-text">hellofunc.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hellomake-h"><span class="toc-number">3.</span> <span class="toc-text">hellomake.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile-1"><span class="toc-number">4.</span> <span class="toc-text">Makefile 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile-2"><span class="toc-number">5.</span> <span class="toc-text">Makefile 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile-3"><span class="toc-number">6.</span> <span class="toc-text">Makefile 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile-4"><span class="toc-number">7.</span> <span class="toc-text">Makefile 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile-5"><span class="toc-number">8.</span> <span class="toc-text">Makefile 5</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&text=A Simple Makefile Tutorial"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&title=A Simple Makefile Tutorial"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&is_video=false&description=A Simple Makefile Tutorial"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=A Simple Makefile Tutorial&body=Check out this article: http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&title=A Simple Makefile Tutorial"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&title=A Simple Makefile Tutorial"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&title=A Simple Makefile Tutorial"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&title=A Simple Makefile Tutorial"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/&name=A Simple Makefile Tutorial&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Zigii Wong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

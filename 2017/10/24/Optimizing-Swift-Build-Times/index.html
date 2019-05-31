@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="原文地址 目录 函数和表达式的类型检查 关注那些编译很慢的文件 只构建你需要的架构 dSYM 的生成 编译器优化等级 第三方依赖 模块化 关于 XIBs 文件 Xcode Schemes 使用新的 Xcode 编译系统 启用 Swift 的 Concurrent Swift Build Tasks 在 Xcode 查看你的编译时间  函数和表达式的类型检查Swift 的构建时间如此之长主要的原因是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&lt;译&gt; Optimizing Swift build times">
+<meta property="og:url" content="http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="原文地址 目录 函数和表达式的类型检查 关注那些编译很慢的文件 只构建你需要的架构 dSYM 的生成 编译器优化等级 第三方依赖 模块化 关于 XIBs 文件 Xcode Schemes 使用新的 Xcode 编译系统 启用 Swift 的 Concurrent Swift Build Tasks 在 Xcode 查看你的编译时间  函数和表达式的类型检查Swift 的构建时间如此之长主要的原因是">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/times@2x.png">
+<meta property="og:image" content="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/xcode-warning@2x.png">
+<meta property="og:image" content="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/active-arch@2x.png">
+<meta property="og:image" content="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/dsym@2x.png">
+<meta property="og:image" content="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/wmo_9@2x.png">
+<meta property="og:image" content="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/app-scheme@2x.png">
+<meta property="og:image" content="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/app-unit-test-flow@2x.png">
+<meta property="og:image" content="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/app-all-tests-flow@2x.png">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/12/25/1608bbde531e79a8?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/time@2x.png">
+<meta property="og:updated_time" content="2019-05-30T04:07:13.518Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="&lt;译&gt; Optimizing Swift build times">
+<meta name="twitter:description" content="原文地址 目录 函数和表达式的类型检查 关注那些编译很慢的文件 只构建你需要的架构 dSYM 的生成 编译器优化等级 第三方依赖 模块化 关于 XIBs 文件 Xcode Schemes 使用新的 Xcode 编译系统 启用 Swift 的 Concurrent Swift Build Tasks 在 Xcode 查看你的编译时间  函数和表达式的类型检查Swift 的构建时间如此之长主要的原因是">
+<meta name="twitter:image" content="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/times@2x.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>&lt;译&gt; Optimizing Swift build times</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/11/24/Some-mistakes-in-RxSwift-you-want-to-avoid/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/03/14/VPS/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&text=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&title=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&is_video=false&description=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&lt;译&gt; Optimizing Swift build times&body=Check out this article: http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&title=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&title=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&title=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&title=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&name=&lt;译&gt; Optimizing Swift build times&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数和表达式的类型检查"><span class="toc-number">2.</span> <span class="toc-text">函数和表达式的类型检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关注那些编译很慢的文件"><span class="toc-number">3.</span> <span class="toc-text">关注那些编译很慢的文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#只构建你需要的架构"><span class="toc-number">4.</span> <span class="toc-text">只构建你需要的架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dSYM-的生成"><span class="toc-number">5.</span> <span class="toc-text">dSYM 的生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译器优化等级"><span class="toc-number">6.</span> <span class="toc-text">编译器优化等级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对使用-CocoaPods-的编译器优化"><span class="toc-number">6.1.</span> <span class="toc-text">对使用 CocoaPods 的编译器优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三方依赖"><span class="toc-number">7.</span> <span class="toc-text">第三方依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块化"><span class="toc-number">8.</span> <span class="toc-text">模块化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XIBs"><span class="toc-number">9.</span> <span class="toc-text">XIBs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Xcode-Schemes"><span class="toc-number">10.</span> <span class="toc-text">Xcode Schemes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#App"><span class="toc-number">10.1.</span> <span class="toc-text">App</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#App-单元测试（App-Unit-Test-Flow）"><span class="toc-number">10.2.</span> <span class="toc-text">App - 单元测试（App - Unit Test Flow）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#App-全部测试"><span class="toc-number">10.3.</span> <span class="toc-text">App - 全部测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用新的-Xcode-编译系统"><span class="toc-number">11.</span> <span class="toc-text">使用新的 Xcode 编译系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启用-Swift-的-Concurrent-Swift-Build-Tasks"><span class="toc-number">12.</span> <span class="toc-text">启用 Swift 的 Concurrent Swift Build Tasks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在-Xcode-显示编译时间"><span class="toc-number">13.</span> <span class="toc-text">在 Xcode 显示编译时间</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        &lt;译&gt; Optimizing Swift build times
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Silver Bullet</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-10-24T09:40:22.000Z" itemprop="datePublished">2017-10-24</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><a href="https://github.com/fastred/Optimizing-Swift-Build-Times" target="_blank" rel="noopener">原文地址</a></p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>函数和表达式的类型检查</li>
+<li>关注那些编译很慢的文件</li>
+<li>只构建你需要的架构</li>
+<li>dSYM 的生成</li>
+<li>编译器优化等级</li>
+<li>第三方依赖</li>
+<li>模块化</li>
+<li>关于 XIBs 文件</li>
+<li>Xcode Schemes</li>
+<li>使用新的 Xcode 编译系统</li>
+<li>启用 Swift 的 Concurrent Swift Build Tasks</li>
+<li>在 Xcode 查看你的编译时间</li>
+</ul>
+<h2 id="函数和表达式的类型检查"><a href="#函数和表达式的类型检查" class="headerlink" title="函数和表达式的类型检查"></a>函数和表达式的类型检查</h2><p>Swift 的构建时间如此之长主要的原因是因为需要做复杂的类型检查。Xcode 默认不会告诉你哪些代码需要很长时间来编译。你可以通过在 build settings 中的 <code>Other Swift Flags</code> 添加以下参数来查看：</p>
+<ul>
+<li><code>-Xfrontend -warn-long-function-bodies=100</code> （100 指 100ms，你也可以根据需要调整这个值）</li>
+<li><code>-Xfrontend -warn-long-expression-type-checking=100</code></li>
+</ul>
+<p><img src="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/times@2x.png" alt></p>
+<p>现在，重新构建你的项目，然后你就会看见像这样的错误警告：</p>
+<p><img src="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/xcode-warning@2x.png" alt></p>
+<p>下一步就是如何定位那些编译很慢的代码。<a href="https://www.swiftbysundell.com/posts/improving-swift-compile-times" target="_blank" rel="noopener">John Sundell</a> 和 <a href="https://medium.com/@RobertGummesson/regarding-swift-build-time-optimizations-fc92cdd91e31" target="_blank" rel="noopener">Robert Gummesson</a> 的文章可以帮上你的忙。</p>
+<p>更多资源：</p>
+<ul>
+<li><a href="http://khanlou.com/2016/12/guarding-against-long-compiles/" target="_blank" rel="noopener">Guarding Against Long Compiles</a></li>
+<li><a href="https://www.jessesquires.com/blog/measuring-compile-times-xcode9/" target="_blank" rel="noopener">Measuring Swift compile times in Xcode 9 · Jesse Squires</a></li>
+<li><a href="https://www.swiftbysundell.com/posts/improving-swift-compile-times" target="_blank" rel="noopener">Improving Swift compile times — Swift by Sundell</a></li>
+<li><a href="https://medium.com/swift-programming/swift-build-time-optimizations-part-2-37b0a7514cbe" target="_blank" rel="noopener">Swift build time optimizations — Part 2</a></li>
+</ul>
+<h2 id="关注那些编译很慢的文件"><a href="#关注那些编译很慢的文件" class="headerlink" title="关注那些编译很慢的文件"></a>关注那些编译很慢的文件</h2><p>上一章介绍了如何在函数及表达式层面改善编译时间，但有时候你也想知道某一个单独文件的总编译时间是多少。</p>
+<p>现在，打开命令行，通过以下命令来收集项目文件的编译时间：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">xcodebuild -destination <span class="string">'platform=iOS Simulator,name=iPhone 8'</span> \</span><br><span class="line">  -sdk iphonesimulator -project YourProject.xcodeproj \</span><br><span class="line">  -scheme YourScheme -configuration Debug \</span><br><span class="line">  clean build \</span><br><span class="line">  OTHER_SWIFT_FLAGS=<span class="string">"-driver-time-compilation \</span></span><br><span class="line"><span class="string">    -Xfrontend -debug-time-function-bodies \</span></span><br><span class="line"><span class="string">    -Xfrontend -debug-time-compilation"</span> | \</span><br><span class="line">tee profile.log</span><br></pre></td></tr></table></figure>
+<p>(如果你使用的是 workspace，请自行把 <code>-project YourProject.xcodeproj</code> 替换成 <code>-workspace YourProject.xcworkspace</code>)</p>
+<p>然后我们就可以把有用的编译时间信息提取出来：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2.7288 (  0.3%)  &#123;compile: Account.o &lt;= Account.swift &#125;</span><br><span class="line">2.7221 (  0.3%)  &#123;compile: MessageTag.o &lt;= MessageTag.swift &#125;</span><br><span class="line">2.7089 (  0.3%)  &#123;compile: EdgeShadowLayer.o &lt;= EdgeShadowLayer.swift &#125;</span><br><span class="line">2.4605 (  0.3%)  &#123;compile: SlideInPresentationAnimator.o &lt;= SlideInPresentationAnimator.swift &#125;</span><br></pre></td></tr></table></figure>
+<p>更多资源：</p>
+<ul>
+<li><a href="https://koke.me/2017/03/24/diving-into-swift-compiler-performance/" target="_blank" rel="noopener">Diving into Swift compiler performance</a></li>
+</ul>
+<h2 id="只构建你需要的架构"><a href="#只构建你需要的架构" class="headerlink" title="只构建你需要的架构"></a>只构建你需要的架构</h2><p>Xcode 默认会帮你设置好这个编译器参数，但是你应该检查一下以确保万无一失。你的项目在 Debug 模式下应该只构建那些需要的架构。</p>
+<p><img src="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/active-arch@2x.png" alt></p>
+<p>更多资源：</p>
+<ul>
+<li><a href="http://samwize.com/2015/01/14/what-is-build-active-architecture-only/" target="_blank" rel="noopener">What is Build Active Architecture Only</a></li>
+</ul>
+<h2 id="dSYM-的生成"><a href="#dSYM-的生成" class="headerlink" title="dSYM 的生成"></a>dSYM 的生成</h2><p>在新的项目中，dSYM 文件默认不会在 Debug 模式下自动生成。但是，我们有的时候需要在真机调试中生成这个文件来分析程序的崩溃和闪退原因。</p>
+<p>因此，推荐设置如下：</p>
+<p><img src="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/dsym@2x.png" alt></p>
+<p>更多资源：</p>
+<ul>
+<li><a href="http://holko.pl/2016/10/18/dsym-debug/" target="_blank" rel="noopener">Speeding up Development Build Times With Conditional dSYM Generation</a></li>
+</ul>
+<h2 id="编译器优化等级"><a href="#编译器优化等级" class="headerlink" title="编译器优化等级"></a>编译器优化等级</h2><p>另一个常见的技巧是：</p>
+<ul>
+<li>Debug 模式下，将 <code>Optimization Level</code> 设置成 <code>Fast, Whole Module Optimization</code></li>
+<li>只在 Debug 模式下，在 <code>Other Swift Flags</code> 中添加 <code>-Onone</code></li>
+</ul>
+<p><img src="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/wmo_9@2x.png" alt></p>
+<p>这样能使编译器：</p>
+<blockquote>
+<p>It runs one compiler job with all source files in a module instead of one job per source file</p>
+<p>Less parallelism but also less duplicated work</p>
+<p>It’s a bug that it’s faster; we need to do less duplicated work. Improving this is a goal going forward</p>
+</blockquote>
+<p>更多资源：</p>
+<ul>
+<li><a href="http://developear.com/blog/2016/12/30/Speed-Swift-Compilation.html" target="_blank" rel="noopener">Developear - Speeding Up Compile Times of Swift Projects</a></li>
+<li><a href="https://twitter.com/slava_pestov/status/911747257103302656" target="_blank" rel="noopener">Slava Pestov on Twitter: “@iamkevb It runs one compiler job with all source files in a module instead of one job per source file”</a></li>
+</ul>
+<h3 id="对使用-CocoaPods-的编译器优化"><a href="#对使用-CocoaPods-的编译器优化" class="headerlink" title="对使用 CocoaPods 的编译器优化"></a>对使用 CocoaPods 的编译器优化</h3><p>如果你的项目使用 CocoaPods，你也该考虑把 Pod 项目的编译器优化打开。你可以通过在 <code>Podfile</code>  文件中添加一个 <code>post_install</code> 的 hook 来实现：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">post_install <span class="keyword">do</span> <span class="params">|installer|</span></span><br><span class="line">  installer.pods_project.targets.each <span class="keyword">do</span> <span class="params">|target|</span></span><br><span class="line">    target.build_configurations.each <span class="keyword">do</span> <span class="params">|config|</span></span><br><span class="line">      <span class="keyword">if</span> config.name == <span class="string">'Debug'</span></span><br><span class="line">        config.build_settings[<span class="string">'OTHER_SWIFT_FLAGS'</span>] = [<span class="string">'$(inherited)'</span>, <span class="string">'-Onone'</span>]</span><br><span class="line">        config.build_settings[<span class="string">'SWIFT_OPTIMIZATION_LEVEL'</span>] = <span class="string">'-Owholemodule'</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>然后运行 <code>$ pod install</code>。别忘了对比一下添加这个 hook 前后的编译速度，来确认这个是否有效。</p>
+<h2 id="第三方依赖"><a href="#第三方依赖" class="headerlink" title="第三方依赖"></a>第三方依赖</h2><p>现在有两种方式可以对项目安装第三方依赖：</p>
+<p>1.源代码方式，当你 clean build 的时候，第三方依赖的源代码也会被重新编译一次。（例如：CocoaPods, git submodules, copy-pasted code, internal libraries in subprojects that the app target depends on）<br>2.预构建好的 framework 或者 library （例如：Carthage, static library distributed by a vendor that doesn’t want to provide the source code）</p>
+<p>CocoaPods 作为 iOS 开发中最著名的依赖管理器，会在你每次 clean build 的时候将第三方依赖的源代码重新编译一次，从而使项目的编译时间更长。通常情况下，你不会经常地 clean build 项目。但实际情况是：你经常地不得不需要 clean build。（如需要切换分支，或者由于 Xcode 的 bugs 或其他奇怪的原因）</p>
+<p>尽管 Carthage 比 CocoaPods 更加难用，但是它确实能加快项目的编译速度。因为 Carthage 的操作大多数都是修改声明依赖的文件 Podfile，（如添加或删除一个依赖，或者将依赖更新到一个新版本）。这些操作可能需要 5-15 分钟来完成，但是你进行这些操作的频率远远比 CocoaPods 重新把源代码编译一遍要少得多。</p>
+<p>更多资源：</p>
+<ul>
+<li>time spent waiting for Xcode to finish builds</li>
+</ul>
+<h2 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h2><p>Swift 的 Incremental compilation 并不是很完美。有时也许仅仅是修改了一个字符串，就会导致整个项目重新编译。</p>
+<p>为了避免这个问题，你可以考虑将 app 拆分为几个模块。这里有 2 种方案：动态库和静态库（Xcode 9 Beta4 版本开始支持 Swift 静态库）。</p>
+<p>假设你的 app 依赖一个叫做 <code>DatabaseKit</code> 的内部 framework。这种方法能够保证在你对 app 项目做了一些修改时，<code>DatabaseKit</code> 不会因为 <code>Incremental compilation</code> 而重新编译。</p>
+<p>更多资源：</p>
+<ul>
+<li><a href="https://developer.apple.com/library/content/technotes/tn2435/_index.html" target="_blank" rel="noopener">Technical Note TN2435 – Embedding Frameworks In An App</a></li>
+<li><a href="https://github.com/microfeatures/guidelines" target="_blank" rel="noopener">uFeatures</a></li>
+</ul>
+<h2 id="XIBs"><a href="#XIBs" class="headerlink" title="XIBs"></a>XIBs</h2><p>XIBs/storyboards 和 纯代码之间的抉择一直是一个热门的讨论话题，我们在这里不再过多地讨论。但是，有趣的是，如果你修改了 Interface Builder 里面的内容，只有那个修改的文件会被重新编译（成 NIB 格式），另外，如果你在 UIView 的某个子类里修改一个公开的方法，Swift 编译器可能会把继承自这个类的所有类都重新编译。</p>
+<p>更多资源：</p>
+<ul>
+<li><a href="https://twitter.com/MichalCiuba/status/925326831074643968" target="_blank" rel="noopener">(…) in a large project incremental build is much faster if only a .xib was changed (vs. only a line of Swift UI code)</a></li>
+</ul>
+<h2 id="Xcode-Schemes"><a href="#Xcode-Schemes" class="headerlink" title="Xcode Schemes"></a>Xcode Schemes</h2><p>假设我们有一个项目，里面包含有 3 个 targets：</p>
+<ul>
+<li><code>App</code></li>
+<li><code>AppTests</code></li>
+<li><code>AppUITests</code> </li>
+</ul>
+<p>尽管我们可以正常工作，但我们还是可以优化一下 scheme 的配置。下面的配置是默认的，里面包含 3 个 scheme:</p>
+<h3 id="App"><a href="#App" class="headerlink" title="App"></a>App</h3><p>用 <code>⌘+B</code> 构建这个应用只会跑单元测试，而不会跑 UI 测试。这对于 <code>short iterations</code> 很有用，（译者注：<code>short iterations</code> 应该是指快速迭代的版本，即只改变 UI，而不改变基本功能逻辑），如那些 UI 代码，只有需要的代码被编译了。</p>
+<p><img src="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/app-scheme@2x.png" alt></p>
+<h3 id="App-单元测试（App-Unit-Test-Flow）"><a href="#App-单元测试（App-Unit-Test-Flow）" class="headerlink" title="App - 单元测试（App - Unit Test Flow）"></a>App - 单元测试（App - Unit Test Flow）</h3><p>Builds 命令不止会编译 app，还包括单元测试。Runs 命令只会跑单元测试。因为你在 build 的时候马上就能找到单元测试中的错误，而不是在运行时，因此，对于修改有单元测试的代码时，这会提高效率。</p>
+<p><img src="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/app-unit-test-flow@2x.png" alt></p>
+<h3 id="App-全部测试"><a href="#App-全部测试" class="headerlink" title="App - 全部测试"></a>App - 全部测试</h3><p>Builds 命令会把所有单元测试 target 编译一遍。Runs 命令会跑单元测试和 UI 测试。当涉及到那些和 UI 关系紧密包含 UI 测试的代码时作用较大。</p>
+<p><img src="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/app-all-tests-flow@2x.png" alt></p>
+<p>更多资源：</p>
+<ul>
+<li><a href="http://pilky.me/17/" target="_blank" rel="noopener">All About Schemes</a></li>
+</ul>
+<h2 id="使用新的-Xcode-编译系统"><a href="#使用新的-Xcode-编译系统" class="headerlink" title="使用新的 Xcode 编译系统"></a>使用新的 Xcode 编译系统</h2><p>在最新的 Xcode 9 中，<a href="https://developer.apple.com/library/content/releasenotes/DeveloperTools/RN-Xcode/Chapters/Introduction.html#//apple_ref/doc/uid/TP40001051-CH1-SW878" target="_blank" rel="noopener">有一个全新的构建系统</a>。这是一个预览版，并且默认没有开启，它会明显地减少项目的编译时间。如果要启用他，要从 Xcode 的菜单进入 <code>Workspace</code> 或 <code>Project Settings</code> 页面，就可以切换到新的编译系统。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/12/25/1608bbde531e79a8?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<p>更多资源：</p>
+<ul>
+<li><a href="https://github.com/quellish/XcodeNewBuildSystem" target="_blank" rel="noopener">Faster Swift Builds with the New Xcode Build System</a></li>
+</ul>
+<h2 id="启用-Swift-的-Concurrent-Swift-Build-Tasks"><a href="#启用-Swift-的-Concurrent-Swift-Build-Tasks" class="headerlink" title="启用 Swift 的 Concurrent Swift Build Tasks"></a>启用 Swift 的 Concurrent Swift Build Tasks</h2><p>Xcode 9.2 版本加入了一个对 Swift 项目的 <code>concurrent build tasks</code> 实验性支持。对于一些项目，可以大大减少编译器编译时间。另外值得注意的是，如果你启用这个特性，Xcode 会增加内存的开销。</p>
+<p>如果要启用这个特性，退出 Xcode，然后在 Terminal 窗口输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$defaults</span> write com.apple.dt.Xcode BuildSystemScheduleInherentlyParallelCommandsExclusively -bool YES</span><br></pre></td></tr></table></figure>
+<p>现在，测试一下项目的编译时间是否减少了。如果你要禁用这个特性，只需要把上面的 <code>YES</code> 改成 <code>NO</code> 再执行一次即可。</p>
+<h2 id="在-Xcode-显示编译时间"><a href="#在-Xcode-显示编译时间" class="headerlink" title="在 Xcode 显示编译时间"></a>在 Xcode 显示编译时间</h2><p>最后，如果你想知道项目的编译时间是否在减少，你应该通过以下命令来打开：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ defaults write com.apple.dt.Xcode ShowBuildOperationDuration -bool YES</span><br></pre></td></tr></table></figure>
+<p>重新编译一次项目，现在你会看到整个项目的编译总时间：</p>
+<p><img src="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/time@2x.png" alt></p>
+<p>建议比较一下相同条件下的编译时间，如：</p>
+<ol>
+<li>退出 Xcode</li>
+<li>清理 Derived Data (<code>$ rm -rf ~/Library/Developer/Xcode/DerivedData</code>).</li>
+<li>用 Xcode 打开你的项目</li>
+<li>立刻 build 你的项目，或者等 indexing 工作完成后再 build</li>
+</ol>
+<p>另外，你也可以通过命令行统计编译时间： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ time xcodebuild other params</span><br></pre></td></tr></table></figure>
+<p>更多资源：</p>
+<ul>
+<li><a href="https://stackoverflow.com/a/2801156/1990236" target="_blank" rel="noopener">How to enable build timing in Xcode? - Stack Overflow</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数和表达式的类型检查"><span class="toc-number">2.</span> <span class="toc-text">函数和表达式的类型检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关注那些编译很慢的文件"><span class="toc-number">3.</span> <span class="toc-text">关注那些编译很慢的文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#只构建你需要的架构"><span class="toc-number">4.</span> <span class="toc-text">只构建你需要的架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dSYM-的生成"><span class="toc-number">5.</span> <span class="toc-text">dSYM 的生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译器优化等级"><span class="toc-number">6.</span> <span class="toc-text">编译器优化等级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对使用-CocoaPods-的编译器优化"><span class="toc-number">6.1.</span> <span class="toc-text">对使用 CocoaPods 的编译器优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三方依赖"><span class="toc-number">7.</span> <span class="toc-text">第三方依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块化"><span class="toc-number">8.</span> <span class="toc-text">模块化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XIBs"><span class="toc-number">9.</span> <span class="toc-text">XIBs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Xcode-Schemes"><span class="toc-number">10.</span> <span class="toc-text">Xcode Schemes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#App"><span class="toc-number">10.1.</span> <span class="toc-text">App</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#App-单元测试（App-Unit-Test-Flow）"><span class="toc-number">10.2.</span> <span class="toc-text">App - 单元测试（App - Unit Test Flow）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#App-全部测试"><span class="toc-number">10.3.</span> <span class="toc-text">App - 全部测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用新的-Xcode-编译系统"><span class="toc-number">11.</span> <span class="toc-text">使用新的 Xcode 编译系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启用-Swift-的-Concurrent-Swift-Build-Tasks"><span class="toc-number">12.</span> <span class="toc-text">启用 Swift 的 Concurrent Swift Build Tasks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在-Xcode-显示编译时间"><span class="toc-number">13.</span> <span class="toc-text">在 Xcode 显示编译时间</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&text=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&title=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&is_video=false&description=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&lt;译&gt; Optimizing Swift build times&body=Check out this article: http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&title=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&title=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&title=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&title=&lt;译&gt; Optimizing Swift build times"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/&name=&lt;译&gt; Optimizing Swift build times&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Zigii Wong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

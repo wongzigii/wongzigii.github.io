@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="This article will not dive into the installation of pptpd. Instead, I would like to blog down the configurations and some issues I came cross with the follow-up work. So here, you’ve just installed th">
+<meta name="keywords" content="VPS, CentOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Setup PPTP VPN Server on CentOS 6">
+<meta property="og:url" content="http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/index.html">
+<meta property="og:site_name" content="Silver Bullet">
+<meta property="og:description" content="This article will not dive into the installation of pptpd. Instead, I would like to blog down the configurations and some issues I came cross with the follow-up work. So here, you’ve just installed th">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-30T04:57:55.706Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Setup PPTP VPN Server on CentOS 6">
+<meta name="twitter:description" content="This article will not dive into the installation of pptpd. Instead, I would like to blog down the configurations and some issues I came cross with the follow-up work. So here, you’ve just installed th">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Setup PPTP VPN Server on CentOS 6</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/04/23/Pod-install-vs-Pod-update/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/01/29/Without-Thought-by-Naoto-Fukasawa/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&text=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&title=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&is_video=false&description=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Setup PPTP VPN Server on CentOS 6&body=Check out this article: http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&title=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&title=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&title=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&title=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&name=Setup PPTP VPN Server on CentOS 6&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-settings"><span class="toc-number">1.</span> <span class="toc-text">IP settings</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configure-Username-and-Pwd"><span class="toc-number">2.</span> <span class="toc-text">Configure Username and Pwd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IPv4-network-forwarding"><span class="toc-number">3.</span> <span class="toc-text">IPv4 network forwarding</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Troubleshoting"><span class="toc-number"></span> <span class="toc-text">Troubleshoting</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Configure-routing-with-iptables"><span class="toc-number">1.</span> <span class="toc-text">Configure routing with iptables</span></a></li></ol>
+    </li></div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Setup PPTP VPN Server on CentOS 6
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Silver Bullet</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-03-29T08:57:00.000Z" itemprop="datePublished">2016-03-29</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/VPS-CentOS/">VPS, CentOS</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>This article will not dive into the installation of pptpd. Instead, I would like to blog down the configurations and some issues I came cross with the follow-up work.</p>
+<p>So here, you’ve just installed the pptpd through <code>yum install</code> on CentOS, or <code>apt-get install</code> on Ubuntu.</p>
+<p>CentOS version: centos-release-6-7.el6.centos.12.3.x86_64</p>
+<h2 id="IP-settings"><a href="#IP-settings" class="headerlink" title="IP settings"></a>IP settings</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/pptpd.conf</span><br></pre></td></tr></table></figure>
+<p>Uncomment <code>localip</code> and <code>remoteip</code> lines and replace the following IP with you local IP address and remote IP address.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">localip 192.168.9.1</span><br><span class="line">remoteip 192.168.9.11-30</span><br></pre></td></tr></table></figure>
+<p>The localip is the local IP address of server, while remoteip, as its name implies, the <em>range</em> of remote IPs being able to distribution.</p>
+<h2 id="Configure-Username-and-Pwd"><a href="#Configure-Username-and-Pwd" class="headerlink" title="Configure Username and Pwd"></a>Configure Username and Pwd</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/ppp/chap-secrets</span><br></pre></td></tr></table></figure>
+<p>Change the username and password accordingly.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username1  pptpd   Pp$<span class="variable">$w0rd</span>  *</span><br><span class="line">username2  pptpd   P@$<span class="variable">$w0rd2</span>  *</span><br></pre></td></tr></table></figure>
+<p>Note that there is <code>*</code> at the end of the line.</p>
+<h2 id="IPv4-network-forwarding"><a href="#IPv4-network-forwarding" class="headerlink" title="IPv4 network forwarding"></a>IPv4 network forwarding</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>net.ipv4.ip_forward = 1</p>
+</blockquote>
+<p>And then apply the change with the following command.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+<p>(Re)start service</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service pptpd start</span><br></pre></td></tr></table></figure>
+<p>So far so good. Now you’re able to connect to VPN server.</p>
+<h1 id="Troubleshoting"><a href="#Troubleshoting" class="headerlink" title="Troubleshoting"></a>Troubleshoting</h1><p>However, I could not access the network resources over the VPN server.</p>
+<p>So far I’ve confirmed:</p>
+<ul>
+<li>ping successfully on the server side so rule DNS issue out as the cause of the problem.</li>
+<li>ping to server side sucessfully from client side.</li>
+<li>use <code>ifconfig</code> to check out <code>ppp0</code> interface is working.</li>
+</ul>
+<p>So, it sounds like the default route is not being set correctly when VPN connection is brought up.</p>
+<h2 id="Configure-routing-with-iptables"><a href="#Configure-routing-with-iptables" class="headerlink" title="Configure routing with iptables"></a>Configure routing with iptables</h2><p>We’re going to use this following command to check out the <code>eth0(1)</code> or <code>seth0</code> interface. </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+<p>The VPN server is listening for PPTP traffic on TCP port 1723 and port 1701 for L2TP traffic on UDP. So apply this rule to iptables:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 1723 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<p>Also, apply <code>NAT</code> rule. </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -o seth0 -s 192.168.9.0/24 -j SNAT --to-source 118.193.160.45</span><br></pre></td></tr></table></figure>
+<p><code>192.168.9.0/24</code> means <code>192.168.9.0 255.255.255.0</code>, which <code>192.168.9.0</code> is the incoming address, as <code>remoteip</code> we’ve early configured in <code>pptpd.conf</code>, and the part after the slash, in this case, <code>24</code>, is how many subnet mask bits to use. So <code>255.255.255.0</code> is using 24 of the 32 bits to create the subnet.<br>At the same time, <code>118.193.160.45</code> is your server’s public IP address.</p>
+<p>You’re almost there! Next step, save iptables you’ve added</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service iptables save</span><br></pre></td></tr></table></figure>
+<p>Finally, restart iptables.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service iptables start</span><br></pre></td></tr></table></figure>
+<p>Done!</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IP-settings"><span class="toc-number">1.</span> <span class="toc-text">IP settings</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configure-Username-and-Pwd"><span class="toc-number">2.</span> <span class="toc-text">Configure Username and Pwd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IPv4-network-forwarding"><span class="toc-number">3.</span> <span class="toc-text">IPv4 network forwarding</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Troubleshoting"><span class="toc-number"></span> <span class="toc-text">Troubleshoting</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Configure-routing-with-iptables"><span class="toc-number">1.</span> <span class="toc-text">Configure routing with iptables</span></a></li></ol>
+    </li></div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&text=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&title=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&is_video=false&description=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Setup PPTP VPN Server on CentOS 6&body=Check out this article: http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&title=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&title=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&title=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&title=Setup PPTP VPN Server on CentOS 6"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/&name=Setup PPTP VPN Server on CentOS 6&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Zigii Wong
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
