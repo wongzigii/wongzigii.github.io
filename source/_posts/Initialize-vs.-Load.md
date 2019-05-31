@@ -1,4 +1,4 @@
-title: "Initialize v.s. Load"
+title: "Initialize vs. Load"
 date: 2015-02-01 17:29:08
 tags:
 ---

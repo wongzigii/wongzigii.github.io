@@ -1,4 +1,4 @@
-title: "扒一扒 RxSwift 里面的 RxObjCRuntime "
+title: "RxObjCRuntime In RxSwift"
 date: 2018-03-27 12:20:15
 tags: rxswift
 ---
@@ -22,9 +22,8 @@ tags: rxswift
 `#define HIDDEN_ARGUMENT_COUNT 2` 
 
 在 Objective-C 的消息里面，会自带两个隐藏的参数：
-
-1. id 类型的 self (这个很好理解吧，任意对象都可以发消息，id 泛指任意对象) 
-2. SEL 类型的 _cmd (其实就是方法名的选择器，你可以通过 NSStringFromSelector(_cmd) 取到方法名)。
+- id 类型的 self (这个很好理解吧，任意对象都可以发消息，id 泛指任意对象) 
+- SEL 类型的 _cmd (其实就是方法名的选择器，你可以通过 NSStringFromSelector(_cmd) 取到方法名)。
 
 所以，其实 Objective-C 的方法就是最少自带两个参数的 C 函数。
 
@@ -32,10 +31,10 @@ tags: rxswift
 
 代码比较多，我主要选几个重要方法作为入口开始看：
 
-```
+````objc
 // This is the main entry point for observing messages sent to arbitrary objects.
 -(IMP __nullable)ensurePrepared:(id __nonnull)target forObserving:(SEL __nonnull)selector error:(NSErrorParam)error
-```
+````
 
 ensurePrepared 这个方法从方法名字看是为了真正的 swizzling 做准备工作。
 
@@ -84,7 +83,7 @@ if (swizzlingImplementorClass == nil) {
 
 首先确保这个类不为空，
 
-````
+````objc
 NSString *methodEncoding = RX_method_encoding(instanceMethod);
 ````
 

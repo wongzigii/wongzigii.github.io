@@ -9,7 +9,7 @@ So here, you've just installed the pptpd through `yum install` on CentOS, or `ap
 
 CentOS version: centos-release-6-7.el6.centos.12.3.x86_64
 
-## 1. Edit IP settings
+## IP settings
 
 ````bash
 vi /etc/pptpd.conf
@@ -23,7 +23,7 @@ remoteip 192.168.9.11-30
 ````
 The localip is the local IP address of server, while remoteip, as its name implies, the *range* of remote IPs being able to distribution.
  
-## 2. Configure Usernames and Passwords
+## Configure Username and Pwd
 
 ````bash
 vi /etc/ppp/chap-secrets
@@ -38,7 +38,7 @@ username2  pptpd   P@$$w0rd2  *
 
 Note that there is `*` at the end of the line.
 
-## 3. Enable ipv4 network forwarding
+## IPv4 network forwarding
 
 ````bash
 vi /etc/sysctl.conf

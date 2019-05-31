@@ -7,8 +7,8 @@ title: Silver Bullet
 subtitle: 
 description:
 author: Zigii Wong
-language:
-timezone:
+language: en
+timezone: 
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -37,7 +37,7 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
-highlight:
+highlight: 
   enable: true
   line_number: true
   auto_detect: false
@@ -63,7 +63,16 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: apollo
+theme: hexo-theme-cactus
+theme_config: 
+  colorscheme: light
+  page_width: 50
+  posts_overview:
+    post_count: 20
+  social_links:
+    github: http://github.com/wongzigii
+    twitter: http://twitter.com/wongzigii
+    mail: mailto:wongzigii@gmail.com
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html

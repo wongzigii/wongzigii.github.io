@@ -1,4 +1,4 @@
-title: Troubleshoot installing Nokorigi
+title: Troubleshoot Installing Nokorigi
 date: 2016-01-05 18:37:14
 tags: ruby
 ---

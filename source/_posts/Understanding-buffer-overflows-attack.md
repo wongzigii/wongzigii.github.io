@@ -1,18 +1,18 @@
 ---
-title: <译> Understanding buffer overflows attack
+title: <译> Understanding Buffer Overflows Attack
 date: 2018-02-22 21:01:35
 tags:
 ---
 
 [原文地址](https://itandsecuritystuffs.wordpress.com/2014/03/18/understanding-buffer-overflows-attacks-part-1/)
 
-## 0x00 内存的分布结构图
+## 内存的分布结构图
 
 ![](https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb.png?w=415&h=480&zoom=2)
 
 上图是 x86 架构的处理器的内存结构图，其中我们应用程序的代码，蓝色部分，被写在内存地址的最低位，而红色部分，栈地址则位于最高位，紫色部分，堆地址，位于内存中间位置。
 
-## 0x01 寄存器
+## 寄存器
 
 每个不同型号的处理器架构是不一样的。我们用的 x86 处理器和摩托罗拉，苹果手机的处理器架构也不一样。即使同样是 x86 处理器，不同处理器之间也区分 16bits，32bits 和 64bits 的寄存器。
 
@@ -29,8 +29,7 @@ tags:
 
 我们集中讨论 ESP EBP 这几个比较重要的寄存器。（其实还有 EIP -- Extended Instruction Pointer, 它是一个只读的寄存器，指向 CPU 下次要执行的地址。）
 
-
-## 0x02 栈
+## 栈
 
 栈是一个先进后出的数据结构。
 
@@ -84,7 +83,7 @@ ret param size // free 参数的内存并返回
 
 ![](https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb1.png?w=555&h=480&zoom=2)
 
-## 0x03 缓冲区溢出
+## 缓冲区溢出
 
 说了那么多废话，究竟什么是缓存区溢出。
 
@@ -109,7 +108,7 @@ ret param size // free 参数的内存并返回
 
 > 题外话：栈溢出 Stack Overflow 其实是缓冲区溢出 Buffer Overflow 的特殊情形，原因是缓冲区里面包含了堆地址，栈地址和其他内存地址。假设你递归调用一个使用栈地址的函数且没有返回的话，最后会导致栈溢出，而我们上面缓冲区溢出的例子，AAAA 字符串不仅把栈的地址用光了，还把堆和其他内存地址都用光了。
 
-## 0x04 利用缓冲区溢出
+## 利用缓冲区溢出
 
 如果 EIP 被没用的脏数据覆盖掉，程序会崩溃并退出。如果 EIP 被 *别有用心* 的内容覆盖掉，那函数调用完之后会继续执行 *别有用心* 的代码块，通过这样，你就能利用缓冲区溢出来干一点有趣的事情。
 
@@ -125,7 +124,7 @@ ret param size // free 参数的内存并返回
 2. 有两种办法，第一种是借助一些反编译工具 (Ollydbg, IDAPro, Immunity,等等)，在执行的时候定位 ESP 的值，另一种办法是用程序分析软件 Immunity Debugger 或者 pydbg 来分析程序抛出的异常。
 3. 我们可以往里面传一个包含从 0x00 到 0xFF 的测试字符串，并用我们第二个办法，借助一些程序分析工具，判断导致崩溃的字符串是哪一个，并一直重复下去，直到整个测试字符串能通过测试，并不再引起崩溃。
 
-## 0x05 最后
+## 最后
 
 我们可以通过一些脚本或者应用 [fuzzers](https://github.com/shellphish/fuzzer) 为我们开发的应用*输入*很多没有用的字符串，以测试是否会崩溃。这里的输入泛指很多东西：包括但不限于，文本输入框的内容，配置文件，上传文件的接口或者应用的进程等等。
 

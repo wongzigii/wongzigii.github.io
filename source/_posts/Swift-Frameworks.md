@@ -1,16 +1,16 @@
 ---
-title: Swift 里的几个容易混淆的概念
+title: Commonly Confused Words in Swift
 date: 2018-05-28 21:56:42
 tags:
 ---
 
 ## Package
 
-> 一个 Packge 里面通常会包含源文件目录 Sources 以及一个单独的[清单文件](https://zh.wikipedia.org/wiki/%E6%B8%85%E5%8D%95%E6%96%87%E4%BB%B6)（Manifest file）
+> 一个 Packge 里面通常会包含源文件目录 Sources 以及一个单独的[清单文件](https://zh.wikipedia.org/wiki/%E6%B8%85%E5%8D%95%E6%96%87%E4%BB%B6)  Manifest file。
 
-如果你安装了 Swift Package Manager 的话，可以用 `swift package init` 来快速初始化一个 Package。
+swift 自带 package 命令，因此可以用 `swift package init` 来快速初始化一个 Package。
 
-目录如下：
+初始化目录如下：
 
 ````swift
 Souces
@@ -19,7 +19,7 @@ Souces
 Package.swift
 ````
 
-之后你会注意到目录中有一个 `Package.swift`, 就是我们上面所指的清单文件。清单文件主要用来定义或拓展一些规范。
+其中 `Package.swift` 是我们上面提过的清单文件。清单文件主要用来定义或拓展一些规范。
 
 [里面](https://github.com/apple/swift-package-manager/blob/master/Documentation/PackageDescriptionV4.md#package-manifest-file-format-reference) 包含有很多属性，例如：
 
@@ -41,13 +41,13 @@ Package.swift
 
 其中链接部分实质是将很多需要的 *.o 文件链接起来，最后生成 *.out 可执行文件。
 
-1. Static linking 静态链接
+- Static linking 静态链接
 
 ![](http://ww1.sinaimg.cn/large/8c7526ebgy1fsautl5jmfj20x60mc0tm.jpg)
 
 首先，静态意味着源代码被编译后，会被**全部**塞进最终的二进制文件中，最后包体积会相对比较大，由于 library 包含的内容多，因此加载起来会比较慢。还有个问题就是，如果尝试链接两个相同的 library 会导致 symbol duplicate。你一定遇到过这种情况，就是有的时候在项目中创建了两个相同的文件，编译时就会报错。
 
-2. Dynamic linking 动态链接
+- Dynamic linking 动态链接
 
 跟静态链接库相对的，是动态链接库。
 
@@ -79,12 +79,10 @@ import UIKit
 
 举个例子，假设两个 modules，moduleA 和 moduleB 都有两个相同的函数，都叫 foo，这时候可以在函数前面添加 module 的命名空间来区分开来。
 
-````swift
+```swift
 import moduleA
 import moduleB
 
 moduleA.foo()
-
 moduleB.foo()
-````
-
+```

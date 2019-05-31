@@ -1,5 +1,5 @@
 ---
-title: Mach-O Files
+title: The Mach-O File
 date: 2018-04-09 00:19:01
 tags:
 ---
@@ -8,6 +8,6 @@ tags:
 
 今天我想根据之前看过的文章还有对动态链接器的了解，记录一下关于动态链接器的一切。
 
-## 0x00 动态链接器
+## 动态链接器
 
 首先，我们上文提到的动态链接器 dynamic linker，你肯定见过它们在不同平台对应的链接文件，只是不知道它的名字而已。在 Microsoft Windows 系统，它叫 DLL (Dynamic link library)，在遵循 [ELF 可执行文件格式](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) 的 Unix 系统（不包括 Darwin），你会看到一个 `.so` （shared object） 拓展名的文件。在 macOS 和 iOS 系统，则有 `dylib` (dynamic library)。

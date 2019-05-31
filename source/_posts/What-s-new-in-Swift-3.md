@@ -1,20 +1,17 @@
 ---
-title: What's new in Swift 3
+title: What's New in Swift 3
 date: 2016-09-14 16:50:54
 tags: swift3
 ---
 
 [原文地址](https://realm.io/news/swiftcasts-daniel-steinberg-whats-new-in-swift-3-part-2/)
 
-## 1. Removing [currying](https://en.wikipedia.org/wiki/Currying) function declaration syntax ([Proposal 0002](https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md))
-
-````swift
-//Before:
-
+## [SE-0002](https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md): Removing [currying](https://en.wikipedia.org/wiki/Currying) function declaration syntax
+{% codeblock lang:swift %}//Before:
 func curried(x: Int)(y: String) -> Float {
     return Float(x) + Float(y)!
 }
-````
+{% endcodeblock %}
 
 在 Swift 3 之前定义柯里化函数需要使用两个括号，好消息是现在可以这样写了：
 
@@ -30,7 +27,7 @@ func curried(x: Int) -> (String) -> Float {
 
 函数变得更加直观：传入一个 `Int` 类型的 x，并返回一个接受 `String` 类型并返回 `Float` 类型的函数。
 
-## 2. Flattening the function type of unapplied method references ([Proposal 0042](https://github.com/apple/swift-evolution/blob/master/proposals/0042-flatten-method-types.md)) *Unimplemented*
+## [SE-0042](https://github.com/apple/swift-evolution/blob/master/proposals/0042-flatten-method-types.md): Flattening the function type of unapplied method references
 
 假设我们有一个叫 Type 的 `struct` 类型，其中包含 instanceMethod 方法。
 
@@ -60,7 +57,7 @@ let f = Type.instanceMethod  // f: (Type, y: Int) -> Int
 f(Type(x: 1), y: 2)          // ==> 3
 ````
 
-## 3. Move @noescape and @autoclosure to be type attributes ([Proposal 0049](https://github.com/apple/swift-evolution/blob/master/proposals/0049-noescape-autoclosure-type-attrs.md))
+## [SE-0049](https://github.com/apple/swift-evolution/blob/master/proposals/0049-noescape-autoclosure-type-attrs.md): Move @noescape and @autoclosure to be type attributes
 
 假设现在有一个叫 `f2` 的 `func`，接受一个带有 `@autoclosure` 关键字的参数：
 
@@ -104,7 +101,7 @@ func f(@noescape fn : () -> ()) {}  // declaration attribute
 func f(fn : @noescape () -> ()) {}  // type attribute
 ````
 
-## 4. Limiting inout capture to @noescape contexts ([Proposal 0035](https://github.com/apple/swift-evolution/blob/master/proposals/0035-limit-inout-capture.md))
+## [SE-0035](https://github.com/apple/swift-evolution/blob/master/proposals/0035-limit-inout-capture.md): Limiting inout capture to @noescape contexts
 
 在 Swift 中，`@noescape` 关键字能够保证闭包在被调用的函数返回前就已经执行。
 
@@ -133,7 +130,7 @@ struct Foo {
 }
 ````
 
-## 5. Make non-escaping closures the default ([Proposal 0103](https://github.com/apple/swift-evolution/blob/master/proposals/0103-make-noescape-default.md))
+## [SE-0103](https://github.com/apple/swift-evolution/blob/master/proposals/0103-make-noescape-default.md): Make non-escaping closures the default
 
 现在闭包默认添加关键字 `@noescape`：
 
@@ -149,7 +146,7 @@ struct Foo {
 
 `@noescape` 关键字将会在 Swift 3 中被移除，同时，编译器在发现作为参数的闭包在可能逃逸出函数体时会报错，提示你应该为参数添加 `@escaping` 关键字。
 
-## 6. Standardize function type argument syntax to require parentheses ([Proposal 0066](https://github.com/apple/swift-evolution/blob/master/proposals/0066-standardize-function-type-syntax.md))
+## [SE-0066](https://github.com/apple/swift-evolution/blob/master/proposals/0066-standardize-function-type-syntax.md): Standardize function type argument syntax to require parentheses
 
 如果你再看回 #1，你就会发现柯理化函数是这样定义的： `func curried(x: Int) -> (String) -> Float`。
 
@@ -173,7 +170,7 @@ func curried(x: Int) -> (String) -> Float {
 ((Int, Int)) -> Int // 传入一个 tuple (包含两个 Int)
 ````
 
-## 7. Defaulting non-Void functions on unused results ([Proposal 0047](https://github.com/apple/swift-evolution/blob/master/proposals/0047-nonvoid-warn.md))
+## [SE-0047](https://github.com/apple/swift-evolution/blob/master/proposals/0047-nonvoid-warn.md): Defaulting non-Void functions on unused results
 
 考虑下面的代码：
 
@@ -195,7 +192,7 @@ _ = f()
 @discardableResult func f() -> T {}
 ````
 
-## 8. Remove @noreturn attribute and introduce an empty Never type ([Proposal 0102](https://github.com/apple/swift-evolution/blob/master/proposals/0102-noreturn-bottom-type.md))
+## [SE-0102](https://github.com/apple/swift-evolution/blob/master/proposals/0102-noreturn-bottom-type.md) Remove @noreturn attribute and introduce an empty Never type
 
 `@noreturn` 关键字被移除，并加入全新的 `Never` 枚举类型，定义如下：
 
@@ -225,7 +222,7 @@ func pickPositiveNumber(below limit: Int) -> Int {
 }
 ````
 
-## 9. Abolish implicitly unwrapped optional type ([Proposal 0054](https://github.com/apple/swift-evolution/blob/master/proposals/0054-abolish-iuo.md))
+## [SE-0054](https://github.com/apple/swift-evolution/blob/master/proposals/0054-abolish-iuo.md): Abolish implicitly unwrapped optional type
 
 
 ````swift
@@ -269,15 +266,15 @@ if let y5 = g() {
 
 接下来这几个 proposal 都和 Objective-C 有关系：
 
-## 10. Remove type system significance of function argument labels ([Proposal 0111](https://github.com/apple/swift-evolution/blob/master/proposals/0111-remove-arg-label-type-significance.md))
+## [SE-0111](https://github.com/apple/swift-evolution/blob/master/proposals/0111-remove-arg-label-type-significance.md): Remove type system significance of function argument labels
 
-[Proposal 0111](https://github.com/apple/swift-evolution/blob/master/proposals/0111-remove-arg-label-type-significance.md) 是关于定义函数参数时下划线的讨论。
+[SE-0111](https://github.com/apple/swift-evolution/blob/master/proposals/0111-remove-arg-label-type-significance.md) 是关于定义函数参数时下划线的讨论。
 
-## 11. Naming functions with argument labels ([Proposal 0021](https://github.com/apple/swift-evolution/blob/master/proposals/0021-generalized-naming.md))
+## [SE-0021](https://github.com/apple/swift-evolution/blob/master/proposals/0021-generalized-naming.md): Naming functions with argument labels
 
-[Proposal 0021](https://github.com/apple/swift-evolution/blob/master/proposals/0021-generalized-naming.md) 是关于函数命名风格的讨论。
+[SE-0021](https://github.com/apple/swift-evolution/blob/master/proposals/0021-generalized-naming.md) 是关于函数命名风格的讨论。
 
-## 12. Referencing the Objective-C selector of a method ([Proposal 0022](https://github.com/apple/swift-evolution/blob/master/proposals/0022-objc-selectors.md))
+## [SE-0022](https://github.com/apple/swift-evolution/blob/master/proposals/0022-objc-selectors.md): Referencing the Objective-C selector of a method
 
 Swift 3 中你可以通过使用 `#selector` 来操作 selector，就像 Objective-C 中的 `@selector` 和 `SEL` 一样。
 
@@ -292,7 +289,7 @@ let f2 = someView.insertSubview(view: aboveSubview:)
 let sel = #selector(UIView.insertSubview(view:aboveSubview:))
 ````
 
-## 13. Referencing the Objective-C selector of property getters and setters ([Proposal 0064](https://github.com/apple/swift-evolution/blob/master/proposals/0064-property-selectors.md))
+## [SE-0064](https://github.com/apple/swift-evolution/blob/master/proposals/0064-property-selectors.md): Referencing the Objective-C selector of property getters and setters
 
 现在可以通过 `#selector` 为一个类的属性指定 setter 和 getter 方法。
 
@@ -322,7 +319,7 @@ let lastNameSetter = #selector(setter: Person.lastName)
 // Argument of #selector(setter:) must refer to a variable property
 ````
 
-## 14. Referencing Objective-C key-paths ([Proposal 0062](https://github.com/apple/swift-evolution/blob/master/proposals/0062-objc-keypaths.md))
+## [SE-0062](https://github.com/apple/swift-evolution/blob/master/proposals/0062-objc-keypaths.md): Referencing Objective-C key-paths
 
 跟 #13 类似，现在可以用 `#keyPath` 来指定 key path 来获取属性。
 
@@ -335,11 +332,11 @@ let path = #keyPath(UIView.superview.backgroundColor)
 let color = someView.value(forKeyPath: path)
 ````
 
-## 15. Remove the ++ and – operators ([Proposal 0004](https://github.com/apple/swift-evolution/blob/master/proposals/0004-remove-pre-post-inc-decrement.md))
+## [SE-0004](https://github.com/apple/swift-evolution/blob/master/proposals/0004-remove-pre-post-inc-decrement.md): Remove the ++ and – operators
 
 关于将 `++`，`--` 替换为 `+= 1`，`-= 1` 的讨论。
 
-## 16. Remove C-style for-loops with conditions and incrementors ([Proposal 0007](https://github.com/apple/swift-evolution/blob/master/proposals/0007-remove-c-style-for-loops.md))
+## [SE-0007](https://github.com/apple/swift-evolution/blob/master/proposals/0007-remove-c-style-for-loops.md): Remove C-style for-loops with conditions and incrementors
 
 C 风格的 for 循环从此消失：
 
@@ -357,7 +354,7 @@ for i in 0 ..< 10 {
 }
 ````
 
-## 17. A new model for collections and indices ([Proposal 0065](https://github.com/apple/swift-evolution/blob/master/proposals/0065-collections-move-indices.md))
+## [SE-0065](https://github.com/apple/swift-evolution/blob/master/proposals/0065-collections-move-indices.md): A new model for collections and indices
 
 以往，我们可以通过先获取 `collections` 类型的 index，并通过 index 的 `successor()` 来获得下一个元素。
 
@@ -382,21 +379,21 @@ let next = xs.index(after: i)
 - [Add prefix(while:) and drop(while:) to the stdlib (SE-0045)](https://github.com/apple/swift-evolution/blob/master/proposals/0045-scan-takewhile-dropwhile.md)
 - [Add sequence(first:next:) and sequence(state:next:) to the stdlib (SE-0094)](https://github.com/apple/swift-evolution/blob/master/proposals/0094-sequence-function.md)
 
-## 18. Add first(where:) method to Sequence ([Proposal 0032](https://github.com/apple/swift-evolution/blob/master/proposals/0032-sequencetype-find.md))
+## [SE-0032](https://github.com/apple/swift-evolution/blob/master/proposals/0032-sequencetype-find.md): Add first(where:) method to Sequence ()
 
 我们经常会在 `Collection` 或 `Sequence` 中查找第一个满足某种特定条件的元素，Swift 3 中为 `Sequence` 类型添加了一个 `first(where:)` 的内置方法。
 
 从此，你再也不用写一些类似 `seq.filter(predicate).first` 或 `seq.lazy.filter(predicate).first` 的代码。
 
-## 19. Add a lazy flatMap for sequences of optionals ([Proposal 0008](https://github.com/apple/swift-evolution/blob/master/proposals/0008-lazy-flatmap-for-optionals.md))
+## [SE-0008](https://github.com/apple/swift-evolution/blob/master/proposals/0008-lazy-flatmap-for-optionals.md): Add a lazy flatMap for sequences of optionals
 
 为 `Sequence` 添加 [lazy](https://airspeedvelocity.net/2014/07/10/swifts-lazy-collections-and-sequences/) 版本的 flatMap 方法。
 
-## 20. Change IteratorType post-nil guarantee ([Proposal 0052](https://github.com/apple/swift-evolution/blob/master/proposals/0052-iterator-post-nil-guarantee.md))
+## [SE-0052](https://github.com/apple/swift-evolution/blob/master/proposals/0052-iterator-post-nil-guarantee.md): Change IteratorType post-nil guarantee
 
 当迭代器类型开始返回 nil 时，后面的结果都会返回 nil。
 
-## 21. Scooped access level ([Proposal 0025](https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md))
+## [SE-0025](https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md): Scooped access level
 
 Swift 3 加入新的访问级别：`fileprivate`，只能在当前文件内可以访问对应的 API。
 
@@ -410,7 +407,7 @@ Swift 3 加入新的访问级别：`fileprivate`，只能在当前文件内可�
 
 `Open` > `Internal(default)` > `fileprivate` > `private`
 
-## 22. Make optional requirements Objective-C only ([Proposal 0070](https://github.com/apple/swift-evolution/blob/master/proposals/0070-optional-requirements.md))
+## [SE-0070](https://github.com/apple/swift-evolution/blob/master/proposals/0070-optional-requirements.md): Make optional requirements Objective-C only
 
 在 Objective-C 中，协议方法有两种：分别是 require 和 optional。在 Swift 3 中，你也可以为一个协议方法添加 `optional` 关键字：前提是 protocol 和 func 前都有 `@objc` 标志。
 
@@ -422,10 +419,8 @@ Swift 3 加入新的访问级别：`fileprivate`，只能在当前文件内可�
 }
 ````
 
-## 23. Replace typealias keyword with associatedtype for associated type declarations ([Proposal 0011](https://github.com/apple/swift-evolution/blob/master/proposals/0011-replace-typealias-associated.md))
-## 24. Typealiases in protocols and protocol extensions ([Proposal 0092](https://github.com/apple/swift-evolution/blob/master/proposals/0092-typealiases-in-protocols.md))
-
-我将 #23 和 #24 合并起来了，因为它们实际上说的是同一个东西。
+## [SE-0011](https://github.com/apple/swift-evolution/blob/master/proposals/0011-replace-typealias-associated.md): Replace typealias keyword with associatedtype for associated type declarations 
+## [SE-0092](https://github.com/apple/swift-evolution/blob/master/proposals/0092-typealiases-in-protocols.md): Typealiases in protocols and protocol extensions
 
 `typealias` 在以前的版本中有两个用处，一个是用在 protocol 中，还有一个是用在 extension 中。
 
@@ -456,7 +451,7 @@ protocol Sequence {
 }
 ````
 
-## 25. Generic type aliases ([Proposal 0048](https://github.com/apple/swift-evolution/blob/master/proposals/0048-generic-typealias.md))
+## [SE-0048](https://github.com/apple/swift-evolution/blob/master/proposals/0048-generic-typealias.md): Generic type aliases
 
 你可以将范型用在 `typealias` 上，使类型定义更具表达性。
 
@@ -468,11 +463,11 @@ typealias Vec3<T> = (T, T, T)
 typealias BackwardTriple <T1, T2, T3> = (T3, T2, T1)
 ````
 
-## 26. Mutability and foundation value types ([Proposal 0069](https://github.com/apple/swift-evolution/blob/master/proposals/0069-swift-mutability-for-foundation.md))
+## [SE-0069](https://github.com/apple/swift-evolution/blob/master/proposals/0069-swift-mutability-for-foundation.md): Mutability and foundation value types
 
 关于 Mutability 和值类型的讨论。
 
-## 27. Drop NS prefix in swift foundation ([Proposal 0086](https://github.com/apple/swift-evolution/blob/master/proposals/0086-drop-foundation-ns.md))
+## [SE-0086](https://github.com/apple/swift-evolution/blob/master/proposals/0086-drop-foundation-ns.md): Drop NS prefix in swift foundation
 
 [带有历史包袱](http://stackoverflow.com/questions/473758/what-does-the-ns-prefix-mean)的 `NS` 前缀终于在 Swift 3 移除了，开发者的大事，大快所有人心的大好事。
 
@@ -482,7 +477,7 @@ typealias BackwardTriple <T1, T2, T3> = (T3, T2, T1)
 - [Remove the Boolean protocol (SE-0109)](https://github.com/apple/swift-evolution/blob/master/proposals/0109-remove-boolean.md)
 
 
-## 28. Improved NSError bridging ([Proposal 0112](https://github.com/apple/swift-evolution/blob/master/proposals/0112-nserror-bridging.md))
+## [SE-0112](https://github.com/apple/swift-evolution/blob/master/proposals/0112-nserror-bridging.md): Improved NSError bridging
 
 还记得 Swift 2 加入的 Error Handling (`try` 和 `catch`，`throws` 和 `rethrows`，`throw` 和 `do`) 吗？
 
@@ -505,31 +500,31 @@ protocol RecoverableError : Error {
 
 ## 相关链接：
 
-- [Proposal 0002](https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md) - Removing currying func declaration syntax
-- [Proposal 0004](https://github.com/apple/swift-evolution/blob/master/proposals/0004-remove-pre-post-inc-decrement.md) - Remove the ++ and -- operators
-- [Proposal 0007](https://github.com/apple/swift-evolution/blob/master/proposals/0007-remove-c-style-for-loops.md) - Remove C-style for-loops with conditions and incrementers
-- [Proposal 0008](https://github.com/apple/swift-evolution/blob/master/proposals/0008-lazy-flatmap-for-optionals.md) - Add a Lazy flatMap for Sequences of Optionals
-- [Proposal 0011](https://github.com/apple/swift-evolution/blob/master/proposals/0011-replace-typealias-associated.md) - Replace typealias keyword with associatedtype for associated type declarations
-- [Proposal 0021](https://github.com/apple/swift-evolution/blob/master/proposals/0021-generalized-naming.md) - Naming Functions with Argument Labels
-- [Proposal 0022](https://github.com/apple/swift-evolution/blob/master/proposals/0022-objc-selectors.md) - Referencing the Objective-C selector of a method
-- [Proposal 0025](https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md) - Scoped Access Level
-- [Proposal 0032](https://github.com/apple/swift-evolution/blob/master/proposals/0032-sequencetype-find.md) - Add first(where:) method to Sequence
-- [Proposal 0035](https://github.com/apple/swift-evolution/blob/master/proposals/0035-limit-inout-capture.md) - Limiting inout capture to @noescape contexts
-- [Proposal 0042](https://github.com/apple/swift-evolution/blob/master/proposals/0042-flatten-method-types.md) - Flattening the function type of unapplied method references
-- [Proposal 0047](https://github.com/apple/swift-evolution/blob/master/proposals/0047-nonvoid-warn.md) - Defaulting non-Void functions so they warn on unused results
-- [Proposal 0048](https://github.com/apple/swift-evolution/blob/master/proposals/0048-generic-typealias.md) - Generic Type Aliases
-- [Proposal 0049](https://github.com/apple/swift-evolution/blob/master/proposals/0049-noescape-autoclosure-type-attrs.md) - Move @noescape and @autoclosure to be type attributes
-- [Proposal 0052](https://github.com/apple/swift-evolution/blob/master/proposals/0052-iterator-post-nil-guarantee.md) - Change IteratorType post-nil guarantee
-- [Proposal 0054](https://github.com/apple/swift-evolution/blob/master/proposals/0054-abolish-iuo.md) - Abolish ImplicitlyUnwrappedOptional type
-- [Proposal 0062](https://github.com/apple/swift-evolution/blob/master/proposals/0062-objc-keypaths.md) - Referencing Objective-C key-paths
-- [Proposal 0064](https://github.com/apple/swift-evolution/blob/master/proposals/0064-property-selectors.md) - Referencing the Objective-C selector of property getters and setters
-- [Proposal 0065](https://github.com/apple/swift-evolution/blob/master/proposals/0065-collections-move-indices.md) - A New Model for Collections and Indices
-- [Proposal 0066](https://github.com/apple/swift-evolution/blob/master/proposals/0066-standardize-function-type-syntax.md) - Standardize function type argument syntax to require parentheses
-- [Proposal 0069](https://github.com/apple/swift-evolution/blob/master/proposals/0069-swift-mutability-for-foundation.md) - Mutability and Foundation Value Types
-- [Proposal 0070](https://github.com/apple/swift-evolution/blob/master/proposals/0070-optional-requirements.md) - Make Optional Requirements Objective-C-only
-- [Proposal 0086](https://github.com/apple/swift-evolution/blob/master/proposals/0086-drop-foundation-ns.md) - Drop NS Prefix in Swift Foundation
-- [Proposal 0092](https://github.com/apple/swift-evolution/blob/master/proposals/0092-typealiases-in-protocols.md) - Typealiases in protocols and protocol extensions
-- [Proposal 0102](https://github.com/apple/swift-evolution/blob/master/proposals/0102-noreturn-bottom-type.md) - Remove @noreturn attribute and introduce an empty Never type
-- [Proposal 0103](https://github.com/apple/swift-evolution/blob/master/proposals/0103-make-noescape-default.md) - Make non-escaping closures the default
-- [Proposal 0111](https://github.com/apple/swift-evolution/blob/master/proposals/0111-remove-arg-label-type-significance.md) - Remove type system significance of function argument labels
-- [Proposal 0112](https://github.com/apple/swift-evolution/blob/master/proposals/0112-nserror-bridging.md) - Improved NSError Bridging
+- [SE-0002](https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md) - Removing currying func declaration syntax
+- [SE-0004](https://github.com/apple/swift-evolution/blob/master/proposals/0004-remove-pre-post-inc-decrement.md) - Remove the ++ and -- operators
+- [SE-0007](https://github.com/apple/swift-evolution/blob/master/proposals/0007-remove-c-style-for-loops.md) - Remove C-style for-loops with conditions and incrementers
+- [SE-0008](https://github.com/apple/swift-evolution/blob/master/proposals/0008-lazy-flatmap-for-optionals.md) - Add a Lazy flatMap for Sequences of Optionals
+- [SE-0011](https://github.com/apple/swift-evolution/blob/master/proposals/0011-replace-typealias-associated.md) - Replace typealias keyword with associatedtype for associated type declarations
+- [SE-0021](https://github.com/apple/swift-evolution/blob/master/proposals/0021-generalized-naming.md) - Naming Functions with Argument Labels
+- [SE-0022](https://github.com/apple/swift-evolution/blob/master/proposals/0022-objc-selectors.md) - Referencing the Objective-C selector of a method
+- [SE-0025](https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md) - Scoped Access Level
+- [SE-0032](https://github.com/apple/swift-evolution/blob/master/proposals/0032-sequencetype-find.md) - Add first(where:) method to Sequence
+- [SE-0035](https://github.com/apple/swift-evolution/blob/master/proposals/0035-limit-inout-capture.md) - Limiting inout capture to @noescape contexts
+- [SE-0042](https://github.com/apple/swift-evolution/blob/master/proposals/0042-flatten-method-types.md) - Flattening the function type of unapplied method references
+- [SE-0047](https://github.com/apple/swift-evolution/blob/master/proposals/0047-nonvoid-warn.md) - Defaulting non-Void functions so they warn on unused results
+- [SE-0048](https://github.com/apple/swift-evolution/blob/master/proposals/0048-generic-typealias.md) - Generic Type Aliases
+- [SE-0049](https://github.com/apple/swift-evolution/blob/master/proposals/0049-noescape-autoclosure-type-attrs.md) - Move @noescape and @autoclosure to be type attributes
+- [SE-0052](https://github.com/apple/swift-evolution/blob/master/proposals/0052-iterator-post-nil-guarantee.md) - Change IteratorType post-nil guarantee
+- [SE-0054](https://github.com/apple/swift-evolution/blob/master/proposals/0054-abolish-iuo.md) - Abolish ImplicitlyUnwrappedOptional type
+- [SE-0062](https://github.com/apple/swift-evolution/blob/master/proposals/0062-objc-keypaths.md) - Referencing Objective-C key-paths
+- [SE-0064](https://github.com/apple/swift-evolution/blob/master/proposals/0064-property-selectors.md) - Referencing the Objective-C selector of property getters and setters
+- [SE-0065](https://github.com/apple/swift-evolution/blob/master/proposals/0065-collections-move-indices.md) - A New Model for Collections and Indices
+- [SE-0066](https://github.com/apple/swift-evolution/blob/master/proposals/0066-standardize-function-type-syntax.md) - Standardize function type argument syntax to require parentheses
+- [SE-0069](https://github.com/apple/swift-evolution/blob/master/proposals/0069-swift-mutability-for-foundation.md) - Mutability and Foundation Value Types
+- [SE-0070](https://github.com/apple/swift-evolution/blob/master/proposals/0070-optional-requirements.md) - Make Optional Requirements Objective-C-only
+- [SE-0086](https://github.com/apple/swift-evolution/blob/master/proposals/0086-drop-foundation-ns.md) - Drop NS Prefix in Swift Foundation
+- [SE-0092](https://github.com/apple/swift-evolution/blob/master/proposals/0092-typealiases-in-protocols.md) - Typealiases in protocols and protocol extensions
+- [SE-0102](https://github.com/apple/swift-evolution/blob/master/proposals/0102-noreturn-bottom-type.md) - Remove @noreturn attribute and introduce an empty Never type
+- [SE-0103](https://github.com/apple/swift-evolution/blob/master/proposals/0103-make-noescape-default.md) - Make non-escaping closures the default
+- [SE-0111](https://github.com/apple/swift-evolution/blob/master/proposals/0111-remove-arg-label-type-significance.md) - Remove type system significance of function argument labels
+- [SE-0112](https://github.com/apple/swift-evolution/blob/master/proposals/0112-nserror-bridging.md) - Improved NSError Bridging
