@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wongzigii.github.io/"/>
-  <updated>2019-05-31T03:35:18.329Z</updated>
+  <updated>2019-05-31T07:55:31.700Z</updated>
   <id>http://wongzigii.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://wongzigii.github.io/2018/05/28/Swift-Frameworks/"/>
     <id>http://wongzigii.github.io/2018/05/28/Swift-Frameworks/</id>
     <published>2018-05-28T13:56:42.000Z</published>
-    <updated>2019-05-31T03:35:18.329Z</updated>
+    <updated>2019-05-31T07:55:31.700Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Package"><a href="#Package" class="headerlink" title="Package"></a>Package</h2><blockquote>
 <p>一个 Packge 里面通常会包含源文件目录 Sources 以及一个单独的<a href="https://zh.wikipedia.org/wiki/%E6%B8%85%E5%8D%95%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">清单文件</a>  Manifest file。</p>
@@ -86,7 +86,7 @@
     <link href="http://wongzigii.github.io/2018/04/09/Mach-O-Files/"/>
     <id>http://wongzigii.github.io/2018/04/09/Mach-O-Files/</id>
     <published>2018-04-08T16:19:01.000Z</published>
-    <updated>2019-05-30T04:49:21.464Z</updated>
+    <updated>2019-05-31T07:55:31.696Z</updated>
     
     <content type="html"><![CDATA[<p>程序经过编译器编译，将源代码编译成 <code>.o</code> 文件，被动态链接器链接，打包成可执行文件或者静态库，最后被用户执行，这是代码到可执行文件再到被计算机运行的整个过程。</p>
 <p>今天我想根据之前看过的文章还有对动态链接器的了解，记录一下关于动态链接器的一切。</p>
@@ -108,7 +108,7 @@
     <link href="http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/"/>
     <id>http://wongzigii.github.io/2018/03/27/Rx-RxObjCRuntime/</id>
     <published>2018-03-27T04:20:15.000Z</published>
-    <updated>2019-05-30T10:00:01.601Z</updated>
+    <updated>2019-05-31T07:55:31.699Z</updated>
     
     <content type="html"><![CDATA[<h2 id="0x00"><a href="#0x00" class="headerlink" title="0x00"></a>0x00</h2><p>在使用 RxSwift 或者 RxCocoa 的过程，总是有疑惑，这个框架是怎么将 sentMessage 的方法传递出来给 Observer 监听的呢？其实不外乎通过 Method Swizzling 或者其他 KVO 之类的方法，在消息转发 hook 一层自己的逻辑。</p>
 <p>怀着疑问，我今天想探究一下 RxCocoa 里面的 Runtime 机制，RxSwift 的方法监听 feature 源自这个 2015 年的 issue - <a href="https://github.com/ReactiveX/RxSwift/issues/181" target="_blank" rel="noopener">Is there any way to observe method calls? · Issue #181 · ReactiveX/RxSwift · GitHub</a>。</p>
@@ -191,7 +191,7 @@
     <link href="http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/"/>
     <id>http://wongzigii.github.io/2018/02/22/Understanding-buffer-overflows-attack/</id>
     <published>2018-02-22T13:01:35.000Z</published>
-    <updated>2019-05-30T09:52:31.061Z</updated>
+    <updated>2019-05-31T07:55:31.703Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://itandsecuritystuffs.wordpress.com/2014/03/18/understanding-buffer-overflows-attacks-part-1/" target="_blank" rel="noopener">原文地址</a></p>
 <h2 id="内存的分布结构图"><a href="#内存的分布结构图" class="headerlink" title="内存的分布结构图"></a>内存的分布结构图</h2><p><img src="https://itandsecuritystuffs.files.wordpress.com/2014/03/image_thumb.png?w=415&amp;h=480&amp;zoom=2" alt></p>
@@ -277,7 +277,7 @@
     <link href="http://wongzigii.github.io/2017/11/24/Some-mistakes-in-RxSwift-you-want-to-avoid/"/>
     <id>http://wongzigii.github.io/2017/11/24/Some-mistakes-in-RxSwift-you-want-to-avoid/</id>
     <published>2017-11-24T07:25:51.000Z</published>
-    <updated>2019-05-30T04:07:13.520Z</updated>
+    <updated>2019-05-31T07:55:31.700Z</updated>
     
     <content type="html"><![CDATA[<p><a href="http://adamborek.com/top-7-rxswift-mistakes/" target="_blank" rel="noopener">原文地址</a></p>
 <a id="more"></a>
@@ -300,11 +300,11 @@
   </entry>
   
   <entry>
-    <title>&lt;译&gt; Optimizing Swift build times</title>
+    <title>&lt;译&gt; Optimizing Swift Build Times</title>
     <link href="http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/"/>
     <id>http://wongzigii.github.io/2017/10/24/Optimizing-Swift-Build-Times/</id>
     <published>2017-10-24T09:40:22.000Z</published>
-    <updated>2019-05-30T04:07:13.518Z</updated>
+    <updated>2019-05-31T09:01:01.468Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://github.com/fastred/Optimizing-Swift-Build-Times" target="_blank" rel="noopener">原文地址</a></p>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
@@ -321,9 +321,9 @@
 <li>启用 Swift 的 Concurrent Swift Build Tasks</li>
 <li>在 Xcode 查看你的编译时间</li>
 </ul>
-<h2 id="函数和表达式的类型检查"><a href="#函数和表达式的类型检查" class="headerlink" title="函数和表达式的类型检查"></a>函数和表达式的类型检查</h2><p>Swift 的构建时间如此之长主要的原因是因为需要做复杂的类型检查。Xcode 默认不会告诉你哪些代码需要很长时间来编译。你可以通过在 build settings 中的 <code>Other Swift Flags</code> 添加以下参数来查看：</p>
+<h2 id="函数和表达式的类型检查"><a href="#函数和表达式的类型检查" class="headerlink" title="函数和表达式的类型检查"></a>函数和表达式的类型检查</h2><p>Swift 的构建时间如此之长主要是因为需要做复杂的类型检查。Xcode 默认不会告诉你哪些代码需要很长时间来编译。你可以通过在 Build Settings 中的 <code>Other Swift Flags</code> 添加以下参数来查看：</p>
 <ul>
-<li><code>-Xfrontend -warn-long-function-bodies=100</code> （100 指 100ms，你也可以根据需要调整这个值）</li>
+<li><code>-Xfrontend -warn-long-function-bodies=100</code> （100 指 100 ms，你也可以根据需要调整这个值）</li>
 <li><code>-Xfrontend -warn-long-expression-type-checking=100</code></li>
 </ul>
 <p><img src="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/times@2x.png" alt></p>
@@ -377,7 +377,7 @@
 <li><a href="http://developear.com/blog/2016/12/30/Speed-Swift-Compilation.html" target="_blank" rel="noopener">Developear - Speeding Up Compile Times of Swift Projects</a></li>
 <li><a href="https://twitter.com/slava_pestov/status/911747257103302656" target="_blank" rel="noopener">Slava Pestov on Twitter: “@iamkevb It runs one compiler job with all source files in a module instead of one job per source file”</a></li>
 </ul>
-<h3 id="对使用-CocoaPods-的编译器优化"><a href="#对使用-CocoaPods-的编译器优化" class="headerlink" title="对使用 CocoaPods 的编译器优化"></a>对使用 CocoaPods 的编译器优化</h3><p>如果你的项目使用 CocoaPods，你也该考虑把 Pod 项目的编译器优化打开。你可以通过在 <code>Podfile</code>  文件中添加一个 <code>post_install</code> 的 hook 来实现：</p>
+<h3 id="针对-CocoaPods-的编译器优化"><a href="#针对-CocoaPods-的编译器优化" class="headerlink" title="针对 CocoaPods 的编译器优化"></a>针对 CocoaPods 的编译器优化</h3><p>如果你的项目使用 CocoaPods，你也该考虑把 Pod 项目的编译器优化打开。你可以通过在 <code>Podfile</code>  文件中添加一个 <code>post_install</code> 的 hook 来实现：</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">post_install <span class="keyword">do</span> <span class="params">|installer|</span></span><br><span class="line">  installer.pods_project.targets.each <span class="keyword">do</span> <span class="params">|target|</span></span><br><span class="line">    target.build_configurations.each <span class="keyword">do</span> <span class="params">|config|</span></span><br><span class="line">      <span class="keyword">if</span> config.name == <span class="string">'Debug'</span></span><br><span class="line">        config.build_settings[<span class="string">'OTHER_SWIFT_FLAGS'</span>] = [<span class="string">'$(inherited)'</span>, <span class="string">'-Onone'</span>]</span><br><span class="line">        config.build_settings[<span class="string">'SWIFT_OPTIMIZATION_LEVEL'</span>] = <span class="string">'-Owholemodule'</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 <p>然后运行 <code>$ pod install</code>。别忘了对比一下添加这个 hook 前后的编译速度，来确认这个是否有效。</p>
 <h2 id="第三方依赖"><a href="#第三方依赖" class="headerlink" title="第三方依赖"></a>第三方依赖</h2><p>现在有两种方式可以对项目安装第三方依赖：</p>
@@ -426,13 +426,13 @@
 </ul>
 <h2 id="启用-Swift-的-Concurrent-Swift-Build-Tasks"><a href="#启用-Swift-的-Concurrent-Swift-Build-Tasks" class="headerlink" title="启用 Swift 的 Concurrent Swift Build Tasks"></a>启用 Swift 的 Concurrent Swift Build Tasks</h2><p>Xcode 9.2 版本加入了一个对 Swift 项目的 <code>concurrent build tasks</code> 实验性支持。对于一些项目，可以大大减少编译器编译时间。另外值得注意的是，如果你启用这个特性，Xcode 会增加内存的开销。</p>
 <p>如果要启用这个特性，退出 Xcode，然后在 Terminal 窗口输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$defaults</span> write com.apple.dt.Xcode BuildSystemScheduleInherentlyParallelCommandsExclusively -bool YES</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ defaults write com.apple.dt.Xcode BuildSystemScheduleInherentlyParallelCommandsExclusively -bool YES</span><br></pre></td></tr></table></figure>
 <p>现在，测试一下项目的编译时间是否减少了。如果你要禁用这个特性，只需要把上面的 <code>YES</code> 改成 <code>NO</code> 再执行一次即可。</p>
 <h2 id="在-Xcode-显示编译时间"><a href="#在-Xcode-显示编译时间" class="headerlink" title="在 Xcode 显示编译时间"></a>在 Xcode 显示编译时间</h2><p>最后，如果你想知道项目的编译时间是否在减少，你应该通过以下命令来打开：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ defaults write com.apple.dt.Xcode ShowBuildOperationDuration -bool YES</span><br></pre></td></tr></table></figure>
 <p>重新编译一次项目，现在你会看到整个项目的编译总时间：</p>
 <p><img src="https://github.com/fastred/Optimizing-Swift-Build-Times/raw/master/assets/time@2x.png" alt></p>
-<p>建议比较一下相同条件下的编译时间，如：</p>
+<p>建议比较一下相同条件下的编译时间：</p>
 <ol>
 <li>退出 Xcode</li>
 <li>清理 Derived Data (<code>$ rm -rf ~/Library/Developer/Xcode/DerivedData</code>).</li>
@@ -462,7 +462,7 @@
     <link href="http://wongzigii.github.io/2017/03/14/VPS/"/>
     <id>http://wongzigii.github.io/2017/03/14/VPS/</id>
     <published>2017-03-14T14:21:30.000Z</published>
-    <updated>2019-05-30T04:07:13.522Z</updated>
+    <updated>2019-05-31T07:55:31.703Z</updated>
     
     <content type="html"><![CDATA[<p>搬瓦工搞了个 19刀 一年的良心活动，而且竟然支持支付宝付款。</p>
 <ol>
@@ -516,35 +516,14 @@
   </entry>
   
   <entry>
-    <title>The Lost Art of C Structure Packing</title>
-    <link href="http://wongzigii.github.io/2016/11/13/The-Lost-Art-of-C-Structure-Packing/"/>
-    <id>http://wongzigii.github.io/2016/11/13/The-Lost-Art-of-C-Structure-Packing/</id>
-    <published>2016-11-13T12:25:22.000Z</published>
-    <updated>2019-05-30T04:07:13.520Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="http://www.catb.org/esr/structure-packing" target="_blank" rel="noopener">原文地址</a></p>
-<p><a href="https://github.com/ludx/The-Lost-Art-of-C-Structure-Packing" target="_blank" rel="noopener">已经有人把它翻译成中文版本了</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;http://www.catb.org/esr/structure-packing&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;原文地址&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/ludx/The-L
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>What&#39;s New in Swift 3</title>
     <link href="http://wongzigii.github.io/2016/09/14/What-s-new-in-Swift-3/"/>
     <id>http://wongzigii.github.io/2016/09/14/What-s-new-in-Swift-3/</id>
     <published>2016-09-14T08:50:54.000Z</published>
-    <updated>2019-05-30T10:21:28.987Z</updated>
+    <updated>2019-05-31T07:59:35.134Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://realm.io/news/swiftcasts-daniel-steinberg-whats-new-in-swift-3-part-2/" target="_blank" rel="noopener">原文地址</a></p>
-<h2 id="SE-0002-Removing-currying-function-declaration-syntax"><a href="#SE-0002-Removing-currying-function-declaration-syntax" class="headerlink" title="SE-0002: Removing currying function declaration syntax"></a><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md" target="_blank" rel="noopener">SE-0002</a>: Removing <a href="https://en.wikipedia.org/wiki/Currying" target="_blank" rel="noopener">currying</a> function declaration syntax</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Before:</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">curried</span><span class="params">(x: Int)</span></span>(y: <span class="type">String</span>) -&gt; <span class="type">Float</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Float</span>(x) + <span class="type">Float</span>(y)!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="SE-0002-Removing-currying-function-declaration-syntax"><a href="#SE-0002-Removing-currying-function-declaration-syntax" class="headerlink" title="SE-0002: Removing currying function declaration syntax"></a><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md" target="_blank" rel="noopener">SE-0002</a>: Removing <a href="https://en.wikipedia.org/wiki/Currying" target="_blank" rel="noopener">currying</a> function declaration syntax</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//Before:</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">curried</span><span class="params">(x: Int)</span></span>(y: <span class="type">String</span>) -&gt; <span class="type">Float</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Float</span>(x) + <span class="type">Float</span>(y)!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在 Swift 3 之前定义柯里化函数需要使用两个括号，好消息是现在可以这样写了：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//After</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">curried</span><span class="params">(x: Int)</span></span> -&gt; (<span class="type">String</span>) -&gt; <span class="type">Float</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;(y: <span class="type">String</span>) -&gt; <span class="type">Float</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> <span class="type">Float</span>(x) + <span class="type">Float</span>(y)!</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>函数变得更加直观：传入一个 <code>Int</code> 类型的 x，并返回一个接受 <code>String</code> 类型并返回 <code>Float</code> 类型的函数。</p>
@@ -728,11 +707,11 @@
   </entry>
   
   <entry>
-    <title>Understanding How Quick works</title>
+    <title>Understanding How Quick Works</title>
     <link href="http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/"/>
     <id>http://wongzigii.github.io/2016/09/06/Understanding-How-Quick-works/</id>
     <published>2016-09-06T15:54:14.000Z</published>
-    <updated>2019-05-30T04:07:13.521Z</updated>
+    <updated>2019-05-31T07:56:19.065Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="https://github.com/Quick/Quick" target="_blank" rel="noopener">Quick</a> 是一个基于 XCTest 框架的测试框架。</p>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p><img src="../img/files.png" alt></p>
@@ -776,10 +755,10 @@
   
   <entry>
     <title>Dancing With Docker</title>
-    <link href="http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/"/>
-    <id>http://wongzigii.github.io/2016/08/08/Dancing-With-Docker/</id>
+    <link href="http://wongzigii.github.io/2016/08/08/Dancing-with-docker/"/>
+    <id>http://wongzigii.github.io/2016/08/08/Dancing-with-docker/</id>
     <published>2016-08-08T14:22:48.000Z</published>
-    <updated>2019-05-30T04:30:01.024Z</updated>
+    <updated>2019-05-31T07:55:31.696Z</updated>
     
     <content type="html"><![CDATA[<h3 id="Create-a-machine"><a href="#Create-a-machine" class="headerlink" title="Create a machine"></a>Create a machine</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create --driver virtualbox default</span><br></pre></td></tr></table></figure>
 <p>这里 default 是这个 docker machine 的名字。</p>
@@ -910,7 +889,7 @@
     <link href="http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/"/>
     <id>http://wongzigii.github.io/2016/04/23/Pod-install-vs-Pod-update/</id>
     <published>2016-04-23T07:19:53.000Z</published>
-    <updated>2019-05-30T04:07:13.518Z</updated>
+    <updated>2019-05-31T07:55:31.698Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>对于很多经常使用 CocoaPods 开发者，有一个比较困惑的问题是：什么时候用 <code>pod install</code> 以及 <code>pod update</code> ?</p>
 <p><strong>TL;DR</strong>: </p>
@@ -969,7 +948,7 @@
     <link href="http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/"/>
     <id>http://wongzigii.github.io/2016/03/29/Setup-PPTP-VPN-Server-on-CentOS-6/</id>
     <published>2016-03-29T08:57:00.000Z</published>
-    <updated>2019-05-30T04:57:55.706Z</updated>
+    <updated>2019-05-31T07:55:31.699Z</updated>
     
     <content type="html"><![CDATA[<p>This article will not dive into the installation of pptpd. Instead, I would like to blog down the configurations and some issues I came cross with the follow-up work.</p>
 <p>So here, you’ve just installed the pptpd through <code>yum install</code> on CentOS, or <code>apt-get install</code> on Ubuntu.</p>
@@ -1029,12 +1008,11 @@
     <link href="http://wongzigii.github.io/2016/01/29/Without-Thought-by-Naoto-Fukasawa/"/>
     <id>http://wongzigii.github.io/2016/01/29/Without-Thought-by-Naoto-Fukasawa/</id>
     <published>2016-01-29T09:18:04.000Z</published>
-    <updated>2019-05-30T04:07:13.523Z</updated>
+    <updated>2019-05-31T08:20:37.778Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
-<p>这篇文章的意义在于测试这个主题所支持的功能</p>
-<h2 id="测试-MarkDown-功能"><a href="#测试-MarkDown-功能" class="headerlink" title="测试 MarkDown 功能"></a>测试 MarkDown 功能</h2><p>0x01. 表格</p>
-<table>
+<p>这篇文章的意义在于测试这个主题所支持的功能。</p>
+<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><table>
 <thead>
 <tr>
 <th>First Header</th>
@@ -1052,42 +1030,37 @@
 </tr>
 </tbody>
 </table>
-<p>0x02. 代码块</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyView</span>: <span class="title">UIView</span> </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> data: <span class="type">String</span>?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>0x03. 行内代码</p>
-<p>这是行内代码 <code>print(&quot;123&quot;)</code></p>
-<p>0x04. 引用</p>
-<blockquote>
+<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyView</span>: <span class="title">UIView</span> </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> data: <span class="type">String</span>?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="行内代码"><a href="#行内代码" class="headerlink" title="行内代码"></a>行内代码</h2><p>这是行内代码 <code>print(&quot;123&quot;)</code></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><blockquote>
 <p>这是一行引用</p>
 </blockquote>
-<p>0x05. 链接</p>
-<p><a href="https://github.com/wongzigii" target="_blank" rel="noopener">GitHub</a></p>
-<p>0x06. 图片</p>
-<p><img src="https://avatars1.githubusercontent.com/u/7384288?s=460&amp;v=4" alt></p>
-<p>0x07. 引用</p>
-<blockquote>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p><a href="https://github.com/wongzigii" target="_blank" rel="noopener">GitHub</a></p>
+<h2 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h2><p><img src="https://avatars1.githubusercontent.com/u/7384288?s=460&amp;v=4" alt></p>
+<h2 id="引用-1"><a href="#引用-1" class="headerlink" title="引用"></a>引用</h2><blockquote>
 <p>The end-users know all the various different parameters that will determine the appropriate solution without ever realizing it. This is why vague notions of ‘if only there were something like this’ never result in a concrete image, and also why, whenever they do find a good design, they invariably remark, ‘I’ve always wanted something like this’.</p>
 <p>The sensibility here is that design isn’t something that I generate, so much as something that already exists in situ; all I do is give it concrete form.</p>
 </blockquote>
-<h2 id="Hexo-功能"><a href="#Hexo-功能" class="headerlink" title="Hexo 功能"></a>Hexo 功能</h2><p>0x01. img</p>
-<p><img src="https://avatars1.githubusercontent.com/u/7384288?s=460&v=4" alt="Smiley face" height="42" width="42"></p>
-<p>0x02. raw</p>
-<pre>Text I want left alone@donotlink.me</pre>
+<h2 id="Hexo-Plugin"><a href="#Hexo-Plugin" class="headerlink" title="Hexo Plugin"></a>Hexo Plugin</h2><blockquote>
+<p><a href="https://hexo.io/zh-cn/docs/tag-plugins" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/tag-plugins</a></p>
+</blockquote>
+<h3 id="lt-img-gt"><a href="#lt-img-gt" class="headerlink" title="&lt;img&gt;"></a><code>&lt;img&gt;</code></h3><p><img src="https://avatars1.githubusercontent.com/u/7384288?s=460&v=4" alt="Smiley face" height="42" width="42"></p>
+<h3 id="lt-pre-gt"><a href="#lt-pre-gt" class="headerlink" title="&lt;pre&gt;"></a><code>&lt;pre&gt;</code></h3><pre>Text I want left alone@donotlink.me</pre>
 
-<p>0x03. tip</p>
-<div class="tip"><br>    预处理器很强大，但它只是编写 CSS 的辅助工具。出于对扩展和维护等方面的考虑，在大型项目中有必要使用预处理器构建 CSS；但是对于小型项目，原生的 CSS 可能是一种更好的选择。不要肆意使用预处理器！<br></div>
+<h3 id="lt-div-class-quot-tip-quot-gt"><a href="#lt-div-class-quot-tip-quot-gt" class="headerlink" title="&lt;div class=&quot;tip&quot;&gt;"></a><code>&lt;div class=&quot;tip&quot;&gt;</code></h3><div class="tip"><br>    预处理器很强大，但它只是编写 CSS 的辅助工具。出于对扩展和维护等方面的考虑，在大型项目中有必要使用预处理器构建 CSS；但是对于小型项目，原生的 CSS 可能是一种更好的选择。不要肆意使用预处理器！<br></div>
 
-<p>0x04. iframe</p>
-<iframe src="//music.163.com/outchain/player?type=2&id=19945726&auto=0&height=66" width="500" height="86" frameborder="0" allowfullscreen></iframe>
+<h3 id="lt-iframe-gt"><a href="#lt-iframe-gt" class="headerlink" title="&lt;iframe&gt;"></a><code>&lt;iframe&gt;</code></h3><iframe src="//music.163.com/outchain/player?type=2&id=19945726&auto=0&height=66" width="500" height="86" frameborder="0" allowfullscreen></iframe>
 
-<p>0x05. gist</p>
-<script src="https://gist.github.com/wongzigii/a96816dfb124278fc50c9820ff60a6dc.js"></script>]]></content>
+<h2 id="GitHub-Gist"><a href="#GitHub-Gist" class="headerlink" title="GitHub Gist"></a>GitHub Gist</h2><script src="https://gist.github.com/wongzigii/a96816dfb124278fc50c9820ff60a6dc.js"></script>]]></content>
     
     <summary type="html">
     
       &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;这篇文章的意义在于测试这个主题所支持的功能&lt;/p&gt;
-&lt;h2 id=&quot;测试-MarkDown-功能&quot;&gt;&lt;a href=&quot;#测试-MarkDown-功能&quot; class=&quot;headerlink&quot; title=&quot;测试 MarkDown 功能&quot;&gt;&lt;
+&lt;p&gt;这篇文章的意义在于测试这个主题所支持的功能。&lt;/p&gt;
+&lt;h2 id=&quot;表格&quot;&gt;&lt;a href=&quot;#表格&quot; class=&quot;headerlink&quot; title=&quot;表格&quot;&gt;&lt;/a&gt;表格&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;
     
     </summary>
     
@@ -1099,7 +1072,7 @@
     <link href="http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/"/>
     <id>http://wongzigii.github.io/2016/01/05/Troubleshoot-for-installing-Nokorigi/</id>
     <published>2016-01-05T10:37:14.000Z</published>
-    <updated>2019-05-30T04:56:27.228Z</updated>
+    <updated>2019-05-31T07:55:31.700Z</updated>
     
     <content type="html"><![CDATA[<p>Troubleshoot installing Nokorigi for the dependency of rails.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br></pre></td><td class="code"><pre><span class="line">  ERROR: Error installing rails:</span><br><span class="line">  ERROR: Failed to build gem native extension.</span><br><span class="line">  current directory: /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/ext/nokogiri</span><br><span class="line">  /Users/Wongzigii/.rvm/rubies/ruby-2.3.0/bin/ruby -r ./siteconf20160105-5281-1xpczbo.rb extconf.rb</span><br><span class="line">  checking <span class="keyword">if</span> the C compiler accepts ... yes</span><br><span class="line">  checking <span class="keyword">if</span> the C compiler accepts -Wno-error=unused-command-line-argument-hard-error-in-future... no</span><br><span class="line">  Building nokogiri using packaged libraries.</span><br><span class="line">  Using mini_portile version 2.0.0</span><br><span class="line">  checking <span class="keyword">for</span> iconv.h... yes</span><br><span class="line">  checking <span class="keyword">for</span> gzdopen() <span class="keyword">in</span> -lz... yes</span><br><span class="line">  checking <span class="keyword">for</span> iconv using --with-opt-* flags... yes</span><br><span class="line">  ************************************************************************</span><br><span class="line">  IMPORTANT NOTICE:</span><br><span class="line">Building Nokogiri with a packaged version of libxml2-2.9.2</span><br><span class="line">with the following patches applied:</span><br><span class="line">- 0001-Revert-Missing-initialization-for-the-catalog-module.patch</span><br><span class="line">- 0002-Fix-missing-entities-after-CVE-2014-3660-fix.patch</span><br><span class="line">- 0003-Stop-parsing-on-entities-boundaries-errors.patch</span><br><span class="line">- 0004-Cleanup-conditional-section-error-handling.patch</span><br><span class="line">- 0005-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch</span><br><span class="line">- 0006-Another-variation-of-overflow-in-Conditional-section.patch</span><br><span class="line">- 0007-Fix-an-error-in-previous-Conditional-section-patch.patch</span><br><span class="line">- 0008-CVE-2015-8035-Fix-XZ-compression-support-loop.patch</span><br><span class="line">- 0009-Updated-config.guess.patch</span><br><span class="line">- 0010-Fix-parsering-short-unclosed-comment-uninitialized-access.patch</span><br><span class="line">- 0011-Avoid-extra-processing-of-MarkupDecl-when-EOF.patch</span><br><span class="line">- 0012-Avoid-processing-entities-after-encoding-conversion-.patch</span><br><span class="line">- 0013-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch</span><br><span class="line">- 0014-CVE-2015-5312-Another-entity-expansion-issue.patch</span><br><span class="line">- 0015-Add-xmlHaltParser-to-stop-the-parser.patch</span><br><span class="line">- 0016-Detect-incoherency-on-GROW.patch</span><br><span class="line">- 0017-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch</span><br><span class="line">- 0018-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch</span><br><span class="line"></span><br><span class="line">Team Nokogiri will keep on doing their best to provide security</span><br><span class="line">updates <span class="keyword">in</span> a timely manner, but <span class="keyword">if</span> this is a concern <span class="keyword">for</span> you and want</span><br><span class="line">to use the system library instead; abort this installation process and</span><br><span class="line">reinstall nokogiri as follows:</span><br><span class="line"></span><br><span class="line">   gem install nokogiri -- --use-system-libraries</span><br><span class="line">       [--with-xml2-config=/path/to/xml2-config]</span><br><span class="line">       [--with-xslt-config=/path/to/xslt-config]</span><br><span class="line"></span><br><span class="line">If you are using Bundler, tell it to use the option:</span><br><span class="line"></span><br><span class="line">   bundle config build.nokogiri --use-system-libraries</span><br><span class="line">   bundle install</span><br><span class="line"></span><br><span class="line">Note, however, that nokogiri is not fully compatible with arbitrary</span><br><span class="line">versions of libxml2 provided by OS/package vendors.</span><br><span class="line">************************************************************************</span><br><span class="line">Extracting libxml2-2.9.2.tar.gz into tmp/x86_64-apple-darwin15.2.0/ports/libxml2/2.9.2... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0001-Revert-Missing-initialization-for-the-catalog-module.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0002-Fix-missing-entities-after-CVE-2014-3660-fix.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0003-Stop-parsing-on-entities-boundaries-errors.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0004-Cleanup-conditional-section-error-handling.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0005-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0006-Another-variation-of-overflow-in-Conditional-section.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0007-Fix-an-error-in-previous-Conditional-section-patch.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0008-CVE-2015-8035-Fix-XZ-compression-support-loop.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0009-Updated-config.guess.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0010-Fix-parsering-short-unclosed-comment-uninitialized-access.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0011-Avoid-extra-processing-of-MarkupDecl-when-EOF.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0012-Avoid-processing-entities-after-encoding-conversion-.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0013-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0014-CVE-2015-5312-Another-entity-expansion-issue.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0015-Add-xmlHaltParser-to-stop-the-parser.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0016-Detect-incoherency-on-GROW.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0017-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxml2/0018-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch... OK</span><br><span class="line">Running <span class="string">'configure'</span> <span class="keyword">for</span> libxml2 2.9.2... OK</span><br><span class="line">Running <span class="string">'compile'</span> <span class="keyword">for</span> libxml2 2.9.2... OK</span><br><span class="line">Running <span class="string">'install'</span> <span class="keyword">for</span> libxml2 2.9.2... OK</span><br><span class="line">Activating libxml2 2.9.2 (from /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/ports/x86_64-apple-darwin15.2.0/libxml2/2.9.2)...</span><br><span class="line">************************************************************************</span><br><span class="line">IMPORTANT NOTICE:</span><br><span class="line"></span><br><span class="line">Building Nokogiri with a packaged version of libxslt-1.1.28</span><br><span class="line">with the following patches applied:</span><br><span class="line">- 0001-Adding-doc-update-related-to-1.1.28.patch</span><br><span class="line">- 0002-Fix<span class="_">-a</span>-couple-of-places-where<span class="_">-f</span>-printf-parameters-wer.patch</span><br><span class="line">- 0003-Initialize-pseudo-random-number-generator-with-curre.patch</span><br><span class="line">- 0004-EXSLT-function-str-replace-is-broken-as-is.patch</span><br><span class="line">- 0006-Fix-str-padding-to-work-with-UTF-8-strings.patch</span><br><span class="line">- 0007-Separate-function-for-predicate-matching-in-patterns.patch</span><br><span class="line">- 0008-Fix-direct-pattern-matching.patch</span><br><span class="line">- 0009-Fix-certain-patterns-with-predicates.patch</span><br><span class="line">- 0010-Fix-handling-of-UTF-8-strings-in-EXSLT-crypto-module.patch</span><br><span class="line">- 0013-Memory-leak-in-xsltCompileIdKeyPattern-error-path.patch</span><br><span class="line">- 0014-Fix-for-bug-436589.patch</span><br><span class="line">- 0015-Fix-mkdir-for-mingw.patch</span><br><span class="line">- 0016-Fix-for-type-confusion-in-preprocessing-attributes.patch</span><br><span class="line">- 0017-Updated-config.guess.patch</span><br><span class="line"></span><br><span class="line">Team Nokogiri will keep on doing their best to provide security</span><br><span class="line">updates <span class="keyword">in</span> a timely manner, but <span class="keyword">if</span> this is a concern <span class="keyword">for</span> you and want</span><br><span class="line">to use the system library instead; abort this installation process and</span><br><span class="line">reinstall nokogiri as follows:</span><br><span class="line"></span><br><span class="line">   gem install nokogiri -- --use-system-libraries</span><br><span class="line">       [--with-xml2-config=/path/to/xml2-config]</span><br><span class="line">       [--with-xslt-config=/path/to/xslt-config]</span><br><span class="line"></span><br><span class="line">If you are using Bundler, tell it to use the option:</span><br><span class="line"></span><br><span class="line">   bundle config build.nokogiri --use-system-libraries</span><br><span class="line">   bundle install</span><br><span class="line">************************************************************************</span><br><span class="line">Extracting libxslt-1.1.28.tar.gz into tmp/x86_64-apple-darwin15.2.0/ports/libxslt/1.1.28... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0001-Adding-doc-update-related-to-1.1.28.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0002-Fix<span class="_">-a</span>-couple-of-places-where<span class="_">-f</span>-printf-parameters-wer.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0003-Initialize-pseudo-random-number-generator-with-curre.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0004-EXSLT-function-str-replace-is-broken-as-is.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0006-Fix-str-padding-to-work-with-UTF-8-strings.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0007-Separate-function-for-predicate-matching-in-patterns.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0008-Fix-direct-pattern-matching.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0009-Fix-certain-patterns-with-predicates.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0010-Fix-handling-of-UTF-8-strings-in-EXSLT-crypto-module.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0013-Memory-leak-in-xsltCompileIdKeyPattern-error-path.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0014-Fix-for-bug-436589.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0015-Fix-mkdir-for-mingw.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0016-Fix-for-type-confusion-in-preprocessing-attributes.patch... OK</span><br><span class="line">Running git apply with /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/patches/libxslt/0017-Updated-config.guess.patch... OK</span><br><span class="line">Running <span class="string">'configure'</span> <span class="keyword">for</span> libxslt 1.1.28... ERROR, review <span class="string">'/Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1/ext/nokogiri/tmp/x86_64-apple-darwin15.2.0/ports/libxslt/1.1.28/configure.log'</span> to see what happened. Last lines are:</span><br><span class="line">========================================================================</span><br><span class="line"> Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST 2015; root:xnu-3248.20.55~2/RELEASE_X86_64</span><br><span class="line">Kernel configured <span class="keyword">for</span> up to 8 processors.</span><br><span class="line">4 processors are physically available.</span><br><span class="line">8 processors are logically available.</span><br><span class="line">Processor <span class="built_in">type</span>: x86_64h (Intel x86-64h Haswell)</span><br><span class="line">Processors active: 0 1 2 3 4 5 6 7</span><br><span class="line">Primary memory available: 16.00 gigabytes</span><br><span class="line">Default processor <span class="built_in">set</span>: 376 tasks, 1947 threads, 8 processors</span><br><span class="line">Load average: 1.84, Mach factor: 6.14</span><br><span class="line">/bin/universe          =</span><br><span class="line">/usr/bin/arch -k       =</span><br><span class="line">/bin/arch              =</span><br><span class="line">/usr/bin/oslevel       =</span><br><span class="line">/usr/convex/getsysinfo =</span><br><span class="line"></span><br><span class="line">UNAME_MACHINE = x86_64</span><br><span class="line">UNAME_RELEASE = 15.2.0</span><br><span class="line">UNAME_SYSTEM  = Darwin</span><br><span class="line">UNAME_VERSION = Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST 2015; root:xnu-3248.20.55~2/RELEASE_X86_64</span><br><span class="line">configure: error: cannot guess build <span class="built_in">type</span>; you must specify one</span><br><span class="line">========================================================================</span><br><span class="line">*** extconf.rb failed ***</span><br><span class="line">Could not create Makefile due to some reason, probably lack of necessary</span><br><span class="line">libraries and/or headers.  Check the mkmf.log file <span class="keyword">for</span> more details.  You may</span><br><span class="line">need configuration options.</span><br><span class="line"></span><br><span class="line">Provided configuration options:</span><br><span class="line">--with-opt-dir</span><br><span class="line">--with-opt-include</span><br><span class="line">--without-opt-include=<span class="variable">$&#123;opt-dir&#125;</span>/include</span><br><span class="line">--with-opt-lib</span><br><span class="line">--without-opt-lib=<span class="variable">$&#123;opt-dir&#125;</span>/lib</span><br><span class="line">--with-make-prog</span><br><span class="line">--without-make-prog</span><br><span class="line">--srcdir=.</span><br><span class="line">--curdir</span><br><span class="line">--ruby=/Users/Wongzigii/.rvm/rubies/ruby-2.3.0/bin/$(RUBY_BASE_NAME)</span><br><span class="line">--<span class="built_in">help</span></span><br><span class="line">--clean</span><br><span class="line">--use-system-libraries</span><br><span class="line">--<span class="built_in">enable</span>-static</span><br><span class="line">--<span class="built_in">disable</span>-static</span><br><span class="line">--with-zlib-dir</span><br><span class="line">--without-zlib-dir</span><br><span class="line">--with-zlib-include</span><br><span class="line">--without-zlib-include=<span class="variable">$&#123;zlib-dir&#125;</span>/include</span><br><span class="line">--with-zlib-lib</span><br><span class="line">--without-zlib-lib=<span class="variable">$&#123;zlib-dir&#125;</span>/lib</span><br><span class="line">--<span class="built_in">enable</span>-cross-build</span><br><span class="line">--<span class="built_in">disable</span>-cross-build</span><br><span class="line">/Users/Wongzigii/.rvm/rubies/ruby-2.3.0/lib/ruby/gems/2.3.0/gems/mini_portile2-2.0.0/lib/mini_portile2/mini_portile.rb:366:<span class="keyword">in</span> `block <span class="keyword">in</span> execute<span class="string">': Failed to complete configure task (RuntimeError)</span></span><br><span class="line"><span class="string">from /Users/Wongzigii/.rvm/rubies/ruby-2.3.0/lib/ruby/gems/2.3.0/gems/mini_portile2-2.0.0/lib/mini_portile2/mini_portile.rb:337:in `chdir'</span></span><br><span class="line">from /Users/Wongzigii/.rvm/rubies/ruby-2.3.0/lib/ruby/gems/2.3.0/gems/mini_portile2-2.0.0/lib/mini_portile2/mini_portile.rb:337:<span class="keyword">in</span> `execute<span class="string">'</span></span><br><span class="line"><span class="string">from /Users/Wongzigii/.rvm/rubies/ruby-2.3.0/lib/ruby/gems/2.3.0/gems/mini_portile2-2.0.0/lib/mini_portile2/mini_portile.rb:106:in `configure'</span></span><br><span class="line">from /Users/Wongzigii/.rvm/rubies/ruby-2.3.0/lib/ruby/gems/2.3.0/gems/mini_portile2-2.0.0/lib/mini_portile2/mini_portile.rb:149:<span class="keyword">in</span> `cook<span class="string">'</span></span><br><span class="line"><span class="string">from extconf.rb:289:in `block (2 levels) in process_recipe'</span></span><br><span class="line">from extconf.rb:182:<span class="keyword">in</span> `block <span class="keyword">in</span> chdir_for_build<span class="string">'</span></span><br><span class="line"><span class="string">from extconf.rb:181:in `chdir'</span></span><br><span class="line">from extconf.rb:181:<span class="keyword">in</span> `chdir_for_build<span class="string">'</span></span><br><span class="line"><span class="string">from extconf.rb:288:in `block in process_recipe'</span></span><br><span class="line">from extconf.rb:187:<span class="keyword">in</span> `tap<span class="string">'</span></span><br><span class="line"><span class="string">from extconf.rb:187:in `process_recipe'</span></span><br><span class="line">from extconf.rb:490:<span class="keyword">in</span> `&lt;main&gt;<span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">To see why this extension failed to compile, please check the mkmf.log which can be found here:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> 	/Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/extensions/x86_64-darwin-15/2.3.0/nokogiri-1.6.7.1/mkmf.log</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">extconf failed, exit code 1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Gem files will remain installed in /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/gems/nokogiri-1.6.7.1 for inspection.</span></span><br><span class="line"><span class="string">Results logged to /Users/Wongzigii/.rvm/gems/ruby-2.3.0@rails4.2/extensions/x86_64-darwin-15/2.3.0/nokogiri-1.6.7.1/gem_make.out</span></span><br></pre></td></tr></table></figure>
@@ -1128,7 +1101,7 @@
     <link href="http://wongzigii.github.io/2015/10/25/SegmentFault-Hackathon-2015/"/>
     <id>http://wongzigii.github.io/2015/10/25/SegmentFault-Hackathon-2015/</id>
     <published>2015-10-25T02:28:05.000Z</published>
-    <updated>2019-05-30T04:07:13.519Z</updated>
+    <updated>2019-05-31T07:55:31.699Z</updated>
     
     <content type="html"><![CDATA[<p><img src="http://ww2.sinaimg.cn/large/8c7526ebgw1f84si74w9rj20qo0zkgnp.jpg" alt></p>
 <p><img src="http://ww2.sinaimg.cn/large/8c7526ebgw1f84silnr74j20zk0qo77e.jpg" alt></p>
@@ -1154,7 +1127,7 @@
     <link href="http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/"/>
     <id>http://wongzigii.github.io/2015/05/29/A-simple-Makefile-Tutorial/</id>
     <published>2015-05-29T14:57:19.000Z</published>
-    <updated>2019-05-30T04:55:23.357Z</updated>
+    <updated>2019-05-31T07:55:31.696Z</updated>
     
     <content type="html"><![CDATA[<p>Makefile is a simple way to organize code compilation. This tutorial does not even scratch the surface of what is possible using make, but is intended as a starters guide so that you can quickly and easily create your own makefiles for small to medium-sized projects.</p>
 <p>Let’s start with the following three files, <code>hellomake.c</code>, <code>hellofunc.c</code>, and <code>hellomake.h</code>, which would represent a typical main program, some functional code in a separate file, and an include file, respectively.</p>
@@ -1198,7 +1171,7 @@
     <link href="http://wongzigii.github.io/2015/04/17/What-is-a-meta-class-in-Objective-C/"/>
     <id>http://wongzigii.github.io/2015/04/17/What-is-a-meta-class-in-Objective-C/</id>
     <published>2015-04-17T01:51:43.000Z</published>
-    <updated>2019-05-30T04:07:13.522Z</updated>
+    <updated>2019-05-31T07:55:31.703Z</updated>
     
     <content type="html"><![CDATA[<p>本文翻译整理自：<a href="http://www.cocoawithlove.com/2010/01/what-is-meta-class-in-objective-c.html" target="_blank" rel="noopener">From Cocoa with Love</a></p>
 <p>在这篇文章中，我们会看到一个在 Objective-C 中很陌生的概念 – meta-class。Objective-C 里面每个类都有它自己的 meta-class，但是你很少会注意到你使用了它。我们在开头会学习怎样在 runtime 创建一个类，通过创建的 “class pair”，我会解释什么是 meta-class，然后深入研究它对于 Objective-C 中对象和类的意义。</p>
@@ -1286,7 +1259,7 @@
     <link href="http://wongzigii.github.io/2015/04/15/Hackers-and-Painters/"/>
     <id>http://wongzigii.github.io/2015/04/15/Hackers-and-Painters/</id>
     <published>2015-04-15T08:47:23.000Z</published>
-    <updated>2019-05-30T04:07:13.517Z</updated>
+    <updated>2019-05-31T07:55:31.696Z</updated>
     
     <content type="html"><![CDATA[<p>第三章 <em>What you can’t say</em> 写得非常精彩：</p>
 <blockquote>
@@ -1320,7 +1293,7 @@
     <link href="http://wongzigii.github.io/2015/02/01/Initialize-vs.-Load/"/>
     <id>http://wongzigii.github.io/2015/02/01/Initialize-vs.-Load/</id>
     <published>2015-02-01T09:29:08.000Z</published>
-    <updated>2019-05-30T04:28:06.912Z</updated>
+    <updated>2019-05-31T07:55:31.696Z</updated>
     
     <content type="html"><![CDATA[<p><a href="http://developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/Reference/Reference.html" target="_blank" rel="noopener">NSObject Class Reference</a></p>
 <p>在一个类被使用之前，我们可以利用这两个方法对类做一些预处理的工作。例如将这个类自动把自己的类名保存到一个数组中。</p>
@@ -1342,6 +1315,57 @@
     <summary type="html">
     
       &lt;p&gt;&lt;a href=&quot;http://developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/Reference/Reference.html
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LLVM Lifetime Qualifiers</title>
+    <link href="http://wongzigii.github.io/2015/01/10/Property-declarations/"/>
+    <id>http://wongzigii.github.io/2015/01/10/Property-declarations/</id>
+    <published>2015-01-10T14:55:06.000Z</published>
+    <updated>2019-05-31T07:55:31.698Z</updated>
+    
+    <content type="html"><![CDATA[<p>LLVM 在 3.1 以后引入了四个 <code>Lifetime Qualifiers</code>，它们分别是 <code>__autoreleasing</code>，<code>__strong</code>，<code>__unsafe_untained</code> 还有 <code>__weak</code>。其中 __weak 只在 ARC 下才存在，而其他三个仍然可以在 MRC 下看到它们。</p>
+<ul>
+<li>__strong is the default. An object remains “alive” as long as there is a strong pointer to it.</li>
+<li>__weak specifies a reference that does not keep the referenced object alive. A weak reference is set to nil when there are no strong references to the object.</li>
+<li>__unsafe_unretained specifies a reference that does not keep the referenced object alive and is not set to nil when there are no strong references to the object. If the object it references is deallocated, the pointer is left dangling.</li>
+<li>__autoreleasing is used to denote arguments that are passed by reference (id *) and are autoreleased on return.</li>
+</ul>
+<h2 id="strong"><a href="#strong" class="headerlink" title="__strong"></a><code>__strong</code></h2><p> 在 ARC 下，所有的指针都会默认为 <code>__strong</code>. 也就是说当指针指向一个对象时，这个对象的 retain count 就会加 1。当超出作用域或者指针被赋值后，编译器会自动为 <code>__strong</code> 修饰的对象指针添加 release。</p>
+<h2 id="weak-and-unsafe-unretained"><a href="#weak-and-unsafe-unretained" class="headerlink" title="__weak and __unsafe_unretained"></a><code>__weak</code> and <code>__unsafe_unretained</code></h2><p> 为了解决这个问题，<code>__unsafe_unretained</code> 和 <code>__weak</code> 诞生了。最常见的是当你声明一个 delegate 的时候，你需要将它的类型声明为 <code>weak</code> 或者 <code>unsafe_unretained</code> (assign 在这里相当于 <code>unsafe_unretained</code>)。在实例变量前面标记为 <code>__weak</code> 或者 <code>__unsafe_unretained</code> 。这样，delegate 的实例变量仍然指向第一个对象，但是不会被 retain，从而避免了 retain cycle。</p>
+<p> 除了 delegate 之外，也可以用来避免其他代码的 retain cycle。而 Leaks Instrument 里面已经可以检查是否有 retain cycle 所导致的 memory leak 了。</p>
+<p>###<code>__unsafe_unretained</code> 和 <code>__weak</code> 的区别</p>
+<p>对于 <code>__weak</code>，当对象销毁后指针会被设为 nil， 这个做法使得指针的使用更安全。而正如它的名字那样，<code>__unsafe_unretained</code> 仍然会指向销毁对象的地址，顾名思义这是 unsafe 的。</p>
+<p>值得注意的是：</p>
+<blockquote>
+<p>__weak is only supported for iOS 5.0 and Lion as deployment targets.</p>
+</blockquote>
+<h2 id="autoreleasing"><a href="#autoreleasing" class="headerlink" title="__autoreleasing"></a><code>__autoreleasing</code></h2><p>将对象指向自动释放池，编译器会自动计算 retain count，并且释放内存。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="keyword">id</span>)array </span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">return</span> [[<span class="built_in">NSMutableArray</span> alloc] init]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我发现这个修饰符一般用在方法里面，因为你需要在消息的作用域里拥有这个对象，但是你又不能在消息执行完之前把它释放掉，因此把它交给 autoreleasepool，在消息执行完后，再由自动释放池释放。</p>
+<p><code>Variable Qualifiers</code> 的格式：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MyClass * __<span class="keyword">weak</span> myWeakReference;</span><br><span class="line">MyClass * __<span class="keyword">unsafe_unretained</span> myUnsafeReference;</span><br></pre></td></tr></table></figure>
+<p>注意：如果你这像下面那样使用 <code>__weak</code>，</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> * __<span class="keyword">weak</span> string = [[<span class="built_in">NSString</span> alloc] initWithFormat:<span class="string">@"First Name: %@"</span>, [<span class="keyword">self</span> firstName]];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"string: %@"</span>, string);</span><br></pre></td></tr></table></figure>
+<p>编译器会警告你：<code>Assigning retained object to weak variable; object will be released after assignment.</code> 当你 init 完这个对象后，由于前面是 __weak 修饰符，<code>string</code> 会马上被 dealloc，因为这时候没有其他强引用指向这个对象。</p>
+<p>还有一个需要注意的地方，就是将对象传递给消息：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSError</span> *error;</span><br><span class="line"><span class="built_in">BOOL</span> OK = [myObject performOperationWithError:&amp;error];</span><br><span class="line"><span class="keyword">if</span> (!OK) &#123;</span><br><span class="line">    <span class="comment">// Report the error.</span></span><br><span class="line">    <span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+<p>实际上，</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSError</span> * __<span class="keyword">strong</span> e;</span><br></pre></td></tr></table></figure>
+<p>并且（上面说过的作为参数会加一个 <code>__autoreleasing</code> 修饰符）</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="built_in">BOOL</span>)performOperationWithError:(<span class="built_in">NSError</span> * __autoreleasing *)error;</span><br></pre></td></tr></table></figure>
+<p>所以编译器实际上会重写成这样：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSError</span> * __<span class="keyword">strong</span> error;</span><br><span class="line"><span class="built_in">NSError</span> * __autoreleasing tmp = error;</span><br><span class="line"><span class="built_in">BOOL</span> OK = [myObject performOperationWithError:&amp;tmp];</span><br><span class="line">error = tmp;</span><br><span class="line"><span class="keyword">if</span> (!OK) &#123;</span><br><span class="line">    <span class="comment">// Report the error.</span></span><br><span class="line">    <span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+<p>因为局部变量同时声明了 <code>__strong</code> 和 <code>__autoreleasing</code>，编译器实际上会创建一个修饰符为 <code>__autoreleasing</code> 的临时变量，在消息执行完后再传回 <code>__strong</code> 修饰符的变量。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;LLVM 在 3.1 以后引入了四个 &lt;code&gt;Lifetime Qualifiers&lt;/code&gt;，它们分别是 &lt;code&gt;__autoreleasing&lt;/code&gt;，&lt;code&gt;__strong&lt;/code&gt;，&lt;code&gt;__unsafe_untained&lt;/cod
     
     </summary>
     

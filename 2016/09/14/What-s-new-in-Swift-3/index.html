@@ -6,18 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="原文地址 SE-0002: Removing currying function declaration syntax1234//Before:func curried(x: Int)(y: String) -&amp;gt; Float &amp;#123;    return Float(x) + Float(y)!&amp;#125; 在 Swift 3 之前定义柯里化函数需要使用两个括号，好消息是现在可以这样写了">
+    <meta name="description" content="原文地址 SE-0002: Removing currying function declaration syntax1234 //Before:func curried(x: Int)(y: String) -&amp;gt; Float &amp;#123;    return Float(x) + Float(y)!&amp;#125; 在 Swift 3 之前定义柯里化函数需要使用两个括号，好消息是现在可以这样写">
 <meta name="keywords" content="swift3">
 <meta property="og:type" content="article">
 <meta property="og:title" content="What&#39;s New in Swift 3">
 <meta property="og:url" content="http://wongzigii.github.io/2016/09/14/What-s-new-in-Swift-3/index.html">
 <meta property="og:site_name" content="Silver Bullet">
-<meta property="og:description" content="原文地址 SE-0002: Removing currying function declaration syntax1234//Before:func curried(x: Int)(y: String) -&amp;gt; Float &amp;#123;    return Float(x) + Float(y)!&amp;#125; 在 Swift 3 之前定义柯里化函数需要使用两个括号，好消息是现在可以这样写了">
+<meta property="og:description" content="原文地址 SE-0002: Removing currying function declaration syntax1234 //Before:func curried(x: Int)(y: String) -&amp;gt; Float &amp;#123;    return Float(x) + Float(y)!&amp;#125; 在 Swift 3 之前定义柯里化函数需要使用两个括号，好消息是现在可以这样写">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-30T10:21:28.987Z">
+<meta property="og:updated_time" content="2019-05-31T07:59:35.134Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="What&#39;s New in Swift 3">
-<meta name="twitter:description" content="原文地址 SE-0002: Removing currying function declaration syntax1234//Before:func curried(x: Int)(y: String) -&amp;gt; Float &amp;#123;    return Float(x) + Float(y)!&amp;#125; 在 Swift 3 之前定义柯里化函数需要使用两个括号，好消息是现在可以这样写了">
+<meta name="twitter:description" content="原文地址 SE-0002: Removing currying function declaration syntax1234 //Before:func curried(x: Int)(y: String) -&amp;gt; Float &amp;#123;    return Float(x) + Float(y)!&amp;#125; 在 Swift 3 之前定义柯里化函数需要使用两个括号，好消息是现在可以这样写">
     
     
         
@@ -72,7 +72,7 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2016/11/13/The-Lost-Art-of-C-Structure-Packing/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2017/03/14/VPS/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/2016/09/06/Understanding-How-Quick-works/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -147,7 +147,7 @@
 
   <div class="content" itemprop="articleBody">
     <p><a href="https://realm.io/news/swiftcasts-daniel-steinberg-whats-new-in-swift-3-part-2/" target="_blank" rel="noopener">原文地址</a></p>
-<h2 id="SE-0002-Removing-currying-function-declaration-syntax"><a href="#SE-0002-Removing-currying-function-declaration-syntax" class="headerlink" title="SE-0002: Removing currying function declaration syntax"></a><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md" target="_blank" rel="noopener">SE-0002</a>: Removing <a href="https://en.wikipedia.org/wiki/Currying" target="_blank" rel="noopener">currying</a> function declaration syntax</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Before:</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">curried</span><span class="params">(x: Int)</span></span>(y: <span class="type">String</span>) -&gt; <span class="type">Float</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Float</span>(x) + <span class="type">Float</span>(y)!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="SE-0002-Removing-currying-function-declaration-syntax"><a href="#SE-0002-Removing-currying-function-declaration-syntax" class="headerlink" title="SE-0002: Removing currying function declaration syntax"></a><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md" target="_blank" rel="noopener">SE-0002</a>: Removing <a href="https://en.wikipedia.org/wiki/Currying" target="_blank" rel="noopener">currying</a> function declaration syntax</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//Before:</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">curried</span><span class="params">(x: Int)</span></span>(y: <span class="type">String</span>) -&gt; <span class="type">Float</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Float</span>(x) + <span class="type">Float</span>(y)!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在 Swift 3 之前定义柯里化函数需要使用两个括号，好消息是现在可以这样写了：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//After</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">curried</span><span class="params">(x: Int)</span></span> -&gt; (<span class="type">String</span>) -&gt; <span class="type">Float</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;(y: <span class="type">String</span>) -&gt; <span class="type">Float</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> <span class="type">Float</span>(x) + <span class="type">Float</span>(y)!</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>函数变得更加直观：传入一个 <code>Int</code> 类型的 x，并返回一个接受 <code>String</code> 类型并返回 <code>Float</code> 类型的函数。</p>
